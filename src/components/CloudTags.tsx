@@ -5,9 +5,10 @@ import { tabs } from "@/constants/CloudTags";
 
 const CloudTags = () => {
 	return (
-		<div className="w-full justify-start lg:justify-center flex mt-2 lg:mt-4 overflow-x-auto scrollBarCloudTags">
+		<div className="w-full justify-start max-w-[1250px] lg:mx-auto flex mt-2 lg:mt-2 overflow-x-auto scrollBarCloudTags">
 			<Tabs
 				//selectedKey={null}
+				className="max-w-[1250px]"
 				color="primary"
 				variant="underlined"
 				aria-label="Dynamic tabs"

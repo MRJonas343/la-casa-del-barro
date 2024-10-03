@@ -20,7 +20,7 @@ const NavBar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	return (
-		<Navbar onMenuOpenChange={setIsMenuOpen}>
+		<Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="xl">
 			<NavbarContent>
 				<NavbarMenuToggle
 					aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -41,11 +41,6 @@ const NavBar = () => {
 						Popular
 					</Link>
 				</NavbarItem>
-				<NavbarItem>
-					<Link color="foreground" href="#" aria-current="page">
-						Most Liked
-					</Link>
-				</NavbarItem>
 			</NavbarContent>
 
 			<NavbarContent justify="end">
@@ -63,6 +58,7 @@ const NavBar = () => {
 						Join Now
 					</Button>
 				</NavbarItem>
+
 				<NavbarItem className="hidden lg:flex">
 					<SwitchTheme size="lg" />
 				</NavbarItem>
