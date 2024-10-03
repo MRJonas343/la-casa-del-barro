@@ -14,7 +14,7 @@ export const FormCard: FC<FormCardProps> = ({
 		<Card className=" sm:max-w-[250px] sm:min-h-[320px] mb-8">
 			<CardHeader className="flex justify-center">
 				<Image
-					className=""
+					className="h-[160px] md:h-[150px]"
 					isBlurred
 					src="https://nextui.org/images/hero-card-complete.jpeg"
 					alt="Cloud Tags"
