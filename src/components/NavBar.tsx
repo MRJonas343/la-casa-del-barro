@@ -10,11 +10,17 @@ import {
 	NavbarMenuItem,
 	NavbarMenuToggle,
 	Link,
+	Popover,
+	PopoverTrigger,
+	PopoverContent,
+	Select,
+	SelectItem,
 } from "@nextui-org/react";
 import { useState } from "react";
 import FormMasterLogo from "./FormMasterLogo";
 import { SwitchTheme } from "./SwitchTheme";
 import { usePathname } from "next/navigation";
+import { IoSettingsOutline } from "react-icons/io5";
 
 const NavBar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -74,10 +80,32 @@ const NavBar = () => {
 						Join Now
 					</Button>
 				</NavbarItem>
-
-				<NavbarItem className="hidden sm:flex">
-					<SwitchTheme size="lg" />
-				</NavbarItem>
+				<Popover placement="bottom">
+					<PopoverTrigger>
+						<Button isIconOnly className="bg-transparent">
+							<IoSettingsOutline size={30} />
+						</Button>
+					</PopoverTrigger>
+					<PopoverContent>
+						<div className="px-1 py-2 flex items-center gap-2">
+							<SwitchTheme size="lg" />
+							<Select
+								radius="sm"
+								variant="faded"
+								aria-label="Select language"
+								defaultSelectedKeys={["english"]}
+								className="w-28"
+							>
+								<SelectItem key={"english"} value="dog">
+									English
+								</SelectItem>
+								<SelectItem key={"spanish"} value="cat">
+									Spanish
+								</SelectItem>
+							</Select>
+						</div>
+					</PopoverContent>
+				</Popover>
 			</NavbarContent>
 			<NavbarMenu>
 				<NavbarMenuItem>
