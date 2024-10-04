@@ -57,7 +57,7 @@ const NavBar = () => {
 			</NavbarContent>
 
 			<NavbarContent justify="end">
-				<NavbarItem className="hidden lg:flex">
+				<NavbarItem className="hidden md:flex">
 					<Link className="font-semibold text-inherit" href="#">
 						Login
 					</Link>
@@ -75,7 +75,7 @@ const NavBar = () => {
 					</Button>
 				</NavbarItem>
 
-				<NavbarItem className="hidden lg:flex">
+				<NavbarItem className="hidden sm:flex">
 					<SwitchTheme size="lg" />
 				</NavbarItem>
 			</NavbarContent>
