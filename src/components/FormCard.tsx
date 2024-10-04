@@ -11,7 +11,7 @@ export const FormCard: FC<FormCardProps> = ({
 	imageUrl,
 }) => {
 	return (
-		<Card className="w-full pb-3 shadow-none sm:shadow-neutral-700/40 sm:shadow-sm rounded-none sm:rounded-xl sm:max-w-[250px] sm:min-h-[320px] sm:mb-8">
+		<Card className="w-full pb-3 shadow-none sm:shadow-neutral-700/40 sm:shadow-sm rounded-none sm:rounded-2xl sm:max-w-[250px] sm:min-h-[320px] sm:mb-8">
 			<CardHeader className="flex justify-center">
 				<Image
 					className="w-[345px] sm:w-[270px] md:h-[150px]"

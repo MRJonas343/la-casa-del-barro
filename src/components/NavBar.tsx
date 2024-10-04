@@ -45,13 +45,16 @@ const NavBar = () => {
 
 			<NavbarContent justify="end">
 				<NavbarItem className="hidden lg:flex">
-					<Link href="#">Login</Link>
+					<Link className="font-semibold text-inherit" href="#">
+						Login
+					</Link>
 				</NavbarItem>
 				<NavbarItem>
 					<Button
 						as={Link}
 						color="primary"
 						href="#"
+						className="font-semibold text-white"
 						variant="shadow"
 						radius="sm"
 					>
