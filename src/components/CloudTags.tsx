@@ -8,9 +8,10 @@ const CloudTags = () => {
 		<div className="w-full justify-start max-w-[1250px] lg:mx-auto flex mt-2 lg:mt-2 overflow-x-auto scrollBarCloudTags">
 			<Tabs
 				//selectedKey={null}
+
 				className="max-w-[1250px]"
 				color="primary"
-				variant="underlined"
+				variant="light"
 				aria-label="Dynamic tabs"
 				items={tabs}
 			>

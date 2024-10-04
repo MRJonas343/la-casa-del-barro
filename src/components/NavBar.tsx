@@ -54,7 +54,7 @@ const NavBar = () => {
 						as={Link}
 						color="primary"
 						href="#"
-						className="font-semibold text-white"
+						className=""
 						variant="shadow"
 						radius="sm"
 					>
