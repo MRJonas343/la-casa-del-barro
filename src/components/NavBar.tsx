@@ -2,7 +2,6 @@
 
 import {
 	Button,
-	Link,
 	Navbar,
 	NavbarBrand,
 	NavbarContent,
@@ -10,13 +9,16 @@ import {
 	NavbarMenu,
 	NavbarMenuItem,
 	NavbarMenuToggle,
+	Link,
 } from "@nextui-org/react";
 import { useState } from "react";
 import FormMasterLogo from "./FormMasterLogo";
 import { SwitchTheme } from "./SwitchTheme";
+import { usePathname } from "next/navigation";
 
 const NavBar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const pathname = usePathname();
 
 	return (
 		<Navbar isBordered onMenuOpenChange={setIsMenuOpen} maxWidth="xl">
@@ -27,16 +29,28 @@ const NavBar = () => {
 				/>
 				<NavbarBrand>
 					<FormMasterLogo className="hidden md:block" />
-					<p className="font-bold text-inherit pl-3">Form Master</p>
+					<Link href="/" className="font-bold text-inherit pl-3 cursor-pointer">
+						Form Master
+					</Link>
 				</NavbarBrand>
 			</NavbarContent>
 
 			<NavbarContent className="hidden sm:flex gap-4" justify="center">
-				<NavbarItem isActive>
-					<Link href="#">Latest</Link>
+				<NavbarItem isActive={pathname === "/"}>
+					<Link
+						color={pathname === "/" ? "primary" : "foreground"}
+						href="/"
+						aria-current="page"
+					>
+						Latest
+					</Link>
 				</NavbarItem>
-				<NavbarItem>
-					<Link color="foreground" href="#" aria-current="page">
+				<NavbarItem isActive={pathname === "/popular-forms"}>
+					<Link
+						color={pathname === "/popular-forms" ? "primary" : "foreground"}
+						href="/popular-forms"
+						aria-current="page"
+					>
 						Popular
 					</Link>
 				</NavbarItem>
@@ -53,7 +67,7 @@ const NavBar = () => {
 						as={Link}
 						color="primary"
 						href="#"
-						className=""
+						className="font-semibold"
 						variant="shadow"
 						radius="sm"
 					>

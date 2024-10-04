@@ -5,7 +5,7 @@ import { tabs } from "@/constants/CloudTags";
 
 const CloudTags = () => {
 	return (
-		<div className="w-full justify-start max-w-[1250px] lg:mx-auto flex mt-2 lg:mt-2 overflow-x-auto scrollBarCloudTags">
+		<div className="w-[95%] mx-auto justify-start max-w-[1250px] lg:mx-auto flex mt-2 lg:mt-2 overflow-x-auto scrollBarCloudTags">
 			<Tabs
 				//selectedKey={null}
 				className="max-w-[1250px]"
