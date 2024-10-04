@@ -11,10 +11,10 @@ export const FormCard: FC<FormCardProps> = ({
 	imageUrl,
 }) => {
 	return (
-		<Card className=" sm:max-w-[250px] sm:min-h-[320px] mb-8">
+		<Card className="w-full pb-3 shadow-none sm:shadow-neutral-700/40 sm:shadow-sm rounded-none sm:rounded-xl sm:max-w-[250px] sm:min-h-[320px] sm:mb-8">
 			<CardHeader className="flex justify-center">
 				<Image
-					className="h-[160px] md:h-[150px]"
+					className="w-[345px] sm:w-[270px] md:h-[150px]"
 					isBlurred
 					src="https://nextui.org/images/hero-card-complete.jpeg"
 					alt="Cloud Tags"
@@ -22,7 +22,7 @@ export const FormCard: FC<FormCardProps> = ({
 					height={150}
 				/>
 			</CardHeader>
-			<CardBody className="px-6">
+			<CardBody className="max-w-[320px] mx-auto sm:mx-0 sm:max-w-none px-6">
 				<h3 className="pb-3 min-h-14">{title}</h3>
 				<span className="text-sm pb-2 opacity-60">By {author}</span>
 				<div className="flex items-center w-full justify-between">
