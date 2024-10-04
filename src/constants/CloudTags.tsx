@@ -1,75 +1,72 @@
-import { LuFileSpreadsheet } from "react-icons/lu";
-import { GrTechnology } from "react-icons/gr";
-import { FaEnvira } from "react-icons/fa";
-import { MdOutlineScience } from "react-icons/md";
-import { FaBook } from "react-icons/fa";
-import { FaBriefcaseMedical } from "react-icons/fa";
+import { FaEnvira, FaBook, FaBriefcaseMedical } from "react-icons/fa";
+import { MdOutlineScience, MdSportsVolleyball } from "react-icons/md";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
-import { MdAttachMoney } from "react-icons/md";
-import { TbMath } from "react-icons/tb";
+import { LuFileSpreadsheet } from "react-icons/lu";
 import { RiFilePaperFill } from "react-icons/ri";
 import { SiAnimalplanet } from "react-icons/si";
-import { MdSportsVolleyball } from "react-icons/md";
+import { MdAttachMoney } from "react-icons/md";
+import { GrTechnology } from "react-icons/gr";
+import { TbMath } from "react-icons/tb";
 
 export const tabs = [
 	{
-		id: "education",
+		id: "/education",
 		label: "Education",
 		icon: <LuFileSpreadsheet />,
 	},
 	{
-		id: "technology",
+		id: "/technology",
 		label: "Technology",
 		icon: <GrTechnology />,
 	},
 
 	{
-		id: "enviroment",
+		id: "/enviroment",
 		label: "Enviroment",
 		icon: <FaEnvira />,
 	},
 	{
-		id: "science",
+		id: "/science",
 		label: "Science",
 		icon: <MdOutlineScience />,
 	},
 	{
-		id: "literature",
+		id: "/literature",
 		label: "Literature",
 		icon: <FaBook />,
 	},
 	{
-		id: "health",
+		id: "/health",
 		label: "Health",
 		icon: <FaBriefcaseMedical />,
 	},
 	{
-		id: "business",
+		id: "/business",
 		label: "Business",
 		icon: <MdAttachMoney />,
 	},
 	{
-		id: "finance",
+		id: "/finance",
 		label: "Finance",
 		icon: <FaMoneyBillTrendUp />,
 	},
 	{
-		id: "maths",
+		id: "/maths",
 		label: "Maths",
 		icon: <TbMath />,
 	},
 	{
-		id: "History",
+		id: "/History",
 		label: "History",
 		icon: <RiFilePaperFill />,
 	},
 	{
-		id: "animals",
+		id: "/animals",
 		label: "Animals",
 		icon: <SiAnimalplanet />,
 	},
 	{
-		id: "sports",
+		id: "/sports",
 		label: "Sports",
 		icon: <MdSportsVolleyball />,
 	},
