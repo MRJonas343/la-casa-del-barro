@@ -13,14 +13,13 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import FormMasterLogo from "./FormMasterLogo";
-import { navBarMenuItems } from "@/constants/NavBarMenuItems";
 import { SwitchTheme } from "./SwitchTheme";
 
 const NavBar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	return (
-		<Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="xl">
+		<Navbar isBordered onMenuOpenChange={setIsMenuOpen} maxWidth="xl">
 			<NavbarContent>
 				<NavbarMenuToggle
 					aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -67,29 +66,19 @@ const NavBar = () => {
 				</NavbarItem>
 			</NavbarContent>
 			<NavbarMenu>
-				{navBarMenuItems.map((item, index) => (
-					<NavbarMenuItem
-						key={`${item}-${
-							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-							index
-						}`}
-					>
-						<Link
-							color={
-								index === 2
-									? "primary"
-									: index === navBarMenuItems.length - 1
-										? "danger"
-										: "foreground"
-							}
-							className="w-full"
-							href="#"
-							size="lg"
-						>
-							{item}
-						</Link>
-					</NavbarMenuItem>
-				))}
+				<NavbarMenuItem>
+					<Link color="foreground">Login</Link>
+				</NavbarMenuItem>
+				<NavbarMenuItem isActive>
+					<Link color="primary">Latest</Link>
+				</NavbarMenuItem>
+				<NavbarMenuItem>
+					<Link color="foreground">Popular</Link>
+				</NavbarMenuItem>
+				<NavbarMenuItem>
+					<Link color="danger">Log Out</Link>
+				</NavbarMenuItem>
+				<SwitchTheme />
 			</NavbarMenu>
 		</Navbar>
 	);
