@@ -1,0 +1,14 @@
+{
+	"NavBar": {
+		"login": "Login",
+		"join": "Join Now",
+		"latest": "Latest",
+		"popular": "Popular",
+		"logOut": "Log Out"
+	},
+	"LocaleSwitcher": {
+		"es": "Spanish",
+		"en": "English",
+		"label": "Language"
+	}
+}

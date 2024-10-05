@@ -1,0 +1,14 @@
+{
+	"NavBar": {
+		"login": "Iniciar sesión",
+		"join": "Únete ahora",
+		"latest": "Últimos",
+		"popular": "Popular",
+		"logOut": "Cerrar sesión"
+	},
+	"LocaleSwitcher": {
+		"es": "Spanish",
+		"en": "English",
+		"label": "Language"
+	}
+}

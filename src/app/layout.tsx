@@ -1,3 +1,5 @@
+import { getLocale, getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
 import type { Metadata } from "next";
 import { poppinsFont } from "@/fonts/font";
 import { Providers } from "./providers";
@@ -9,17 +11,23 @@ export const metadata: Metadata = {
 		"FormMaster is a platform that allows you to create, manage, and share forms.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const locale = await getLocale();
+
+	const messages = await getMessages();
+
 	return (
-		<html lang="en" className="light text-foreground bg-background">
+		<html lang={locale} className="light text-foreground bg-background">
 			<body
 				className={`${poppinsFont.className} antialiased text-black dark:text-white`}
 			>
-				<Providers>{children}</Providers>
+				<NextIntlClientProvider messages={messages}>
+					<Providers>{children}</Providers>
+				</NextIntlClientProvider>
 			</body>
 		</html>
 	);

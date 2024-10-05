@@ -13,18 +13,19 @@ import {
 	Popover,
 	PopoverTrigger,
 	PopoverContent,
-	Select,
-	SelectItem,
 } from "@nextui-org/react";
 import { useState } from "react";
 import FormMasterLogo from "./FormMasterLogo";
 import { SwitchTheme } from "./SwitchTheme";
 import { usePathname } from "next/navigation";
 import { IoSettingsOutline } from "react-icons/io5";
+import { useTranslations } from "next-intl";
+import LanguageSelect from "./LanguageSelect";
 
 const NavBar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const pathname = usePathname();
+	const t = useTranslations("NavBar");
 
 	return (
 		<Navbar isBordered onMenuOpenChange={setIsMenuOpen} maxWidth="xl">
@@ -48,7 +49,7 @@ const NavBar = () => {
 						href="/"
 						aria-current="page"
 					>
-						Latest
+						{t("latest")}
 					</Link>
 				</NavbarItem>
 				<NavbarItem isActive={pathname === "/popular-forms"}>
@@ -57,7 +58,7 @@ const NavBar = () => {
 						href="/popular-forms"
 						aria-current="page"
 					>
-						Popular
+						{t("popular")}
 					</Link>
 				</NavbarItem>
 			</NavbarContent>
@@ -89,20 +90,7 @@ const NavBar = () => {
 					<PopoverContent>
 						<div className="px-1 py-2 flex items-center gap-2">
 							<SwitchTheme size="lg" />
-							<Select
-								radius="sm"
-								variant="faded"
-								aria-label="Select language"
-								defaultSelectedKeys={["english"]}
-								className="w-28"
-							>
-								<SelectItem key={"english"} value="dog">
-									English
-								</SelectItem>
-								<SelectItem key={"spanish"} value="cat">
-									Spanish
-								</SelectItem>
-							</Select>
+							<LanguageSelect />
 						</div>
 					</PopoverContent>
 				</Popover>
