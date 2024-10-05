@@ -10,64 +10,52 @@ import { TbMath } from "react-icons/tb";
 
 export const tabs = [
 	{
-		id: "/education",
-		label: "Education",
+		id: "education",
 		icon: <LuFileSpreadsheet />,
 	},
 	{
-		id: "/technology",
-		label: "Technology",
+		id: "technology",
 		icon: <GrTechnology />,
 	},
 
 	{
-		id: "/enviroment",
-		label: "Enviroment",
+		id: "enviroment",
 		icon: <FaEnvira />,
 	},
 	{
-		id: "/science",
-		label: "Science",
+		id: "science",
 		icon: <MdOutlineScience />,
 	},
 	{
-		id: "/literature",
-		label: "Literature",
+		id: "literature",
 		icon: <FaBook />,
 	},
 	{
-		id: "/health",
-		label: "Health",
+		id: "health",
 		icon: <FaBriefcaseMedical />,
 	},
 	{
-		id: "/business",
-		label: "Business",
+		id: "business",
 		icon: <MdAttachMoney />,
 	},
 	{
-		id: "/finance",
-		label: "Finance",
+		id: "finance",
 		icon: <FaMoneyBillTrendUp />,
 	},
 	{
-		id: "/maths",
-		label: "Maths",
+		id: "maths",
 		icon: <TbMath />,
 	},
 	{
-		id: "/History",
-		label: "History",
+		id: "history",
 		icon: <RiFilePaperFill />,
 	},
 	{
-		id: "/animals",
-		label: "Animals",
+		id: "animals",
 		icon: <SiAnimalplanet />,
 	},
 	{
-		id: "/sports",
-		label: "Sports",
+		id: "sports",
 		icon: <MdSportsVolleyball />,
 	},
 ];

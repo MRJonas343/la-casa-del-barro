@@ -16,7 +16,7 @@ export default function LocalSwitcherSelect({
 	items,
 	label,
 }: LocalSwitcherSelectProps) {
-	const [isPending, startTransition] = useTransition();
+	const [, startTransition] = useTransition();
 
 	const handleLocaleChange = (locale: string) => {
 		startTransition(() => {
@@ -27,7 +27,8 @@ export default function LocalSwitcherSelect({
 	return (
 		<Select
 			radius="sm"
-			variant="faded"
+			variant="bordered"
+			color="default"
 			aria-label={label}
 			defaultSelectedKeys={[defaultValue]}
 			className="w-28"

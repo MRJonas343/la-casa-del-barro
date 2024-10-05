@@ -4,11 +4,30 @@
 		"join": "Únete ahora",
 		"latest": "Últimos",
 		"popular": "Popular",
-		"logOut": "Cerrar sesión"
+		"logOut": "Cerrar sesión",
+		"welcome": "Bienvenido",
+		"myForms": "Mis Formularios"
 	},
 	"LocaleSwitcher": {
-		"es": "Spanish",
-		"en": "English",
+		"es": "Español",
+		"en": "Inglés",
 		"label": "Language"
+	},
+	"SearchBar": {
+		"search": "Buscar Formularios"
+	},
+	"CloudTags": {
+		"education": "Educación",
+		"technology": "Tecnología",
+		"enviroment": "Medio Ambiente",
+		"science": "Ciencia",
+		"literature": "Literatura",
+		"health": "Salud",
+		"business": "Negocios",
+		"finance": "Finanzas",
+		"maths": "Matemáticas",
+		"history": "Historia",
+		"animals": "Animales",
+		"sports": "Deportes"
 	}
 }

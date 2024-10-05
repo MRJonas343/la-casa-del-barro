@@ -1,4 +1,17 @@
+import NavBar from "@/components/NavBar";
+import LoginForm from "./components/LoginForm";
+
 const page = () => {
-	return <div>Login</div>;
+	return (
+		<main className="overflow-x-hidden min-h-screen">
+			<NavBar />
+			<h1 className="text-center mt-6 text-xl sm:text-2xl md:text-3xl font-semibold">
+				Welcome back Master 🫡
+			</h1>
+			<section className="flex w-full mx-auto justify-center mt-6">
+				<LoginForm />
+			</section>
+		</main>
+	);
 };
 export default page;

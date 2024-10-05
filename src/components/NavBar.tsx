@@ -21,11 +21,13 @@ import { usePathname } from "next/navigation";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useTranslations } from "next-intl";
 import LanguageSelect from "./LanguageSelect";
+import { useSession } from "next-auth/react";
 
 const NavBar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const pathname = usePathname();
 	const t = useTranslations("NavBar");
+	const { data: session } = useSession();
 
 	return (
 		<Navbar isBordered onMenuOpenChange={setIsMenuOpen} maxWidth="xl">
@@ -64,25 +66,34 @@ const NavBar = () => {
 			</NavbarContent>
 
 			<NavbarContent justify="end">
-				<NavbarItem className="hidden md:flex">
-					<Link className="font-semibold text-inherit" href="#">
-						Login
-					</Link>
+				<NavbarItem
+					className="hidden lg:flex font-semibold"
+					isActive={pathname === "/login"}
+				>
+					{!session && (
+						<Link
+							href="/login"
+							color={pathname === "/login" ? "primary" : "foreground"}
+						>
+							{t("login")}
+						</Link>
+					)}
+					{session && `${t("welcome")} ${session.user?.name}`}
 				</NavbarItem>
 				<NavbarItem>
 					<Button
 						as={Link}
 						color="primary"
-						href="#"
+						href={session ? "/my-forms" : "/login"}
 						className="font-semibold"
 						variant="shadow"
 						radius="sm"
 					>
-						Join Now
+						{session ? t("myForms") : t("join")}
 					</Button>
 				</NavbarItem>
 				<Popover placement="bottom">
-					<PopoverTrigger>
+					<PopoverTrigger className="hidden sm:flex">
 						<Button isIconOnly className="bg-transparent">
 							<IoSettingsOutline size={30} />
 						</Button>
@@ -96,19 +107,34 @@ const NavBar = () => {
 				</Popover>
 			</NavbarContent>
 			<NavbarMenu>
+				<NavbarMenuItem isActive={pathname === "/login"}>
+					<Link
+						href="/login"
+						color={pathname === "/login" ? "primary" : "foreground"}
+					>
+						{t("login")}
+					</Link>
+				</NavbarMenuItem>
+				<NavbarMenuItem isActive={pathname === "/"}>
+					<Link href="/" color={pathname === "/" ? "primary" : "foreground"}>
+						{t("latest")}
+					</Link>
+				</NavbarMenuItem>
+				<NavbarMenuItem isActive={pathname === "/popular-forms"}>
+					<Link
+						href="/popular-forms"
+						color={pathname === "/popular-forms" ? "primary" : "foreground"}
+					>
+						{t("popular")}
+					</Link>
+				</NavbarMenuItem>
 				<NavbarMenuItem>
-					<Link color="foreground">Login</Link>
+					<Link color="danger" className="pb-2">
+						{t("logOut")}
+					</Link>
+					<LanguageSelect />
 				</NavbarMenuItem>
-				<NavbarMenuItem isActive>
-					<Link color="primary">Latest</Link>
-				</NavbarMenuItem>
-				<NavbarMenuItem>
-					<Link color="foreground">Popular</Link>
-				</NavbarMenuItem>
-				<NavbarMenuItem>
-					<Link color="danger">Log Out</Link>
-				</NavbarMenuItem>
-				<SwitchTheme />
+				<SwitchTheme size="lg" />
 			</NavbarMenu>
 		</Navbar>
 	);

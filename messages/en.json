@@ -4,11 +4,30 @@
 		"join": "Join Now",
 		"latest": "Latest",
 		"popular": "Popular",
-		"logOut": "Log Out"
+		"logOut": "Log Out",
+		"welcome": "Welcome",
+		"myForms": "My Forms"
 	},
 	"LocaleSwitcher": {
 		"es": "Spanish",
 		"en": "English",
 		"label": "Language"
+	},
+	"SearchBar": {
+		"search": "Search Forms"
+	},
+	"CloudTags": {
+		"education": "Education",
+		"technology": "Technology",
+		"enviroment": "Enviroment",
+		"science": "Science",
+		"literature": "Literature",
+		"health": "Health",
+		"business": "Business",
+		"finance": "Finance",
+		"maths": "Maths",
+		"history": "History",
+		"animals": "Animals",
+		"sports": "Sports"
 	}
 }

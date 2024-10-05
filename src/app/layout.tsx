@@ -1,5 +1,6 @@
 import { getLocale, getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
+import { SessionProvider } from "next-auth/react";
 import type { Metadata } from "next";
 import { poppinsFont } from "@/fonts/font";
 import { Providers } from "./providers";
@@ -21,14 +22,16 @@ export default async function RootLayout({
 	const messages = await getMessages();
 
 	return (
-		<html lang={locale} className="light text-foreground bg-background">
-			<body
-				className={`${poppinsFont.className} antialiased text-black dark:text-white`}
-			>
-				<NextIntlClientProvider messages={messages}>
-					<Providers>{children}</Providers>
-				</NextIntlClientProvider>
-			</body>
-		</html>
+		<SessionProvider>
+			<html lang={locale} className="light text-foreground bg-background">
+				<body
+					className={`${poppinsFont.className} antialiased text-black dark:text-white`}
+				>
+					<NextIntlClientProvider messages={messages}>
+						<Providers>{children}</Providers>
+					</NextIntlClientProvider>
+				</body>
+			</html>
+		</SessionProvider>
 	);
 }
