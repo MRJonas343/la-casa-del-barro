@@ -21,13 +21,19 @@ import { usePathname } from "next/navigation";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useTranslations } from "next-intl";
 import LanguageSelect from "./LanguageSelect";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { logOut } from "@/services/auth/logOut";
 
 const NavBar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const pathname = usePathname();
 	const t = useTranslations("NavBar");
 	const { data: session } = useSession();
+
+	const handleLogOut = async () => {
+		await signOut();
+		if (typeof window !== "undefined") window.location.href = "/";
+	};
 
 	return (
 		<Navbar isBordered onMenuOpenChange={setIsMenuOpen} maxWidth="xl">
@@ -129,9 +135,12 @@ const NavBar = () => {
 					</Link>
 				</NavbarMenuItem>
 				<NavbarMenuItem>
-					<Link color="danger" className="pb-2">
+					<Button
+						className="pb-2 bg-transparent px-0 text-red-700 font-medium text-medium"
+						onClick={() => handleLogOut()}
+					>
 						{t("logOut")}
-					</Link>
+					</Button>
 					<LanguageSelect />
 				</NavbarMenuItem>
 				<SwitchTheme size="lg" />

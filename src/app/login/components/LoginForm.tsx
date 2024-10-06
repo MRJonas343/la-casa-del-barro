@@ -2,13 +2,11 @@
 
 import type { UserCredentials } from "@/interfaces/UserCredentials";
 import { Button, Input } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { authorize } from "@/services/authorize";
+import { authorize } from "@/services/auth/authorize";
 
 const LoginForm = () => {
-	const router = useRouter();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [formError, setFormError] = useState<string | null>(null);
 
@@ -27,8 +25,9 @@ const LoginForm = () => {
 
 		if (authStatus === "CREDENTIALSERROR") setFormError("server error");
 
-		if (authStatus === "SUCCESS") router.push("/admin-panel");
-
+		if (authStatus === "SUCCESS" && typeof window !== "undefined") {
+			window.location.href = "/";
+		}
 		setIsSubmitting(false);
 	};
 
