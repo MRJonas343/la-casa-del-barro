@@ -31,7 +31,7 @@ const RegisterForm = () => {
 		if (authStatus === "ERROR") setFormError("Ups, something went wrong");
 
 		if (authStatus === "SUCCESS" && typeof window !== "undefined") {
-			//window.location.href = "/";
+			window.location.href = "/";
 		}
 		setIsSubmitting(false);
 	};
