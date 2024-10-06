@@ -22,7 +22,6 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { useTranslations } from "next-intl";
 import LanguageSelect from "./LanguageSelect";
 import { signOut, useSession } from "next-auth/react";
-import { logOut } from "@/services/auth/logOut";
 
 const NavBar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
