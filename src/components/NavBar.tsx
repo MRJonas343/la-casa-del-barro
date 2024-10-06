@@ -89,7 +89,7 @@ const NavBar = () => {
 					<Button
 						as={Link}
 						color="primary"
-						href={session ? "/my-forms" : "/login"}
+						href={session ? "/my-forms" : "/register"}
 						className="font-semibold"
 						variant="shadow"
 						radius="sm"
