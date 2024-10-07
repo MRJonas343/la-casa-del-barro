@@ -78,7 +78,7 @@ export const NavBar = () => {
 						as={Link}
 						color="primary"
 						href={session ? "/my-forms" : "/register"}
-						className="font-semibold"
+						className={`font-semibold ${pathname === "/my-forms" && "hidden"}`}
 						variant="shadow"
 						radius="sm"
 					>
@@ -112,7 +112,10 @@ export const NavBar = () => {
 				</Popover>
 			</NavbarContent>
 			<NavbarMenu>
-				<NavbarMenuItem isActive={pathname === "/login"}>
+				<NavbarMenuItem
+					isActive={pathname === "/login"}
+					hidden={Boolean(session)}
+				>
 					<Link
 						href="/login"
 						color={pathname === "/login" ? "primary" : "foreground"}
