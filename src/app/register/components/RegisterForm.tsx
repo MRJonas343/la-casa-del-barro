@@ -1,14 +1,17 @@
 "use client";
 
+import { handleAuthStatus } from "@/utils/handleAuthStatus";
 import type { User } from "@/interfaces/UserCredentials";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Link } from "@nextui-org/react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
+import { createUser } from "@/services";
 import { useState } from "react";
-import { createUser } from "@/services/auth/createUser";
 
-const RegisterForm = () => {
+export const RegisterForm = () => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [formError, setFormError] = useState<string | null>(null);
+
+	const t = useTranslations("auth");
 
 	const {
 		register,
@@ -19,21 +22,10 @@ const RegisterForm = () => {
 
 	const onSubmit = async (data: User) => {
 		setIsSubmitting(true);
-		reset();
 		const authStatus = await createUser(data.name, data.email, data.password);
-
-		if (authStatus === "INVALID_CREDENTIALS")
-			setFormError("Ups, invalid credentials");
-
-		if (authStatus === "USER_EXISTS")
-			setFormError("Ups, email already exists, try another one");
-
-		if (authStatus === "ERROR") setFormError("Ups, something went wrong");
-
-		if (authStatus === "SUCCESS" && typeof window !== "undefined") {
-			window.location.href = "/";
-		}
+		handleAuthStatus(authStatus, t);
 		setIsSubmitting(false);
+		reset();
 	};
 
 	return (
@@ -46,9 +38,9 @@ const RegisterForm = () => {
 				size="lg"
 				variant="bordered"
 				isInvalid={Boolean(errors.name)}
-				errorMessage="Invalid name"
+				errorMessage={t("invalidName")}
 				autoFocus
-				placeholder="Name"
+				placeholder={t("name")}
 				{...register("name", {
 					required: true,
 					minLength: 1,
@@ -60,9 +52,8 @@ const RegisterForm = () => {
 				size="lg"
 				variant="bordered"
 				isInvalid={Boolean(errors.email)}
-				errorMessage="Invalid email"
-				autoFocus
-				placeholder="Email"
+				errorMessage={t("invalidEmail")}
+				placeholder={t("email")}
 				{...register("email", {
 					required: true,
 					maxLength: 40,
@@ -74,9 +65,9 @@ const RegisterForm = () => {
 				size="lg"
 				variant="bordered"
 				isInvalid={Boolean(errors.password)}
-				errorMessage="The the password should be at least 8 characters"
+				errorMessage={t("invalidPassword")}
 				type="password"
-				placeholder="Password"
+				placeholder={t("password")}
 				{...register("password", {
 					required: true,
 					minLength: 8,
@@ -93,14 +84,22 @@ const RegisterForm = () => {
 				type="submit"
 				className="text-xl font-semibold"
 			>
-				Log in
+				{t("register")}
 			</Button>
 			{/* <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-gray-700 after:mt-0.5 after:flex-1 after:border-t after:border-gray-700">
 				<p className="mx-4 mb-0 text-center"> Or login with </p>
 			</div> */}
 
-			<p className="text-[#f31260] text-sm text-center">{formError}</p>
+			<p className="text-center pt-2">{t("haveAccount")}</p>
+
+			<Link
+				color="primary"
+				size="lg"
+				className="text-xl font-semibold flex justify-center cursor-pointer"
+				href="/login"
+			>
+				{t("loginHere")}
+			</Link>
 		</form>
 	);
 };
-export default RegisterForm;

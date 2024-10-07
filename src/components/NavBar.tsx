@@ -1,29 +1,17 @@
 "use client";
 
-import {
-	Button,
-	Navbar,
-	NavbarBrand,
-	NavbarContent,
-	NavbarItem,
-	NavbarMenu,
-	NavbarMenuItem,
-	NavbarMenuToggle,
-	Link,
-	Popover,
-	PopoverTrigger,
-	PopoverContent,
-} from "@nextui-org/react";
-import { useState } from "react";
-import FormMasterLogo from "./FormMasterLogo";
-import { SwitchTheme } from "./SwitchTheme";
-import { usePathname } from "next/navigation";
-import { IoSettingsOutline } from "react-icons/io5";
-import { useTranslations } from "next-intl";
-import LanguageSelect from "./LanguageSelect";
+import { Button, Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
+import { SwitchTheme, LanguageSwitcher, FormMasterLogo } from "@/components";
+import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
+import { NavbarMenuToggle, Link, NavbarItem } from "@nextui-org/react";
+import { NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
+import { IoSettingsOutline } from "react-icons/io5";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
-const NavBar = () => {
+export const NavBar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const pathname = usePathname();
 	const t = useTranslations("NavBar");
@@ -104,9 +92,21 @@ const NavBar = () => {
 						</Button>
 					</PopoverTrigger>
 					<PopoverContent>
-						<div className="px-1 py-2 flex items-center gap-2">
+						<div
+							className={`px-1 py-2 flex items-center ${!session ? "flex-row" : "flex-col"}`}
+						>
 							<SwitchTheme size="lg" />
-							<LanguageSelect />
+							<div className="pb-2" />
+							<LanguageSwitcher />
+							<Button
+								radius="sm"
+								color="danger"
+								variant="bordered"
+								className={`text-mediun p-0 font-normal w-full mt-2 ${!session && "hidden"}`}
+								onClick={() => handleLogOut()}
+							>
+								{t("logOut")}
+							</Button>
 						</div>
 					</PopoverContent>
 				</Popover>
@@ -133,18 +133,17 @@ const NavBar = () => {
 						{t("popular")}
 					</Link>
 				</NavbarMenuItem>
-				<NavbarMenuItem>
+				<NavbarMenuItem hidden={!session}>
 					<Button
-						className="pb-2 bg-transparent px-0 text-red-700 font-medium text-medium"
+						className="pb-2 mx-0 bg-transparent pl-0 text-red-700 font-normal text-medium "
 						onClick={() => handleLogOut()}
 					>
 						{t("logOut")}
 					</Button>
-					<LanguageSelect />
+					<LanguageSwitcher />
 				</NavbarMenuItem>
 				<SwitchTheme size="lg" />
 			</NavbarMenu>
 		</Navbar>
 	);
 };
-export default NavBar;

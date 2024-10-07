@@ -1,6 +1,7 @@
-import CloudTags from "@/components/CloudTags";
-import NavBar from "@/components/NavBar";
-import SearchInput from "@/components/SearchInput";
+import { CloudTags, NavBar, SearchInput } from "@/components";
+import { mainPageMetaData } from "@/meta";
+
+export const metadata = mainPageMetaData;
 
 export default function MainPageLayout({
 	children,

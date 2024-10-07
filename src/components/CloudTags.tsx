@@ -2,10 +2,10 @@
 
 import { usePathname } from "next/navigation";
 import { Tab, Tabs } from "@nextui-org/react";
-import { tabs } from "@/constants/CloudTags";
 import { useTranslations } from "next-intl";
+import { tabs } from "@/constants";
 
-const CloudTags = () => {
+export const CloudTags = () => {
 	const pathname = usePathname();
 	const t = useTranslations("CloudTags");
 
@@ -34,4 +34,3 @@ const CloudTags = () => {
 		</div>
 	);
 };
-export default CloudTags;

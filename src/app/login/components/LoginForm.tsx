@@ -1,14 +1,17 @@
 "use client";
 
 import type { UserCredentials } from "@/interfaces/UserCredentials";
-import { Button, Input } from "@nextui-org/react";
+import { handleAuthStatus } from "@/utils/handleAuthStatus";
+import { Button, Input, Link } from "@nextui-org/react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
+import { authorize } from "@/services";
 import { useState } from "react";
-import { authorize } from "@/services/auth/authorize";
 
-const LoginForm = () => {
+export const LoginForm = () => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [formError, setFormError] = useState<string | null>(null);
+
+	const t = useTranslations("auth");
 
 	const {
 		register,
@@ -19,16 +22,10 @@ const LoginForm = () => {
 
 	const onSubmit = async (data: UserCredentials) => {
 		setIsSubmitting(true);
-		reset();
 		const authStatus = await authorize(data.email, data.password);
-		if (authStatus === "ERRORLOGIN") setFormError("Invalid email or password");
-
-		if (authStatus === "CREDENTIALSERROR") setFormError("server error");
-
-		if (authStatus === "SUCCESS" && typeof window !== "undefined") {
-			window.location.href = "/";
-		}
+		handleAuthStatus(authStatus, t);
 		setIsSubmitting(false);
+		reset();
 	};
 
 	return (
@@ -41,7 +38,7 @@ const LoginForm = () => {
 				size="lg"
 				variant="bordered"
 				isInvalid={Boolean(errors.email)}
-				errorMessage="Invalid email"
+				errorMessage={t("invalidEmail")}
 				autoFocus
 				placeholder="Email"
 				{...register("email", {
@@ -54,9 +51,9 @@ const LoginForm = () => {
 				size="lg"
 				variant="bordered"
 				isInvalid={Boolean(errors.password)}
-				errorMessage="The the password should be at least 8 characters"
+				errorMessage={t("invalidPassword")}
 				type="password"
-				placeholder="Password"
+				placeholder={t("password")}
 				{...register("password", {
 					required: true,
 					minLength: 8,
@@ -72,14 +69,22 @@ const LoginForm = () => {
 				type="submit"
 				className="text-xl font-semibold"
 			>
-				Log in
+				{t("login")}
 			</Button>
 			{/* <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-gray-700 after:mt-0.5 after:flex-1 after:border-t after:border-gray-700">
 				<p className="mx-4 mb-0 text-center"> Or login with </p>
 			</div> */}
 
-			<p className="text-[#f31260] text-sm text-center">{formError}</p>
+			<p className="text-center pt-2">{t("notAccount")}</p>
+
+			<Link
+				color="primary"
+				size="lg"
+				className="text-xl font-semibold flex justify-center cursor-pointer"
+				href="/register"
+			>
+				{t("getAccount")}
+			</Link>
 		</form>
 	);
 };
-export default LoginForm;

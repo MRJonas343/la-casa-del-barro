@@ -3,7 +3,7 @@
 import { validateNewUserData } from "@/validators/validateNewUserData";
 import { hashPassword } from "@/utils/password";
 import { users } from "@/db/schemas/userSchema";
-import { signIn } from "../../../auth";
+import { signIn } from "../../auth/auth";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
 
@@ -41,8 +41,11 @@ export const createUser = async (
 		if (user.rowsAffected === 0) return "ERROR";
 
 		await signIn("credentials", {
+			id: user.lastInsertRowid?.toString(),
+			name,
 			email,
 			password,
+			role: "user",
 			redirect: false,
 		});
 

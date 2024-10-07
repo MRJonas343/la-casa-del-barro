@@ -1,6 +1,6 @@
 import { Button, Card, CardBody, CardHeader, Image } from "@nextui-org/react";
+import type { FormCardProps } from "@/interfaces";
 import { FcLike } from "react-icons/fc";
-import type { FormCardProps } from "@/interfaces/FormCard";
 import type { FC } from "react";
 
 export const FormCard: FC<FormCardProps> = ({

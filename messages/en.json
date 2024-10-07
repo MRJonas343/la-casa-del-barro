@@ -29,5 +29,26 @@
 		"history": "History",
 		"animals": "Animals",
 		"sports": "Sports"
+	},
+	"auth": {
+		"title": "Welcome Back Master 🫡",
+		"email": "Email",
+		"password": "Password",
+		"login": "Login",
+		"notAccount": "Don't have an account yet?",
+		"getAccount": "Get one now",
+		"errorLogin": "Invalid email or password",
+		"serverError": "Ups, something went wrong",
+		"join": "Join Form Master",
+		"name": "Name",
+		"register": "Register",
+		"haveAccount": "Already have an account?",
+		"loginHere": "Login here",
+		"invalidEmail": "Invalid email",
+		"invalidPassword": "The the password should be at least 8 characters",
+		"invalidName": "Invalid name",
+		"passwordDoesNotMatch": "Incorrect password",
+		"userNotExists": "User does not exist",
+		"userAlreadyExists": "Email already in use"
 	}
 }

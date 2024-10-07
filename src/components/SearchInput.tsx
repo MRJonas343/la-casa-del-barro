@@ -2,7 +2,7 @@ import { Input } from "@nextui-org/react";
 import { FaSearch } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 
-const SearchInput = () => {
+export const SearchInput = () => {
 	const t = useTranslations("SearchBar");
 
 	return (
@@ -15,5 +15,3 @@ const SearchInput = () => {
 		/>
 	);
 };
-
-export default SearchInput;

@@ -1,8 +1,8 @@
-import type { FormMasterLogoProps } from "@/interfaces/LogoProps";
+import type { FormMasterLogoProps } from "@/interfaces";
 import { Image } from "@nextui-org/react";
 import type { FC } from "react";
 
-const FormMasterLogo: FC<FormMasterLogoProps> = ({ className }) => {
+export const FormMasterLogo: FC<FormMasterLogoProps> = ({ className }) => {
 	return (
 		<div>
 			<Image
@@ -16,4 +16,3 @@ const FormMasterLogo: FC<FormMasterLogoProps> = ({ className }) => {
 		</div>
 	);
 };
-export default FormMasterLogo;

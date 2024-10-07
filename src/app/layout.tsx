@@ -1,16 +1,10 @@
 import { getLocale, getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { SessionProvider } from "next-auth/react";
-import type { Metadata } from "next";
 import { poppinsFont } from "@/fonts/font";
+import { Snackbar } from "@/components";
 import { Providers } from "./providers";
 import "./globals.css";
-
-export const metadata: Metadata = {
-	title: "FormMaster",
-	description:
-		"FormMaster is a platform that allows you to create, manage, and share forms.",
-};
 
 export default async function RootLayout({
 	children,
@@ -28,7 +22,10 @@ export default async function RootLayout({
 					className={`${poppinsFont.className} antialiased text-black dark:text-white`}
 				>
 					<NextIntlClientProvider messages={messages}>
-						<Providers>{children}</Providers>
+						<Providers>
+							{children}
+							<Snackbar />
+						</Providers>
 					</NextIntlClientProvider>
 				</body>
 			</html>

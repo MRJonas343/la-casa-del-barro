@@ -29,5 +29,27 @@
 		"history": "Historia",
 		"animals": "Animales",
 		"sports": "Deportes"
+	},
+
+	"auth": {
+		"title": "Bienvenido de nuevo Maestro 🫡",
+		"email": "Email",
+		"password": "Contraseña",
+		"login": "Iniciar sesión",
+		"notAccount": "¿No tienes una cuenta todavía?",
+		"getAccount": "Obtén una ahora",
+		"errorLogin": "Email o contraseña no válidos",
+		"serverError": "Ups, algo salió mal",
+		"join": "Únete a Form Master",
+		"name": "Nombre",
+		"register": "Registrarse",
+		"haveAccount": "¿Ya tienes una cuenta?",
+		"loginHere": "Inicia sesión aquí",
+		"invalidEmail": "Email no válido",
+		"invalidPassword": "La contraseña debe tener al menos 8 caracteres",
+		"invalidName": "Nombre no válido",
+		"passwordDoesNotMatch": "Contraseña incorrecta",
+		"userNotExists": "El usuario no existe",
+		"userAlreadyExists": "El email ya está en uso"
 	}
 }

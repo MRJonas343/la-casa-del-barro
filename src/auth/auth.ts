@@ -1,12 +1,10 @@
 import Credentials from "next-auth/providers/credentials";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { validateUser } from "@/validators/validateUser";
-import { users } from "@/db/schemas/userSchema";
-import NextAuth from "next-auth";
-import { eq } from "drizzle-orm";
-import { db } from "@/db";
-import { v4 as uuid } from "uuid";
 import { encode as defaultEncode } from "next-auth/jwt";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { validateUser } from "@/validators";
+import { v4 as uuid } from "uuid";
+import NextAuth from "next-auth";
+import { db } from "@/db";
 
 const adapter = DrizzleAdapter(db);
 
@@ -18,6 +16,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 	providers: [
 		Credentials({
 			credentials: {
+				id: {},
 				email: {},
 				password: {},
 			},
@@ -26,17 +25,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
 				if (!validatedUser.success) return null;
 
-				const userExists = await db.query.users.findFirst({
-					where: eq(users.email, validatedUser.data.email),
-				});
-
-				if (!userExists) return null;
-
 				const user = {
-					id: userExists.id.toString(),
-					name: userExists.name,
-					email: userExists.email,
-					role: userExists.role,
+					id: validatedUser.data.id,
+					name: validatedUser.data.name,
+					email: validatedUser.data.email,
+					role: validatedUser.data.role,
 				};
 
 				return user;

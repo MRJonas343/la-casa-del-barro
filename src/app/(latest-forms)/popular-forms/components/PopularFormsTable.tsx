@@ -1,65 +1,10 @@
 "use client";
 
-import {
-	Button,
-	Table,
-	TableBody,
-	TableCell,
-	TableColumn,
-	TableHeader,
-	TableRow,
-} from "@nextui-org/react";
+import { Button, Table, TableBody, TableCell } from "@nextui-org/react";
+import { TableHeader, TableColumn, TableRow } from "@nextui-org/react";
+import { popularFormsExamples, PopularFormsColumns } from "@/constants";
 
 export const PopularFormsTable = () => {
-	const columns = [
-		{ key: "postion", label: "Postion" },
-		{ key: "body", label: "Body" },
-		{ key: "Answer", label: "Answer" },
-	];
-
-	const data = [
-		{
-			position: 1,
-			body: {
-				title: "What do you think about Apples?",
-				author: "Jonas",
-				answers: 120,
-			},
-		},
-		{
-			position: 2,
-			body: {
-				title: "Is the feature a cool world?",
-				author: "Alex",
-				answers: 90,
-			},
-		},
-		{
-			position: 3,
-			body: {
-				title: "Do you like the feature?",
-				author: "Tom",
-				answers: 89,
-			},
-		},
-		{
-			position: 4,
-			body: {
-				title: "IS gloabal warming a problem?",
-				author: "Will",
-				answers: 50,
-			},
-		},
-		{
-			position: 5,
-			body: {
-				title: "Have you ever been in a car crash?",
-				author: "Oliver",
-				answers: 70,
-			},
-		},
-	];
-
 	return (
 		<div className="w-full flex justify-center mt-3">
 			<Table
@@ -71,13 +16,13 @@ export const PopularFormsTable = () => {
 				className="w-[95%] max-w-[1100px]"
 				hideHeader
 			>
-				<TableHeader columns={columns}>
+				<TableHeader columns={PopularFormsColumns}>
 					{(column) => (
 						<TableColumn key={column.key}>{column.label}</TableColumn>
 					)}
 				</TableHeader>
 				<TableBody>
-					{data.map((item, index) => (
+					{popularFormsExamples.map((item, index) => (
 						<TableRow key={item.position}>
 							<TableCell className="px-2 sm:px-3 sm:text-2xl lg:text-6xl font-semibold sm:w-[15%]">
 								<div

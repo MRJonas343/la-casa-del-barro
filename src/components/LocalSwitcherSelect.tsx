@@ -1,9 +1,9 @@
 "use client";
 
-import { useTransition } from "react";
-import type { Locale } from "@/i18n/config";
-import { setUserLocale } from "@/services/lang/local";
 import { Select, SelectItem } from "@nextui-org/react";
+import { setUserLocale } from "@/services";
+import { useTransition } from "react";
+import type { Locale } from "@/i18n";
 
 export interface LocalSwitcherSelectProps {
 	defaultValue: string;
@@ -28,7 +28,6 @@ export default function LocalSwitcherSelect({
 		<Select
 			radius="sm"
 			variant="bordered"
-			color="default"
 			aria-label={label}
 			defaultSelectedKeys={[defaultValue]}
 			className="w-28"

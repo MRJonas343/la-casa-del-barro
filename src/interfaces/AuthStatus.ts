@@ -1,0 +1,9 @@
+export type authStatus =
+	| "INVALID_CREDENTIALS"
+	| "USER_EXISTS"
+	| "ERROR"
+	| "SUCCESS"
+	| "USER_NOT_EXISTS"
+	| "INVALID_PASSWORD"
+	| "ERRORLOGIN"
+	| "SERVERERROR";
