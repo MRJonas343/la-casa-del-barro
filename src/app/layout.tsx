@@ -19,7 +19,7 @@ export default async function RootLayout({
 		<SessionProvider>
 			<html lang={locale} className="light text-foreground bg-background">
 				<body
-					className={`${poppinsFont.className} antialiased text-black dark:text-white`}
+					className={`${poppinsFont.className} antialiased text-black dark:text-white overflow-x-hidden dark:bg-[#1C1B29]`}
 				>
 					<NextIntlClientProvider messages={messages}>
 						<Providers>

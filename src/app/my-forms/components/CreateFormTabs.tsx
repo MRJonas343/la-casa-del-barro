@@ -2,7 +2,7 @@
 
 import { Tabs, Tab } from "@nextui-org/react";
 
-export const DashboardTabs = () => {
+export const CreateFormTabs = () => {
 	return (
 		<Tabs
 			size="lg"
@@ -11,10 +11,10 @@ export const DashboardTabs = () => {
 			defaultSelectedKey="my-forms"
 			aria-label="Options"
 			color="primary"
-			className="mt-6"
+			className="mt-2 lg:mt-6"
 		>
-			<Tab key="my-forms" title="My Forms" href="/my-forms" />
-			<Tab key="my-answers" title="My Answers" href="/my-filled-forms" />
+			<Tab key="general-settings" title="General Settings" />
+			<Tab key="set-questions" title="Set Questions" />
 		</Tabs>
 	);
 };

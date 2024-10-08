@@ -2,7 +2,7 @@ import { NavBar, SearchInput } from "@/components";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { DashboardTabs, MyFormsTable } from "./components";
 import { redirect } from "next/navigation";
-import { Button } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import { auth } from "@/auth";
 
 const page = async () => {
@@ -19,7 +19,14 @@ const page = async () => {
 			<div className="w-full flex flex-col lg:flex-row lg:max-w-[1280px] lg:mx-auto px-5">
 				<DashboardTabs />
 				<div className="gap-3 w-full flex lg:justify-end mt-6">
-					<Button radius="sm" variant="shadow" color="primary">
+					<Button
+						variant="shadow"
+						color="primary"
+						as={Link}
+						href="/my-forms/new-form"
+						radius="sm"
+						className="font-semibold"
+					>
 						New Form
 					</Button>
 					<Button variant="bordered" radius="sm" color="primary">
