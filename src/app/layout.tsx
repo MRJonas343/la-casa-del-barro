@@ -17,7 +17,11 @@ export default async function RootLayout({
 
 	return (
 		<SessionProvider>
-			<html lang={locale} className="light text-foreground bg-background">
+			<html
+				lang={locale}
+				className="light text-foreground bg-background"
+				suppressHydrationWarning
+			>
 				<body
 					className={`${poppinsFont.className} antialiased text-black dark:text-white overflow-x-hidden dark:bg-[#1C1B29]`}
 				>

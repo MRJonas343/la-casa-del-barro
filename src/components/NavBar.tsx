@@ -9,9 +9,12 @@ import { signOut, useSession } from "next-auth/react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import type { FC } from "react";
 import { useState } from "react";
 
-export const NavBar = () => {
+export const NavBar: FC = ({
+	position,
+}: { position?: "static" | "sticky" }) => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const pathname = usePathname();
 	const t = useTranslations("NavBar");
@@ -23,7 +26,12 @@ export const NavBar = () => {
 	};
 
 	return (
-		<Navbar isBordered onMenuOpenChange={setIsMenuOpen} maxWidth="xl">
+		<Navbar
+			position={position ?? "static"}
+			isBordered
+			onMenuOpenChange={setIsMenuOpen}
+			maxWidth="xl"
+		>
 			<NavbarContent>
 				<NavbarMenuToggle
 					aria-label={isMenuOpen ? "Close menu" : "Open menu"}

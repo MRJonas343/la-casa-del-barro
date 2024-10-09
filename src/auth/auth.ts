@@ -4,6 +4,7 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { validateUser } from "@/validators";
 import { v4 as uuid } from "uuid";
 import NextAuth from "next-auth";
+import Passkey from "next-auth/providers/passkey";
 import { db } from "@/db";
 
 const adapter = DrizzleAdapter(db);
@@ -35,6 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 				return user;
 			},
 		}),
+		Passkey,
 	],
 	callbacks: {
 		async jwt({ token, user, account }) {
@@ -54,7 +56,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 				const createdSession = await adapter?.createSession?.({
 					sessionToken: sessionToken,
 					userId: params.token.sub,
-					expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+					expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
 				});
 
 				if (!createdSession) throw new Error("Failed to create session");

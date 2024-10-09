@@ -1,20 +1,34 @@
 "use client";
 
 import { Tabs, Tab } from "@nextui-org/react";
+import type { FC } from "react";
 
-export const CreateFormTabs = () => {
+export interface CreateFormTabsProps {
+	selectedKey: string;
+	changeTab: (tab: string) => void;
+}
+
+export const CreateFormTabs: FC<CreateFormTabsProps> = ({ selectedKey }) => {
 	return (
 		<Tabs
 			size="lg"
 			radius="sm"
 			variant="underlined"
-			defaultSelectedKey="my-forms"
+			selectedKey={selectedKey}
 			aria-label="Options"
 			color="primary"
 			className="mt-2 lg:mt-6"
 		>
-			<Tab key="general-settings" title="General Settings" />
-			<Tab key="set-questions" title="Set Questions" />
+			<Tab
+				key="general-settings"
+				title="General Settings"
+				className="cursor-default"
+			/>
+			<Tab
+				key="set-questions"
+				title="Set Questions"
+				className="cursor-default"
+			/>
 		</Tabs>
 	);
 };

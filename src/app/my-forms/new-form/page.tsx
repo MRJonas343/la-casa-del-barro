@@ -1,7 +1,7 @@
-import { NavBar, SearchInput } from "@/components";
+import { NavBar } from "@/components";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { CreateNewForm } from "../components/CreateNewForm";
+import { NewForm } from "../components";
 
 const page = async () => {
 	const session = await auth();
@@ -10,7 +10,7 @@ const page = async () => {
 	return (
 		<>
 			<NavBar />
-			<CreateNewForm />
+			<NewForm />
 		</>
 	);
 };
