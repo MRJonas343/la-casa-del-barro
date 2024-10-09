@@ -3,6 +3,8 @@ export * from "./FormCard";
 export * from "./FormSettings";
 export * from "./GeneralSettingsProps";
 export * from "./LogoProps";
+export * from "./question";
 export * from "./QuestionElement";
+export * from "./QuestionType";
 export * from "./SetQuestionsTabProps";
 export * from "./UserCredentials";

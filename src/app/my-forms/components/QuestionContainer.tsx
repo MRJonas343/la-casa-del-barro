@@ -1,17 +1,18 @@
 "use client";
 
-import { Input, Textarea, Select, SelectItem } from "@nextui-org/react";
+import { Input, Textarea, Select, SelectItem, Card } from "@nextui-org/react";
 import { MdOutlineDragIndicator } from "react-icons/md";
-import type { QuestionElement } from "@/interfaces";
+import type { QuestionElementProps } from "@/interfaces";
 import { FaTrash } from "react-icons/fa";
-import { Card } from "@nextui-org/react";
 import type { FC } from "react";
 
-export const QuestionContainer: FC<QuestionElement> = ({
+export const QuestionContainer: FC<QuestionElementProps> = ({
+	id,
 	questionName,
 	questionType,
 	description,
 	options,
+	onQuestionChange,
 }) => {
 	return (
 		<Card className="p-3 sm:p-5">
@@ -29,7 +30,9 @@ export const QuestionContainer: FC<QuestionElement> = ({
 					radius="sm"
 					variant="bordered"
 					className="w-full"
-					label={questionName}
+					label="Question Name"
+					value={questionName}
+					onValueChange={(e) => onQuestionChange(id, "questionName", e)}
 				/>
 				<Select
 					radius="sm"

@@ -1,9 +1,8 @@
 import type { QuestionType } from "./QuestionType";
 
-export interface QuestionElementProps {
+export interface Question {
 	id: string;
 	questionName: string;
-	onQuestionChange: (id: string, key: string, value: string) => void;
 	questionType: QuestionType;
 	description: string;
 	options?: string[];

@@ -1,56 +1,46 @@
 "use client";
 
+import type { SetQuestionsProps, Question } from "@/interfaces";
 import { QuestionContainer } from "./QuestionContainer";
-import type { SetQuestionsProps } from "@/interfaces";
 import { IoMdAddCircleOutline } from "react-icons/io";
-import type { QuestionElement } from "@/interfaces";
 import { Button } from "@nextui-org/react";
+import { questions } from "@/constants";
 import { useState } from "react";
 import type { FC } from "react";
 
-export const SetQuestions: FC<SetQuestionsProps> = ({ formTitle }) => {
-	const questions: QuestionElement[] = [
-		{
-			questionName: "Question Name",
-			questionType: "short",
-			description: "This is a short description",
-		},
-		{
-			questionName: "What is your age?",
-			questionType: "numeric",
-			description: "This is a long description",
-		},
-		{
-			questionName: "What is your email?",
-			questionType: "long",
-			description: "This is a long description",
-		},
-		{
-			questionName: "Do you like apples?",
-			questionType: "single",
-			description: "This is a long description",
-			options: ["Yes", "No"],
-		},
-		{
-			questionName: "What is your favorite food?",
-			questionType: "multiple",
-			description: "This is a long description",
-			options: ["Pizza", "Burger", "Tacos"],
-		},
-	];
+export const SetQuestions: FC<SetQuestionsProps> = () => {
+	const [questionsState, setQuestionsState] = useState<Question[]>(questions);
 
-	const [questionsState, setQuestionsState] =
-		useState<QuestionElement[]>(questions);
+	const handleQuestionChange = (id: string, key: string, value: string) => {
+		setQuestionsState((prevState) =>
+			prevState.map((question) =>
+				question.id === id ? { ...question, [key]: value } : question,
+			),
+		);
+	};
+
+	const createNewQuestion = () => {
+		const newQuestion: Question = {
+			id: (questionsState.length + 1).toString(),
+			questionName: "New Question",
+			questionType: "short",
+			description: "Add a description",
+		};
+		setQuestionsState([...questionsState, newQuestion]);
+		console.log(questionsState[2].questionName);
+	};
 
 	return (
 		<>
 			<div className="mt-4 flex flex-col w-[90%] sm:w-[95%] mx-auto max-w-[1240px]">
 				<section className="sm:mt-4 flex flex-col gap-3 mb-20">
-					{questions.map((question) => (
+					{questionsState.map((question) => (
 						<QuestionContainer
-							key={question.questionName}
+							id={question.id}
+							key={question.id}
 							description={question.description}
 							questionName={question.questionName}
+							onQuestionChange={handleQuestionChange}
 							questionType={question.questionType}
 							options={question.options}
 						/>
@@ -63,6 +53,7 @@ export const SetQuestions: FC<SetQuestionsProps> = ({ formTitle }) => {
 					color="primary"
 					radius="sm"
 					className="font-semibold"
+					onClick={createNewQuestion}
 					endContent={<IoMdAddCircleOutline size={25} />}
 				>
 					Add question
