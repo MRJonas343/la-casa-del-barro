@@ -100,7 +100,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 								{options.map((option, index) => (
 									<Input
 										key={`option-${id}-${
-											// biome-ignore lint/suspicious/noArrayIndexKey: <eNeded>
+											// biome-ignore lint/suspicious/noArrayIndexKey: <Neded to avoid errors>
 											index
 										}`}
 										size="sm"
