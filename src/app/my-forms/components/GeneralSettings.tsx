@@ -76,12 +76,12 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 					})}
 				>
 					{topics.map((topic) => (
-						<SelectItem key={topic.topic}>{topic.topic}</SelectItem>
+						<SelectItem key={topic.id}>{topic.topic}</SelectItem>
 					))}
 				</Select>
 				{
 					//@ts-ignore
-					topicsState.has("Other") && (
+					topicsState.has("41") && (
 						<Input
 							radius="sm"
 							variant="bordered"
