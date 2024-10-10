@@ -7,6 +7,7 @@ import { SelectItem } from "@nextui-org/react";
 import { useDropzone } from "react-dropzone";
 import { SearchInput } from "@/components";
 import { useForm } from "react-hook-form";
+import type { Selection } from "@nextui-org/react";
 import { useState } from "react";
 import type { FC } from "react";
 
@@ -16,6 +17,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [isFormPublic, setIsFormPublic] = useState(false);
+	const [topicsState, setTopicsState] = useState<Selection>(new Set([]));
 	const [image, setImage] = useState<File | null>(null);
 
 	const {
@@ -27,8 +29,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 	const onSubmit = async (data: FormSettings) => {
 		setIsSubmitting(true);
 		console.log(data);
-		//*TODO : CREATE THE FORM
-		setFormTitle(data.title);
+		console.log(image);
 		changeTab("set-questions");
 
 		setIsSubmitting(false);
@@ -65,6 +66,8 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 					label="Topic"
 					variant="bordered"
 					isInvalid={Boolean(errors.topic)}
+					selectedKeys={topicsState}
+					onSelectionChange={setTopicsState}
 					errorMessage="This field is required"
 					selectionMode="single"
 					className="w-full mt-3 md:mt-0"
@@ -76,6 +79,20 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 						<SelectItem key={topic.topic}>{topic.topic}</SelectItem>
 					))}
 				</Select>
+				{
+					//@ts-ignore
+					topicsState.has("Other") && (
+						<Input
+							radius="sm"
+							variant="bordered"
+							label="Add a topic"
+							className="w-full mt-3 md:mt-0"
+							{...register("otherTopic", {
+								required: true,
+							})}
+						/>
+					)
+				}
 			</div>
 			<Textarea
 				radius="sm"

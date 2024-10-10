@@ -5,4 +5,5 @@ export interface FormSettings {
 	topic: string;
 	isPublic: boolean;
 	users?: string[];
+	otherTopic?: string;
 }

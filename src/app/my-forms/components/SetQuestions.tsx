@@ -16,6 +16,8 @@ export const SetQuestions: FC<SetQuestionsProps> = () => {
 		console.log(questions);
 	};
 
+	console.log(questions);
+
 	return (
 		<>
 			<div className="mt-4 flex flex-col w-[90%] sm:w-[95%] mx-auto max-w-[1240px]">

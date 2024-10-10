@@ -1,7 +1,6 @@
 "use client";
 
 import { Input, Textarea, Select, Checkbox } from "@nextui-org/react";
-import { addOption, updateOption, deleteOption } from "../utils";
 import { Button, SelectItem, Card } from "@nextui-org/react";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import type { QuestionElementProps } from "@/interfaces";
@@ -90,7 +89,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 										color="primary"
 										size="sm"
 										isIconOnly
-										onClick={() => addOption(id, options, onOptionsChange)}
+										onClick={() => onOptionsChange(id, [...options, ""])}
 									>
 										<IoMdAddCircleOutline size={20} />
 									</Button>
@@ -100,7 +99,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 								{options.map((option, index) => (
 									<Input
 										key={`option-${id}-${
-											// biome-ignore lint/suspicious/noArrayIndexKey: <Neded to avoid errors>
+											// biome-ignore lint/suspicious/noArrayIndexKey: <Neded for nextui>
 											index
 										}`}
 										size="sm"
@@ -110,7 +109,10 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 										label={`Option ${index + 1}`}
 										value={option}
 										onValueChange={(value) =>
-											updateOption(id, index, value, options, onOptionsChange)
+											onOptionsChange(
+												id,
+												options.map((_, i) => (i === index ? value : _)),
+											)
 										}
 										endContent={
 											<Button
@@ -119,7 +121,10 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 												size="sm"
 												isIconOnly
 												onClick={() =>
-													deleteOption(id, index, options, onOptionsChange)
+													onOptionsChange(
+														id,
+														options.filter((_, i) => i !== index),
+													)
 												}
 											>
 												<FaTrash size={13} />

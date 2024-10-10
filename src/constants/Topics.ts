@@ -39,4 +39,5 @@ export const topics = [
 	{ id: "38", topic: "Wildlife" },
 	{ id: "39", topic: "Yoga" },
 	{ id: "40", topic: "Zoology" },
+	{ id: "41", topic: "Other" },
 ];
