@@ -1,8 +1,11 @@
 "use client";
 
-import { Input, Textarea, Select, SelectItem, Card } from "@nextui-org/react";
+import { Input, Textarea, Select, Checkbox } from "@nextui-org/react";
+import { addOption, updateOption, deleteOption } from "../utils";
+import { Button, SelectItem, Card } from "@nextui-org/react";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import type { QuestionElementProps } from "@/interfaces";
+import { IoMdAddCircleOutline } from "react-icons/io";
 import { FaTrash } from "react-icons/fa";
 import type { FC } from "react";
 
@@ -11,8 +14,11 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 	questionName,
 	questionType,
 	description,
-	options,
 	onQuestionChange,
+	deleteQuestion,
+	displayInTable,
+	onOptionsChange,
+	options = [],
 }) => {
 	return (
 		<Card className="p-3 sm:p-5">
@@ -21,7 +27,15 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 					<MdOutlineDragIndicator className="cursor-grab rotate-90" size={25} />
 				</div>
 				<div className="w-[49%] flex justify-end pr-2">
-					<FaTrash size={18} className="cursor-pointer" color="red" />
+					<Button
+						variant="flat"
+						color="danger"
+						size="sm"
+						isIconOnly
+						onClick={() => deleteQuestion(id)}
+					>
+						<FaTrash size={13} />
+					</Button>
 				</div>
 			</div>
 
@@ -32,7 +46,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 					className="w-full"
 					label="Question Name"
 					value={questionName}
-					onValueChange={(e) => onQuestionChange(id, "questionName", e)}
+					onValueChange={(value) => onQuestionChange(id, "questionName", value)}
 				/>
 				<Select
 					radius="sm"
@@ -40,6 +54,9 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 					variant="bordered"
 					selectionMode="single"
 					className="w-full mt-3 sm:mt-0"
+					onSelectionChange={(value) =>
+						onQuestionChange(id, "questionType", value.anchorKey ?? "short")
+					}
 				>
 					<SelectItem key="short">Short</SelectItem>
 					<SelectItem key="long">Long</SelectItem>
@@ -48,30 +65,82 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 					<SelectItem key="multiple">Multiple</SelectItem>
 				</Select>
 			</div>
-			<Textarea
-				size="sm"
-				radius="sm"
-				variant="bordered"
-				label={description}
-				className="w-full mt-3"
-			/>
-
-			{questionType === "multiple" && (
-				<div className="flex flex-col gap-2 px-1 pt-2">
-					<p>Options</p>
-					{options?.map((option) => (
-						<div key={option} className="flex items-center gap-2">
-							<Input
-								size="sm"
-								radius="sm"
-								variant="bordered"
-								className="w-full"
-								label={option}
-							/>
-						</div>
-					))}
+			<div className={`${questionType === "multiple" && "md:flex md:gap-3"}`}>
+				<div className={`${questionType === "multiple" && "md:w-[50%]"}`}>
+					<Textarea
+						size="sm"
+						radius="sm"
+						variant="bordered"
+						label="Add a description for this question"
+						className="w-full mt-3"
+						value={description}
+						onValueChange={(value) =>
+							onQuestionChange(id, "description", value)
+						}
+					/>
 				</div>
-			)}
+				<div className="md:w-[50%]">
+					{questionType === "multiple" && (
+						<div className="flex flex-col pt-2 ">
+							<div className="flex justify-between items-center pb-2">
+								<p className="pl-1 text-small">Options</p>
+								<div className="flex pr-3">
+									<Button
+										variant="flat"
+										color="primary"
+										size="sm"
+										isIconOnly
+										onClick={() => addOption(id, options, onOptionsChange)}
+									>
+										<IoMdAddCircleOutline size={20} />
+									</Button>
+								</div>
+							</div>
+							<div className="grid grid-cols-2 gap-3">
+								{options.map((option, index) => (
+									<Input
+										key={`option-${id}-${
+											// biome-ignore lint/suspicious/noArrayIndexKey: <eNeded>
+											index
+										}`}
+										size="sm"
+										radius="sm"
+										variant="bordered"
+										className="w-full"
+										label={`Option ${index + 1}`}
+										value={option}
+										onValueChange={(value) =>
+											updateOption(id, index, value, options, onOptionsChange)
+										}
+										endContent={
+											<Button
+												variant="flat"
+												color="danger"
+												size="sm"
+												isIconOnly
+												onClick={() =>
+													deleteOption(id, index, options, onOptionsChange)
+												}
+											>
+												<FaTrash size={13} />
+											</Button>
+										}
+									/>
+								))}
+							</div>
+						</div>
+					)}
+				</div>
+			</div>
+
+			<Checkbox
+				radius="sm"
+				className="mt-2"
+				isSelected={displayInTable}
+				onValueChange={(e) => onQuestionChange(id, "displayInTable", e)}
+			>
+				Display in your form table
+			</Checkbox>
 		</Card>
 	);
 };

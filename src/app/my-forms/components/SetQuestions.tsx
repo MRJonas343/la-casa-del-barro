@@ -1,48 +1,43 @@
 "use client";
 
+import { changeControlledInputs, changeMultipleQuestionInputs } from "../utils";
+import { deleteControlledQuestion, createControlledInput } from "../utils";
 import type { SetQuestionsProps, Question } from "@/interfaces";
 import { QuestionContainer } from "./QuestionContainer";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { initialQuestion } from "@/constants";
 import { Button } from "@nextui-org/react";
-import { questions } from "@/constants";
-import { useState } from "react";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 
 export const SetQuestions: FC<SetQuestionsProps> = () => {
-	const [questionsState, setQuestionsState] = useState<Question[]>(questions);
+	const [questions, setQuestions] = useState<Question[]>([initialQuestion]);
 
-	const handleQuestionChange = (id: string, key: string, value: string) => {
-		setQuestionsState((prevState) =>
-			prevState.map((question) =>
-				question.id === id ? { ...question, [key]: value } : question,
-			),
-		);
-	};
-
-	const createNewQuestion = () => {
-		const newQuestion: Question = {
-			id: (questionsState.length + 1).toString(),
-			questionName: "New Question",
-			questionType: "short",
-			description: "Add a description",
-		};
-		setQuestionsState([...questionsState, newQuestion]);
-		console.log(questionsState[2].questionName);
+	const submitQuestions = () => {
+		console.log(questions);
 	};
 
 	return (
 		<>
 			<div className="mt-4 flex flex-col w-[90%] sm:w-[95%] mx-auto max-w-[1240px]">
 				<section className="sm:mt-4 flex flex-col gap-3 mb-20">
-					{questionsState.map((question) => (
+					{questions.map((question) => (
 						<QuestionContainer
 							id={question.id}
 							key={question.id}
 							description={question.description}
 							questionName={question.questionName}
-							onQuestionChange={handleQuestionChange}
+							onQuestionChange={(id, type, value) =>
+								changeControlledInputs(id, type, value, setQuestions)
+							}
+							deleteQuestion={(id) =>
+								deleteControlledQuestion(id, setQuestions)
+							}
 							questionType={question.questionType}
+							displayInTable={question.displayInTable}
 							options={question.options}
+							onOptionsChange={(id, newOptions) =>
+								changeMultipleQuestionInputs(id, newOptions, setQuestions)
+							}
 						/>
 					))}
 				</section>
@@ -53,7 +48,7 @@ export const SetQuestions: FC<SetQuestionsProps> = () => {
 					color="primary"
 					radius="sm"
 					className="font-semibold"
-					onClick={createNewQuestion}
+					onClick={() => createControlledInput(questions, setQuestions)}
 					endContent={<IoMdAddCircleOutline size={25} />}
 				>
 					Add question

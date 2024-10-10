@@ -5,6 +5,7 @@ export interface Question {
 	questionName: string;
 	questionType: QuestionType;
 	description: string;
+	displayInTable: boolean;
 	options?: string[];
 	value?: string;
 }
