@@ -1,18 +1,27 @@
 "use client";
 
-import { changeControlledInputs, changeMultipleQuestionInputs } from "../utils";
-import { deleteControlledQuestion, createControlledInput } from "../utils";
+import {
+	changeControlledInputs,
+	changeMultipleQuestionInputs,
+	deleteControlledQuestion,
+	createControlledInput,
+	changeQuestionsPositions,
+} from "../utils";
+import {
+	verticalListSortingStrategy,
+	SortableContext,
+} from "@dnd-kit/sortable";
+import {
+	restrictToParentElement,
+	restrictToVerticalAxis,
+} from "@dnd-kit/modifiers";
 import type { SetQuestionsProps, Question } from "@/interfaces";
-import { verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { restrictToParentElement } from "@dnd-kit/modifiers";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { QuestionContainer } from "./QuestionContainer";
 import { IoMdAddCircleOutline } from "react-icons/io";
-import { SortableContext } from "@dnd-kit/sortable";
 import { initialQuestion } from "@/constants";
+import { DndContext } from "@dnd-kit/core";
 import { Button } from "@nextui-org/react";
 import { useState, type FC } from "react";
-import { DndContext } from "@dnd-kit/core";
 import { useDndSensors } from "@/hooks";
 
 export const SetQuestions: FC<SetQuestionsProps> = () => {
@@ -24,14 +33,13 @@ export const SetQuestions: FC<SetQuestionsProps> = () => {
 		console.log(questions);
 	};
 
-	console.log(questions);
-
 	return (
 		<>
 			<div className="mt-4 flex flex-col w-[90%] sm:w-[95%] mx-auto max-w-[1240px]">
 				<section className="sm:mt-4 flex flex-col gap-3 mb-20">
 					<DndContext
 						sensors={sensors}
+						onDragEnd={(e) => changeQuestionsPositions(e, setQuestions)}
 						modifiers={[restrictToVerticalAxis, restrictToParentElement]}
 					>
 						<SortableContext
