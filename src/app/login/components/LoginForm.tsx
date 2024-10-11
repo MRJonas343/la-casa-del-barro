@@ -3,6 +3,7 @@
 import type { UserCredentials } from "@/interfaces/UserCredentials";
 import { handleAuthStatus } from "@/utils/handleAuthStatus";
 import { Button, Input, Link } from "@nextui-org/react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { authorize } from "@/services";
@@ -10,8 +11,13 @@ import { useState } from "react";
 
 export const LoginForm = () => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
 	const t = useTranslations("auth");
+
+	const togglePasswordVisibility = () => {
+		setIsPasswordVisible(!isPasswordVisible);
+	};
 
 	const {
 		register,
@@ -52,7 +58,21 @@ export const LoginForm = () => {
 				variant="bordered"
 				isInvalid={Boolean(errors.password)}
 				errorMessage={t("invalidPassword")}
-				type="password"
+				type={isPasswordVisible ? "text" : "password"}
+				endContent={
+					<button
+						className="focus:outline-none"
+						type="button"
+						onClick={togglePasswordVisibility}
+						aria-label="toggle password visibility"
+					>
+						{isPasswordVisible ? (
+							<FaEye className="text-2xl text-default-400 pointer-events-none" />
+						) : (
+							<FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+						)}
+					</button>
+				}
 				placeholder={t("password")}
 				{...register("password", {
 					required: true,

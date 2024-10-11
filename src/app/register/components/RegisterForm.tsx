@@ -3,6 +3,7 @@
 import { handleAuthStatus } from "@/utils/handleAuthStatus";
 import type { User } from "@/interfaces/UserCredentials";
 import { Button, Input, Link } from "@nextui-org/react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { createUser } from "@/services";
@@ -10,6 +11,11 @@ import { useState } from "react";
 
 export const RegisterForm = () => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+	const togglePasswordVisibility = () => {
+		setIsPasswordVisible(!isPasswordVisible);
+	};
 
 	const t = useTranslations("auth");
 
@@ -18,7 +24,10 @@ export const RegisterForm = () => {
 		formState: { errors },
 		handleSubmit,
 		reset,
+		watch,
 	} = useForm<User>();
+
+	const password = watch("password");
 
 	const onSubmit = async (data: User) => {
 		setIsSubmitting(true);
@@ -66,13 +75,36 @@ export const RegisterForm = () => {
 				variant="bordered"
 				isInvalid={Boolean(errors.password)}
 				errorMessage={t("invalidPassword")}
-				type="password"
+				type={isPasswordVisible ? "text" : "password"}
+				endContent={
+					<button
+						className="focus:outline-none"
+						type="button"
+						onClick={togglePasswordVisibility}
+						aria-label="toggle password visibility"
+					>
+						{isPasswordVisible ? (
+							<FaEye className="text-2xl text-default-400 pointer-events-none" />
+						) : (
+							<FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+						)}
+					</button>
+				}
 				placeholder={t("password")}
 				{...register("password", {
 					required: true,
 					minLength: 8,
 					maxLength: 40,
 				})}
+			/>
+			<Input
+				radius="sm"
+				size="lg"
+				variant="bordered"
+				type="password"
+				placeholder="Confirm password"
+				errorMessage={t("passwordIsNotTheSame")}
+				validate={(value) => value === password || "Passwords do not match"}
 			/>
 
 			<Button

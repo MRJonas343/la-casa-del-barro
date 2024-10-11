@@ -49,6 +49,7 @@
 		"invalidName": "Invalid name",
 		"passwordDoesNotMatch": "Incorrect password",
 		"userNotExists": "User does not exist",
-		"userAlreadyExists": "Email already in use"
+		"userAlreadyExists": "Email already in use",
+		"passwordIsNotTheSame": "Passwords do not match"
 	}
 }

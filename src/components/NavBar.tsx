@@ -9,8 +9,7 @@ import { signOut, useSession } from "next-auth/react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import type { FC } from "react";
-import { useState } from "react";
+import { useState, type FC } from "react";
 
 export const NavBar: FC = ({
 	position,
@@ -151,6 +150,8 @@ export const NavBar: FC = ({
 					>
 						{t("logOut")}
 					</Button>
+				</NavbarMenuItem>
+				<NavbarMenuItem>
 					<LanguageSwitcher />
 				</NavbarMenuItem>
 				<SwitchTheme size="lg" />

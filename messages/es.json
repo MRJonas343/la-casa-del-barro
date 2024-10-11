@@ -50,6 +50,7 @@
 		"invalidName": "Nombre no válido",
 		"passwordDoesNotMatch": "Contraseña incorrecta",
 		"userNotExists": "El usuario no existe",
-		"userAlreadyExists": "El email ya está en uso"
+		"userAlreadyExists": "El email ya está en uso",
+		"passwordIsNotTheSame": "Las contraseñas no son iguales"
 	}
 }
