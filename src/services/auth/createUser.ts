@@ -1,10 +1,10 @@
 "use server";
 
-import { validateNewUserData } from "@/validators/validateNewUserData";
+import { validateNewUserData } from "@/validators";
 import { hashPassword } from "@/utils/password";
-import { users } from "@/db/schemas/userSchema";
-import { signIn } from "../../auth/auth";
+import { InsertUser, users } from "@/db/schemas";
 import { eq } from "drizzle-orm";
+import { signIn } from "@/auth";
 import { db } from "@/db";
 
 export const createUser = async (
@@ -33,15 +33,14 @@ export const createUser = async (
 			name,
 			email,
 			password: hashedPassword,
-			createdAt: new Date().toLocaleString(),
 			status: "active",
 			role: "user",
 		});
 
-		if (user.rowsAffected === 0) return "ERROR";
+		if (user[0].affectedRows === 0) return "ERROR";
 
 		await signIn("credentials", {
-			id: user.lastInsertRowid?.toString(),
+			id: user[0].insertId.toString(),
 			name,
 			email,
 			password,

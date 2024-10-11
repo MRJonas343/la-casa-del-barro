@@ -1,29 +1,36 @@
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { sql } from "drizzle-orm";
+import {
+	int,
+	mysqlTable,
+	varchar,
+	mysqlEnum,
+	uniqueIndex,
+	index,
+	timestamp,
+} from "drizzle-orm/mysql-core";
 
-export const users = sqliteTable(
+export const users = mysqlTable(
 	"user",
 	{
-		id: integer("id", { mode: "number" })
-			.primaryKey({ autoIncrement: true })
-			.notNull(),
-		name: text("name").notNull(),
-		createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`).notNull(),
-		email: text("email").unique().notNull(),
-		emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
-		password: text("password").notNull(),
-		role: text("role", { enum: ["admin", "user"] })
-			.notNull()
-			.default("user"),
-		status: text("status", { enum: ["active", "blooked"] })
+		id: int("id").autoincrement().primaryKey(),
+		name: varchar("name", { length: 50 }).notNull(),
+		email: varchar("email", { length: 50 }).unique().notNull(),
+		password: varchar("password", { length: 255 }),
+		role: mysqlEnum("role", ["admin", "user"]).notNull().default("user"),
+		status: mysqlEnum("status", ["active", "blooked"])
 			.notNull()
 			.default("active"),
-		image: text("image"),
+		emailVerified: timestamp("emailVerified", {
+			mode: "date",
+			fsp: 3,
+		}),
+		image: varchar("image", { length: 255 }),
 	},
-	(table) => ({
-		nameIdx: index("idx_name").on(table.name),
-		emailIdx: index("idx_email").on(table.email),
-	}),
+	(table) => {
+		return {
+			name: index("name_idx").on(table.name),
+			emailIdx: uniqueIndex("email_idx").on(table.email),
+		};
+	},
 );
 
 export type InsertUser = typeof users.$inferInsert;

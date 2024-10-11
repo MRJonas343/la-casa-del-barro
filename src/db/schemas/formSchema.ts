@@ -1,23 +1,33 @@
-import { desc, sql } from "drizzle-orm";
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { sql } from "drizzle-orm";
 import { users } from "./userSchema";
+import {
+	index,
+	int,
+	mysqlTable,
+	text,
+	timestamp,
+	varchar,
+} from "drizzle-orm/mysql-core";
 
-export const forms = sqliteTable(
+export const forms = mysqlTable(
 	"forms",
 	{
-		id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-		author_id: integer("author_id")
+		id: int("id").autoincrement().primaryKey(),
+		author_id: int("author_id")
 			.notNull()
-			.references(() => users.id),
-		created_at: text("created_at").default(sql`(CURRENT_TIMESTAMP)`).notNull(),
-		title: text("title").notNull(),
+			.references(() => users.id, { onDelete: "cascade" }),
+		created_at: timestamp(),
+		title: varchar("title", { length: 150 }).notNull(),
 		description: text("description").notNull(),
-		imageUrl: text("image_url").notNull(),
+		imageUrl: varchar("image_url", { length: 255 }).notNull(),
 	},
 	(table) => ({
 		titleIdx: index("idx_title").on(table.title),
-		descriptionIdx: index("idx_description").on(table.description),
 	}),
 );
 
-export type InsertUser = typeof forms.$inferInsert;
+export const addFullTextInFormDescription = sql`
+  ALTER TABLE forms ADD FULLTEXT(description);
+`;
+
+export type InsertForm = typeof forms.$inferInsert;

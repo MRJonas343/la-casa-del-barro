@@ -1,7 +1,7 @@
 "use server";
 
 import { comparePassword } from "@/utils/password";
-import { users } from "@/db/schemas/userSchema";
+import { users } from "@/db/schemas";
 import { eq } from "drizzle-orm";
 import { signIn } from "@/auth";
 import { db } from "@/db";
@@ -12,7 +12,7 @@ export const authorize = async (email: string, password: string) => {
 			where: eq(users.email, email),
 		});
 
-		if (!userExists) return "USER_NOT_EXISTS";
+		if (!userExists || !userExists.password) return "USER_NOT_EXISTS";
 
 		const passwordIsCorrect = await comparePassword(
 			password,

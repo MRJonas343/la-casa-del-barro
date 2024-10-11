@@ -1,5 +1,5 @@
 import type { User } from "@/interfaces/UserCredentials";
-import { users } from "../schemas/userSchema";
+import { users } from "../schemas";
 import { db } from "..";
 
 export const insertUser = async (user: User) => {

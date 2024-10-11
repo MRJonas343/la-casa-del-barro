@@ -1,17 +1,16 @@
-import { sql } from "drizzle-orm";
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { int, mysqlTable, timestamp } from "drizzle-orm/mysql-core";
 import { forms } from "./formSchema";
 import { users } from "./userSchema";
 
-export const filledForms = sqliteTable("filled_forms", {
-	id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-	form_id: integer("form_id", { mode: "number" })
+export const filledForms = mysqlTable("filled_forms", {
+	id: int("id").primaryKey().autoincrement(),
+	form_id: int("form_id")
 		.notNull()
-		.references(() => forms.id),
-	user_id: integer("user_id", { mode: "number" })
+		.references(() => forms.id, { onDelete: "cascade" }),
+	user_id: int("user_id")
 		.notNull()
-		.references(() => users.id),
-	filled_at: text("filled_at").default(sql`(CURRENT_TIMESTAMP)`).notNull(),
+		.references(() => users.id, { onDelete: "cascade" }),
+	filled_at: timestamp(),
 });
 
-export type InsertUser = typeof filledForms.$inferInsert;
+export type InsertFilledForm = typeof filledForms.$inferInsert;

@@ -1,22 +1,21 @@
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { int, mysqlTable, text } from "drizzle-orm/mysql-core";
 import { users } from "./userSchema";
 import { forms } from "./formSchema";
+import { sql } from "drizzle-orm";
 
-export const comments = sqliteTable(
-	"comments",
-	{
-		id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-		user_id: integer("user_id", { mode: "number" })
-			.notNull()
-			.references(() => users.id),
-		form_id: integer("form_id", { mode: "number" })
-			.notNull()
-			.references(() => forms.id),
-		comment: text("comment").notNull(),
-	},
-	(table) => ({
-		commentIdx: index("idx_comment").on(table.comment),
-	}),
-);
+export const comments = mysqlTable("comments", {
+	id: int("id").primaryKey().autoincrement(),
+	user_id: int("user_id")
+		.notNull()
+		.references(() => users.id, { onDelete: "cascade" }),
+	form_id: int("form_id")
+		.notNull()
+		.references(() => forms.id, { onDelete: "cascade" }),
+	comment: text("comment").notNull(),
+});
 
-export type InsertUser = typeof comments.$inferInsert;
+export const addFullTextInComment = sql`
+  ALTER TABLE comments ADD FULLTEXT(comment);
+`;
+
+export type InsertComment = typeof comments.$inferInsert;

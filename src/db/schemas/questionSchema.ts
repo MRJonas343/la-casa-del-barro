@@ -1,26 +1,40 @@
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import {
+	boolean,
+	int,
+	mysqlTable,
+	text,
+	mysqlEnum,
+	index,
+	varchar,
+} from "drizzle-orm/mysql-core";
 import { forms } from "./formSchema";
+import { sql } from "drizzle-orm";
 
-export const questions = sqliteTable(
+export const questions = mysqlTable(
 	"questions",
 	{
-		id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-		formId: integer("form_id", { mode: "number" })
+		id: int("id").primaryKey().autoincrement(),
+		formId: int("form_id")
 			.notNull()
-			.references(() => forms.id),
-		question: text("question").notNull(),
+			.references(() => forms.id, { onDelete: "cascade" }),
+		question: varchar("question", { length: 255 }).notNull(),
 		description: text("description").notNull(),
-		displayInTable: integer("display_in_table", { mode: "boolean" }),
-		type: text("type", {
-			enum: ["short", "long", "numeric", "single"],
-		}).notNull(),
+		displayInTable: boolean("display_in_table").default(false),
+		type: mysqlEnum("type", [
+			"short",
+			"long",
+			"numeric",
+			"single",
+			"multiple",
+		]).default("short"),
 	},
 	(table) => ({
 		questionIdx: index("idx_question").on(table.question),
-		descriptionQuestionIdx: index("idx_description_question").on(
-			table.description,
-		),
 	}),
 );
 
-export type InsertUser = typeof questions.$inferInsert;
+export const addFullTextInQuestionDescription = sql`
+  ALTER TABLE questions ADD FULLTEXT(description);
+`;
+
+export type InsertQuestion = typeof questions.$inferInsert;

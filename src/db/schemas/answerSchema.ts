@@ -1,16 +1,16 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { questions } from "./questionSchema";
+import { int, json, mysqlTable } from "drizzle-orm/mysql-core";
 import { filledForms } from "./filledFormSchema";
+import { questions } from "./questionSchema";
 
-export const answers = sqliteTable("answers", {
-	id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-	questionID: integer("question_id", { mode: "number" })
+export const answers = mysqlTable("answers", {
+	id: int("id").primaryKey().autoincrement(),
+	questionID: int("question_id")
 		.notNull()
-		.references(() => questions.id),
-	filledFormID: integer("filled_form_id", { mode: "number" })
+		.references(() => questions.id, { onDelete: "cascade" }),
+	filledFormID: int("filled_form_id")
 		.notNull()
-		.references(() => filledForms.id),
-	value: text("value").notNull(),
+		.references(() => filledForms.id, { onDelete: "cascade" }),
+	value: json("value").notNull(),
 });
 
-export type InsertUser = typeof answers.$inferInsert;
+export type InsertAnswer = typeof answers.$inferInsert;

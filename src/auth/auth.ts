@@ -4,7 +4,6 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { validateUser } from "@/validators";
 import { v4 as uuid } from "uuid";
 import NextAuth from "next-auth";
-import Passkey from "next-auth/providers/passkey";
 import { db } from "@/db";
 
 const adapter = DrizzleAdapter(db);
@@ -36,7 +35,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 				return user;
 			},
 		}),
-		Passkey,
 	],
 	callbacks: {
 		async jwt({ token, user, account }) {
@@ -66,6 +64,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 			return defaultEncode(params);
 		},
 	},
-	secret: process.env.AUTH_SECRET ?? "",
-	experimental: { enableWebAuthn: true },
 });

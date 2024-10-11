@@ -1,24 +1,21 @@
-import { config } from "dotenv";
 import { defineConfig } from "drizzle-kit";
-
-config({ path: ".env" });
+import "dotenv/config";
 
 export default defineConfig({
-	dialect: "sqlite",
+	out: "./drizzle",
 	schema: [
+		"./src/db/schemas/userSchema.ts",
 		"./src/db/schemas/accountsSchema.ts",
-		"./src/db/schemas/authenticatorsSchema.ts",
-		"./src/db/schemas/answersSchema.ts",
-		"./src/db/schemas/commentsSchema.ts",
-		"./src/db/schemas/filledFormSchema.ts",
-		"./src/db/schemas/formsSchema.ts",
-		"./src/db/schemas/likesSchema.ts",
-		"./src/db/schemas/questionsSchema.ts",
 		"./src/db/schemas/sessionsSchema.ts",
-		"./src/db/schemas/usersSchema.ts",
+		"./src/db/schemas/formSchema.ts",
+		"./src/db/schemas/likeSchema.ts",
+		"./src/db/schemas/questionSchema.ts",
+		"./src/db/schemas/filledFormSchema.ts",
+		"./src/db/schemas/answerSchema.ts",
+		"./src/db/schemas/commentSchema.ts",
 	],
+	dialect: "mysql",
 	dbCredentials: {
-		url: process.env.TURSO_CONNECTION_URL ?? "",
-		token: process.env.TURSO_AUTH_TOKEN ?? "",
+		url: process.env.DATABASE_URL ?? "",
 	},
 });
