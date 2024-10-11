@@ -1,7 +1,5 @@
-import { sql } from "drizzle-orm";
 import { users } from "./userSchema";
 import {
-	index,
 	int,
 	mysqlTable,
 	text,
@@ -9,25 +7,15 @@ import {
 	varchar,
 } from "drizzle-orm/mysql-core";
 
-export const forms = mysqlTable(
-	"forms",
-	{
-		id: int("id").autoincrement().primaryKey(),
-		author_id: int("author_id")
-			.notNull()
-			.references(() => users.id, { onDelete: "cascade" }),
-		created_at: timestamp(),
-		title: varchar("title", { length: 150 }).notNull(),
-		description: text("description").notNull(),
-		imageUrl: varchar("image_url", { length: 255 }).notNull(),
-	},
-	(table) => ({
-		titleIdx: index("idx_title").on(table.title),
-	}),
-);
-
-export const addFullTextInFormDescription = sql`
-  ALTER TABLE forms ADD FULLTEXT(description);
-`;
+export const forms = mysqlTable("forms", {
+	id: int("id").autoincrement().primaryKey(),
+	author_id: int("author_id")
+		.notNull()
+		.references(() => users.id, { onDelete: "cascade" }),
+	created_at: timestamp(),
+	title: text("title").notNull(),
+	description: text("description").notNull(),
+	imageUrl: varchar("image_url", { length: 255 }).notNull(),
+});
 
 export type InsertForm = typeof forms.$inferInsert;

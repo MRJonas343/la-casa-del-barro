@@ -14,8 +14,4 @@ export const comments = mysqlTable("comments", {
 	comment: text("comment").notNull(),
 });
 
-export const addFullTextInComment = sql`
-  ALTER TABLE comments ADD FULLTEXT(comment);
-`;
-
 export type InsertComment = typeof comments.$inferInsert;

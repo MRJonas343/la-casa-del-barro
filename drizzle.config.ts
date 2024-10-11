@@ -2,7 +2,7 @@ import { defineConfig } from "drizzle-kit";
 import "dotenv/config";
 
 export default defineConfig({
-	out: "./drizzle",
+	out: "./migrations",
 	schema: [
 		"./src/db/schemas/userSchema.ts",
 		"./src/db/schemas/accountsSchema.ts",
@@ -13,6 +13,7 @@ export default defineConfig({
 		"./src/db/schemas/filledFormSchema.ts",
 		"./src/db/schemas/answerSchema.ts",
 		"./src/db/schemas/commentSchema.ts",
+		"./src/db/schemas/optionsSchema.ts",
 	],
 	dialect: "mysql",
 	dbCredentials: {

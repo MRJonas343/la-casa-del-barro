@@ -7,6 +7,7 @@ import { questions } from "./schemas/questionSchema";
 import { users } from "./schemas/userSchema";
 import { accounts } from "./schemas/accountsSchema";
 import { sessions } from "./schemas/sessionsSchema";
+import { options } from "./schemas/optionsSchema";
 
 export const tablesSchemas = {
 	users,
@@ -18,4 +19,5 @@ export const tablesSchemas = {
 	filledForms,
 	comments,
 	likes,
+	options,
 };
