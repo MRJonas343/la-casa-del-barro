@@ -8,17 +8,20 @@ import { useDropzone } from "react-dropzone";
 import { SearchInput } from "@/components";
 import { useForm } from "react-hook-form";
 import type { Selection } from "@nextui-org/react";
-import { useState } from "react";
-import type { FC } from "react";
+import { useState, type FC } from "react";
+import { createForm } from "@/services";
+import { useSession } from "next-auth/react";
 
 export const GeneralSettings: FC<GeneralSettingsProps> = ({
 	changeTab,
-	setFormTitle,
+	setFormId,
 }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [isFormPublic, setIsFormPublic] = useState(false);
 	const [topicsState, setTopicsState] = useState<Selection>(new Set([]));
 	const [image, setImage] = useState<File | null>(null);
+
+	const { data: session } = useSession();
 
 	const {
 		register,
@@ -28,8 +31,18 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 
 	const onSubmit = async (data: FormSettings) => {
 		setIsSubmitting(true);
-		console.log(data);
-		console.log(image);
+
+		if (data.otherTopic) data.topic = data.otherTopic;
+
+		const formData = new FormData();
+		if (image) formData.append("image", image);
+		const userId = Number.parseInt(session?.user?.id ?? "");
+
+		const formId = await createForm(data, userId, formData);
+
+		//*TODO : SEND A TOAST WITH THE ERROR
+		if (formId === "INVALID_FORM") return;
+		setFormId(formId.toString());
 		changeTab("set-questions");
 
 		setIsSubmitting(false);
@@ -38,7 +51,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 	const { getRootProps, getInputProps } = useDropzone({
 		maxFiles: 1,
 		accept: {
-			"image/*": [".png", ".jpg", ".jpeg", ".svg", ".webp"],
+			"image/*": [".png", ".jpg", ".jpeg", ".webp"],
 		},
 		onDrop: (acceptedFiles) => setImage(acceptedFiles[0]),
 	});
@@ -50,6 +63,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 		>
 			<div className="md:flex md:gap-8">
 				<Input
+					isRequired
 					autoFocus
 					radius="sm"
 					isInvalid={Boolean(errors.title)}
@@ -62,6 +76,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 					})}
 				/>
 				<Select
+					isRequired
 					radius="sm"
 					label="Topic"
 					variant="bordered"
@@ -76,25 +91,28 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 					})}
 				>
 					{topics.map((topic) => (
-						<SelectItem key={topic.id}>{topic.topic}</SelectItem>
+						<SelectItem key={topic.topic}>{topic.topic}</SelectItem>
 					))}
 				</Select>
 				{
-					//@ts-ignore
-					topicsState.has("41") && (
-						<Input
-							radius="sm"
-							variant="bordered"
-							label="Add a topic"
-							className="w-full mt-3 md:mt-0"
-							{...register("otherTopic", {
-								required: true,
-							})}
-						/>
-					)
+					<Input
+						radius="sm"
+						variant="bordered"
+						label="Add a topic"
+						//@ts-ignore
+						className={`w-full mt-3 md:mt-0 ${!topicsState.has("Other") && "hidden"}`}
+						//@ts-ignore
+						isRequired={topicsState.has("Other")}
+						isInvalid={Boolean(errors.otherTopic)}
+						{...register("otherTopic", {
+							//@ts-ignore
+							required: topicsState.has("Other"),
+						})}
+					/>
 				}
 			</div>
 			<Textarea
+				isRequired
 				radius="sm"
 				variant="bordered"
 				label="Description"
@@ -117,7 +135,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 				{...register("tags")}
 			>
 				{tabs.map((tag) => (
-					<SelectItem key={tag.id}>{tag.id}</SelectItem>
+					<SelectItem key={tag.id}>{tag.value}</SelectItem>
 				))}
 			</Select>
 			<div

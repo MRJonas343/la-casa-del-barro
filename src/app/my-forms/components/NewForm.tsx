@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export const NewForm = () => {
 	const [selectedTab, setSelectedTab] = useState("general-settings");
-	const [formTitle, setFormTitle] = useState("");
+	const [formId, setFormId] = useState("");
 
 	const onTabChange = (tab: string) => setSelectedTab(tab);
 
@@ -16,9 +16,9 @@ export const NewForm = () => {
 			</div>
 
 			{selectedTab === "general-settings" ? (
-				<GeneralSettings changeTab={onTabChange} setFormTitle={setFormTitle} />
+				<GeneralSettings changeTab={onTabChange} setFormId={setFormId} />
 			) : (
-				<SetQuestions formTitle={formTitle} />
+				<SetQuestions formId={formId} />
 			)}
 		</>
 	);

@@ -4,12 +4,8 @@ import {
 	mysqlTable,
 	text,
 	mysqlEnum,
-	index,
-	varchar,
-	json,
 } from "drizzle-orm/mysql-core";
 import { forms } from "./formSchema";
-import { sql } from "drizzle-orm";
 
 export const questions = mysqlTable("questions", {
 	id: int("id").primaryKey().autoincrement(),

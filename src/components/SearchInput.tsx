@@ -1,13 +1,8 @@
+import type { SearchInputProps } from "@/interfaces";
+import { useTranslations } from "next-intl";
 import { Input } from "@nextui-org/react";
 import { FaSearch } from "react-icons/fa";
-import { useTranslations } from "next-intl";
 import type { FC } from "react";
-
-export interface SearchInputProps {
-	placeholder?: string;
-	size?: "sm" | "md" | "lg";
-	classname?: string;
-}
 
 export const SearchInput: FC<SearchInputProps> = ({
 	placeholder,

@@ -1,7 +1,5 @@
 import { int, mysqlTable, text } from "drizzle-orm/mysql-core";
-import { users } from "./userSchema";
-import { forms } from "./formSchema";
-import { sql } from "drizzle-orm";
+import { users, forms } from ".";
 
 export const comments = mysqlTable("comments", {
 	id: int("id").primaryKey().autoincrement(),

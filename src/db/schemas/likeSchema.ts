@@ -1,6 +1,5 @@
 import { int, mysqlTable } from "drizzle-orm/mysql-core";
-import { users } from "./userSchema";
-import { forms } from "./formSchema";
+import { forms, users } from ".";
 
 export const likes = mysqlTable("likes", {
 	id: int("id").primaryKey().autoincrement(),

@@ -1,6 +1,7 @@
 import Credentials from "next-auth/providers/credentials";
 import { encode as defaultEncode } from "next-auth/jwt";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { userRepository } from "@/repositories";
 import { validateUser } from "@/validators";
 import { v4 as uuid } from "uuid";
 import NextAuth from "next-auth";
@@ -40,8 +41,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 		async jwt({ token, user, account }) {
 			if (account?.provider === "credentials") {
 				token.credentials = true;
+				token.id = user.id;
 			}
+			//TODO: HANDLE LOGIN WITH OTHER PROVIDERS
+
 			return token;
+		},
+		async session({ session }) {
+			const user = await userRepository.findUserById(
+				Number.parseInt(session.user.id),
+			);
+
+			Object.assign(session.user, {
+				role: user?.role,
+				status: user?.status,
+			});
+
+			return session;
 		},
 	},
 	jwt: {
@@ -53,7 +69,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
 				const createdSession = await adapter?.createSession?.({
 					sessionToken: sessionToken,
-					userId: params.token.sub,
+					userId: params.token.sub.toString(),
 					expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
 				});
 

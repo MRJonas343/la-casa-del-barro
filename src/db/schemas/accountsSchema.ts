@@ -1,6 +1,6 @@
 import { int, mysqlTable, varchar, primaryKey } from "drizzle-orm/mysql-core";
 import type { AdapterAccountType } from "next-auth/adapters";
-import { users } from "./userSchema";
+import { users } from ".";
 
 export const accounts = mysqlTable(
 	"account",

@@ -9,16 +9,16 @@ import { GrTechnology } from "react-icons/gr";
 import { TbMath } from "react-icons/tb";
 
 export const tabs = [
-	{ id: "animals", icon: <SiAnimalplanet /> },
-	{ id: "business", icon: <MdAttachMoney /> },
-	{ id: "education", icon: <LuFileSpreadsheet /> },
-	{ id: "enviroment", icon: <FaEnvira /> },
-	{ id: "finance", icon: <FaMoneyBillTrendUp /> },
-	{ id: "health", icon: <FaBriefcaseMedical /> },
-	{ id: "history", icon: <RiFilePaperFill /> },
-	{ id: "literature", icon: <FaBook /> },
-	{ id: "maths", icon: <TbMath /> },
-	{ id: "science", icon: <MdOutlineScience /> },
-	{ id: "sports", icon: <MdSportsVolleyball /> },
-	{ id: "technology", icon: <GrTechnology /> },
+	{ id: 1, value: "animals", icon: <SiAnimalplanet /> },
+	{ id: 2, value: "business", icon: <MdAttachMoney /> },
+	{ id: 3, value: "education", icon: <LuFileSpreadsheet /> },
+	{ id: 4, value: "enviroment", icon: <FaEnvira /> },
+	{ id: 5, value: "finance", icon: <FaMoneyBillTrendUp /> },
+	{ id: 6, value: "health", icon: <FaBriefcaseMedical /> },
+	{ id: 7, value: "history", icon: <RiFilePaperFill /> },
+	{ id: 8, value: "literature", icon: <FaBook /> },
+	{ id: 9, value: "maths", icon: <TbMath /> },
+	{ id: 10, value: "science", icon: <MdOutlineScience /> },
+	{ id: 11, value: "sports", icon: <MdSportsVolleyball /> },
+	{ id: 12, value: "technology", icon: <GrTechnology /> },
 ];

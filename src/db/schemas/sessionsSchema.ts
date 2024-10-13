@@ -1,5 +1,5 @@
 import { int, mysqlTable, timestamp, varchar } from "drizzle-orm/mysql-core";
-import { users } from "./userSchema";
+import { users } from ".";
 
 export const sessions = mysqlTable("session", {
 	sessionToken: varchar("sessionToken", { length: 255 }).primaryKey(),

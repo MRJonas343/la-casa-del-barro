@@ -2,10 +2,8 @@
 
 import { validateNewUserData } from "@/validators";
 import { hashPassword } from "@/utils/password";
-import { InsertUser, users } from "@/db/schemas";
-import { eq } from "drizzle-orm";
+import { userRepository } from "@/repositories";
 import { signIn } from "@/auth";
-import { db } from "@/db";
 
 export const createUser = async (
 	name: string,
@@ -21,20 +19,16 @@ export const createUser = async (
 
 		if (!validatedUser.success) return "INVALID_CREDENTIALS";
 
-		const userExists = await db.query.users.findFirst({
-			where: eq(users.email, email),
-		});
+		const isEmailAlreadyInUse = await userRepository.findUserByEmail(email);
 
-		if (userExists) return "USER_EXISTS";
+		if (isEmailAlreadyInUse) return "USER_EXISTS";
 
 		const hashedPassword = await hashPassword(password);
 
-		const user = await db.insert(users).values({
+		const user = await userRepository.createUser({
 			name,
 			email,
-			password: hashedPassword,
-			status: "active",
-			role: "user",
+			hashedPassword,
 		});
 
 		if (user[0].affectedRows === 0) return "ERROR";
@@ -43,7 +37,6 @@ export const createUser = async (
 			id: user[0].insertId.toString(),
 			name,
 			email,
-			password,
 			role: "user",
 			redirect: false,
 		});

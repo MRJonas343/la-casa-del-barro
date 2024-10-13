@@ -1,6 +1,6 @@
 import { int, mysqlTable, timestamp } from "drizzle-orm/mysql-core";
-import { forms } from "./formSchema";
-import { users } from "./userSchema";
+import { sql } from "drizzle-orm";
+import { users, forms } from ".";
 
 export const filledForms = mysqlTable("filled_forms", {
 	id: int("id").primaryKey().autoincrement(),
@@ -10,7 +10,7 @@ export const filledForms = mysqlTable("filled_forms", {
 	user_id: int("user_id")
 		.notNull()
 		.references(() => users.id, { onDelete: "cascade" }),
-	filled_at: timestamp(),
+	filled_at: timestamp().default(sql`(CURRENT_TIMESTAMP)`),
 });
 
 export type InsertFilledForm = typeof filledForms.$inferInsert;

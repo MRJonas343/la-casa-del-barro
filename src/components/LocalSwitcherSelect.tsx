@@ -1,15 +1,10 @@
 "use client";
 
+import type { LocalSwitcherSelectProps } from "@/interfaces";
 import { Select, SelectItem } from "@nextui-org/react";
 import { setUserLocale } from "@/services";
 import { useTransition } from "react";
 import type { Locale } from "@/i18n";
-
-export interface LocalSwitcherSelectProps {
-	defaultValue: string;
-	items: Array<{ value: string; label: string }>;
-	label: string;
-}
 
 export default function LocalSwitcherSelect({
 	defaultValue,

@@ -1,32 +1,24 @@
 "use server";
 
 import { comparePassword } from "@/utils/password";
-import { users } from "@/db/schemas";
-import { eq } from "drizzle-orm";
+import { userRepository } from "@/repositories";
 import { signIn } from "@/auth";
-import { db } from "@/db";
 
 export const authorize = async (email: string, password: string) => {
 	try {
-		const userExists = await db.query.users.findFirst({
-			where: eq(users.email, email),
-		});
+		const user = await userRepository.findUserByEmail(email);
 
-		if (!userExists || !userExists.password) return "USER_NOT_EXISTS";
+		if (!user || !user.password) return "USER_NOT_EXISTS";
 
-		const passwordIsCorrect = await comparePassword(
-			password,
-			userExists.password,
-		);
+		const isPasswordCorrect = await comparePassword(password, user.password);
 
-		if (!passwordIsCorrect) return "INVALID_PASSWORD";
+		if (!isPasswordCorrect) return "INVALID_PASSWORD";
 
 		await signIn("credentials", {
-			id: userExists.id.toString(),
-			name: userExists.name,
+			id: user.id.toString(),
+			name: user.name,
 			email,
-			password,
-			role: userExists.role,
+			role: user.role,
 			redirect: false,
 		});
 

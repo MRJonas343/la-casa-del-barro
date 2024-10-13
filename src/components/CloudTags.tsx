@@ -21,11 +21,11 @@ export const CloudTags = () => {
 				{tabs.map((item) => (
 					<Tab
 						key={item.id}
-						href={item.id}
+						href={item.value}
 						title={
 							<div className="flex items-center space-x-2">
 								{item.icon}
-								<span>{t(item.id)}</span>
+								<span>{t(item.value)}</span>
 							</div>
 						}
 					/>

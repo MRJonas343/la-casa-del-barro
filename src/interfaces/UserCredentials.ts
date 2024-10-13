@@ -6,6 +6,7 @@ export interface UserCredentials {
 export interface User {
 	name: string;
 	email: string;
-	password: string;
+	password?: string;
+	hashedPassword?: string;
 	role?: "admin" | "user";
 }

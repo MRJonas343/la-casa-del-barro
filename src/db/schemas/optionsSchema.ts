@@ -1,5 +1,5 @@
 import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
-import { questions } from "./questionSchema";
+import { questions } from ".";
 
 export const options = mysqlTable("options", {
 	id: int("id").primaryKey().autoincrement(),

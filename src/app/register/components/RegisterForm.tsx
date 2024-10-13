@@ -24,10 +24,7 @@ export const RegisterForm = () => {
 		formState: { errors },
 		handleSubmit,
 		reset,
-		watch,
 	} = useForm<User>();
-
-	const password = watch("password");
 
 	const onSubmit = async (data: User) => {
 		setIsSubmitting(true);
@@ -96,15 +93,6 @@ export const RegisterForm = () => {
 					minLength: 8,
 					maxLength: 40,
 				})}
-			/>
-			<Input
-				radius="sm"
-				size="lg"
-				variant="bordered"
-				type="password"
-				placeholder="Confirm password"
-				errorMessage={t("passwordIsNotTheSame")}
-				validate={(value) => value === password || "Passwords do not match"}
 			/>
 
 			<Button

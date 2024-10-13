@@ -14,6 +14,9 @@ export default defineConfig({
 		"./src/db/schemas/answerSchema.ts",
 		"./src/db/schemas/commentSchema.ts",
 		"./src/db/schemas/optionsSchema.ts",
+		"./src/db/schemas/formPermissions.ts",
+		"./src/db/schemas/tagsSchema.ts",
+		"./src/db/schemas/formTags.ts",
 	],
 	dialect: "mysql",
 	dbCredentials: {

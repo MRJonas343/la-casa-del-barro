@@ -1,3 +1,3 @@
 export interface SetQuestionsProps {
-	formTitle: string;
+	formId: string;
 }
