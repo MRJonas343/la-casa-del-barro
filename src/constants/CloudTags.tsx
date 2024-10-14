@@ -21,4 +21,5 @@ export const tabs = [
 	{ id: 10, value: "science", icon: <MdOutlineScience /> },
 	{ id: 11, value: "sports", icon: <MdSportsVolleyball /> },
 	{ id: 12, value: "technology", icon: <GrTechnology /> },
+	{ id: 13, value: "noKey", icon: <MdAttachMoney /> },
 ];

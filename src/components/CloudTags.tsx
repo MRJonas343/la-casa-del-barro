@@ -16,9 +16,8 @@ export const CloudTags: FC<CloudTabsProps> = ({ selectedKey, changeTab }) => {
 	return (
 		<div className="w-[95%] mx-auto justify-start max-w-[1250px] lg:mx-auto flex mt-2 lg:mt-2 overflow-x-auto scrollBarCloudTags">
 			<Tabs
-				defaultSelectedKey={"buisness"}
-				//selectedKey={selectedKey}
-				//onSelectionChange={(key) => changeTab(key as string)}
+				selectedKey={selectedKey}
+				onSelectionChange={(key) => changeTab(key as string)}
 				className="max-w-[1250px]"
 				color="primary"
 				variant="light"
@@ -27,6 +26,7 @@ export const CloudTags: FC<CloudTabsProps> = ({ selectedKey, changeTab }) => {
 				{tabs.map((item) => (
 					<Tab
 						key={item.value}
+						className={item.value === "noKey" ? "hidden" : ""}
 						title={
 							<div className="flex items-center space-x-2">
 								{item.icon}

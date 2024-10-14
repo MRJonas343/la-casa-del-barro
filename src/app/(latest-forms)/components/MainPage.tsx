@@ -5,7 +5,7 @@ import { CardsGrid, CloudTags, SearchInput } from "@/components";
 import type { FormCardProps } from "@/interfaces";
 import { useInView } from "react-intersection-observer";
 import { Spinner } from "@nextui-org/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export interface CardsGridProps {
 	cardsData: FormCardProps[];
@@ -15,7 +15,7 @@ const MainPage = ({ cardsData }: CardsGridProps) => {
 	const [cards, setCards] = useState<FormCardProps[]>(cardsData);
 	const [fullTextSearch, setFullTextSearch] = useState("");
 	const [loading, setLoading] = useState(false);
-	const [selectedTab, setSelectedTab] = useState<null | string>("hola");
+	const [selectedTab, setSelectedTab] = useState<null | string>("noKey");
 	const pageRef = useRef(1);
 
 	const { ref, inView } = useInView({ threshold: 0.5 });
@@ -36,7 +36,7 @@ const MainPage = ({ cardsData }: CardsGridProps) => {
 		setFullTextSearch(value);
 	};
 
-	const changeTab = (tab: string) => setSelectedTab(tab);
+	const changeTab = (tab: string | null) => setSelectedTab(tab);
 
 	return (
 		<>
