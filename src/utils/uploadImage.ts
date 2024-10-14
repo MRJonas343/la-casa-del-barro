@@ -19,5 +19,5 @@ export const uploadImage = async (
 
 	await R2.send(new PutObjectCommand(uploadParams));
 
-	return `${process.env.IMAGE_BASE_URL}/${uploadParams.Key}`;
+	return `${process.env.IMAGE_BASE_URL}${uploadParams.Key}`;
 };
