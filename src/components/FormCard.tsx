@@ -14,11 +14,11 @@ export const FormCard: FC<FormCardProps> = ({
 	const t = useTranslations("formCard");
 
 	return (
-		<Card className="w-full bg-transparent sm:bg-default-50 pb-3 shadow-none sm:shadow-neutral-700/40 sm:shadow-sm rounded-none sm:rounded-2xl sm:max-w-[250px] sm:min-h-[320px] sm:mb-8">
+		<Card className="w-full bg-transparent dark:bg-transparent sm:bg-default-50 pb-3 shadow-none sm:shadow-neutral-700/40 sm:shadow-sm rounded-none sm:rounded-2xl sm:max-w-[250px] sm:min-h-[320px] sm:mb-8 sm:dark:border-3 sm:dark:border-[#353243]">
 			<CardHeader className="flex justify-center">
 				<Image
+					isZoomed
 					className="w-[345px] sm:w-[270px] md:h-[150px]"
-					isBlurred
 					src={imageUrl}
 					alt="Cloud Tags"
 					width={270}

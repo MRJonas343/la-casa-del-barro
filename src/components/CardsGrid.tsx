@@ -16,9 +16,7 @@ export const CardsGrid = ({ cardsData }: CardsGridProps) => {
 	const [loading, setLoading] = useState(false);
 	const pageRef = useRef(1);
 
-	const { ref, inView } = useInView({
-		threshold: 0.5,
-	});
+	const { ref, inView } = useInView({ threshold: 0.5 });
 
 	const loadMore = async () => {
 		if (loading) return;
@@ -29,9 +27,7 @@ export const CardsGrid = ({ cardsData }: CardsGridProps) => {
 		setLoading(false);
 	};
 
-	if (inView) {
-		loadMore();
-	}
+	if (inView) loadMore();
 
 	return (
 		<div className="w-full flex flex-col items-center">
