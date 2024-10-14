@@ -1,12 +1,12 @@
 "use client";
 
 import type { UserCredentials } from "@/interfaces/UserCredentials";
-import { handleAuthStatus } from "@/utils/handleAuthStatus";
 import { Button, Input, Link } from "@nextui-org/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { authorize } from "@/services";
+import { handleStatus } from "@/utils";
 import { useState } from "react";
 
 export const LoginForm = () => {
@@ -28,8 +28,8 @@ export const LoginForm = () => {
 
 	const onSubmit = async (data: UserCredentials) => {
 		setIsSubmitting(true);
-		const authStatus = await authorize(data.email, data.password);
-		handleAuthStatus(authStatus, t);
+		const status = await authorize(data.email, data.password);
+		handleStatus(status, t, "/dashboard");
 		setIsSubmitting(false);
 		reset();
 	};

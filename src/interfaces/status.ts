@@ -1,4 +1,4 @@
-export type authStatus =
+export type status =
 	| "INVALID_CREDENTIALS"
 	| "USER_EXISTS"
 	| "ERROR"
@@ -6,4 +6,7 @@ export type authStatus =
 	| "USER_NOT_EXISTS"
 	| "INVALID_PASSWORD"
 	| "ERRORLOGIN"
-	| "SERVERERROR";
+	| "SERVERERROR"
+	| "ERROR"
+	| "INVALID_FORM"
+	| "INVALID_QUESTIONS";

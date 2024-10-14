@@ -1,12 +1,12 @@
 "use client";
 
-import { handleAuthStatus } from "@/utils/handleAuthStatus";
 import type { User } from "@/interfaces/UserCredentials";
 import { Button, Input, Link } from "@nextui-org/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { createUser } from "@/services";
+import { handleStatus } from "@/utils";
 import { useState } from "react";
 
 export const RegisterForm = () => {
@@ -28,8 +28,8 @@ export const RegisterForm = () => {
 
 	const onSubmit = async (data: User) => {
 		setIsSubmitting(true);
-		const authStatus = await createUser(data.name, data.email, data.password);
-		handleAuthStatus(authStatus, t);
+		const status = await createUser(data.name, data.email, data.password ?? "");
+		handleStatus(status, t, "/login");
 		setIsSubmitting(false);
 		reset();
 	};

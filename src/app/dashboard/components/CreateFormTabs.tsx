@@ -3,7 +3,6 @@ import type { FC } from "react";
 
 export interface CreateFormTabsProps {
 	selectedKey: string;
-	changeTab: (tab: string) => void;
 }
 
 export const CreateFormTabs: FC<CreateFormTabsProps> = ({ selectedKey }) => {

@@ -1,4 +1,4 @@
-export * from "./AuthStatus";
+export * from "./status";
 export * from "./FormCard";
 export * from "./FormSettings";
 export * from "./GeneralSettingsProps";

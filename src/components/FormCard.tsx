@@ -2,6 +2,7 @@ import { Button, Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 import type { FormCardProps } from "@/interfaces";
 import { FcLike } from "react-icons/fc";
 import type { FC } from "react";
+import { useTranslations } from "next-intl";
 
 export const FormCard: FC<FormCardProps> = ({
 	id,
@@ -10,6 +11,8 @@ export const FormCard: FC<FormCardProps> = ({
 	likes,
 	imageUrl,
 }) => {
+	const t = useTranslations("formCard");
+
 	return (
 		<Card className="w-full bg-transparent sm:bg-default-50 pb-3 shadow-none sm:shadow-neutral-700/40 sm:shadow-sm rounded-none sm:rounded-2xl sm:max-w-[250px] sm:min-h-[320px] sm:mb-8">
 			<CardHeader className="flex justify-center">
@@ -31,7 +34,7 @@ export const FormCard: FC<FormCardProps> = ({
 						<span>{likes}</span>
 					</div>
 					<Button radius="sm" variant="flat" color="primary" className="">
-						Answer
+						{t("answer")}
 					</Button>
 				</div>
 			</CardBody>

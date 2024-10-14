@@ -52,5 +52,22 @@
 		"userNotExists": "El usuario no existe",
 		"userAlreadyExists": "El email ya está en uso",
 		"passwordIsNotTheSame": "Las contraseñas no son iguales"
+	},
+	"createForm": {
+		"invalidQuestions": "Las preguntas no son válidas"
+	},
+	"formCard": {
+		"answer": "Responder"
+	},
+	"dashboardTabs": {
+		"myForms": "Mis Formularios",
+		"myAnswers": "Mis Respuestas"
+	},
+	"myFormsTable": {
+		"name": "Nombre",
+		"likes": "Likes",
+		"totalAnswers": "Respuestas",
+		"newForm": "Crear nuevo",
+		"seeAnswers": "Ver respuestas"
 	}
 }

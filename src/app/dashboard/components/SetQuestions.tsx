@@ -23,20 +23,23 @@ import { Button } from "@nextui-org/react";
 import { useState, type FC } from "react";
 import { useDndSensors } from "@/hooks";
 import { setNewFormQuestions } from "@/services";
+import { handleStatus } from "@/utils/handleStatus";
+import { useTranslations } from "next-intl";
 
 export const SetQuestions: FC<SetQuestionsProps> = ({ formId }) => {
 	const [questions, setQuestions] = useState<Question[]>([initialQuestion]);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
+	const t = useTranslations("createForm");
 	const sensors = useDndSensors();
 
 	const createNewForm = async () => {
-		//TODO : Handle the status and redirect the user to this dashboard
 		setIsSubmitting(true);
 		const status = await setNewFormQuestions(
 			Number.parseInt(formId),
 			questions,
 		);
+		handleStatus(status, t, "/dashboard");
 		setIsSubmitting(false);
 	};
 

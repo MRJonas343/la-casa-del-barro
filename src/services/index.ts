@@ -1,5 +1,5 @@
-export * from "./auth/authorize";
-export * from "./auth/createUser";
-export * from "./forms/createForm";
-export * from "./forms/setNewFormQuestions";
-export * from "./lang/local";
+export { authorize } from "./auth/authorize";
+export { createUser } from "./auth/createUser";
+export { createForm } from "./forms/createForm";
+export { setNewFormQuestions } from "./forms/setNewFormQuestions";
+export { getUserLocale, setUserLocale } from "./lang/local";

@@ -84,7 +84,7 @@ export const NavBar: FC = ({
 					<Button
 						as={Link}
 						color="primary"
-						href={session ? "/my-forms" : "/register"}
+						href={session ? "/dashboard" : "/register"}
 						className={`font-semibold ${pathname === "/my-forms" && "hidden"}`}
 						variant="shadow"
 						radius="sm"
