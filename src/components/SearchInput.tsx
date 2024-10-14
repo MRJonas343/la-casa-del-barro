@@ -1,3 +1,5 @@
+"use client";
+
 import type { SearchInputProps } from "@/interfaces";
 import { useTranslations } from "next-intl";
 import { Input } from "@nextui-org/react";
@@ -8,6 +10,8 @@ export const SearchInput: FC<SearchInputProps> = ({
 	placeholder,
 	size,
 	classname,
+	value,
+	setValue,
 }) => {
 	const t = useTranslations("SearchBar");
 
@@ -15,10 +19,13 @@ export const SearchInput: FC<SearchInputProps> = ({
 		<Input
 			radius="sm"
 			size={size ?? "sm"}
-			endContent={<FaSearch />}
+			isClearable
+			startContent={<FaSearch />}
 			placeholder={placeholder ?? t("search")}
 			className={classname ?? "mx-5 lg:w-80"}
 			variant="bordered"
+			value={value}
+			onValueChange={setValue}
 		/>
 	);
 };

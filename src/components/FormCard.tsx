@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 export const FormCard: FC<FormCardProps> = ({
 	id,
 	title,
-	author,
+	authorName,
 	likes,
 	imageUrl,
 }) => {
@@ -27,7 +27,7 @@ export const FormCard: FC<FormCardProps> = ({
 			</CardHeader>
 			<CardBody className="max-w-[320px] mx-auto sm:mx-0 sm:max-w-none px-6">
 				<h3 className="pb-3 min-h-14">{title}</h3>
-				<span className="text-sm pb-2 opacity-60">By {author}</span>
+				<span className="text-sm pb-2 opacity-60">By {authorName}</span>
 				<div className="flex items-center w-full justify-between">
 					<div className="flex items-center gap-3">
 						<FcLike size={25} />

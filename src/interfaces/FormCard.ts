@@ -2,7 +2,7 @@ export interface FormCardProps {
 	id: number;
 	title: string;
 	likes: number;
-	author?: string;
+	authorName: string;
 	description?: string;
 	imageUrl?: string;
 }

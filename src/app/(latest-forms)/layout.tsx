@@ -11,10 +11,6 @@ export default function MainPageLayout({
 	return (
 		<>
 			<NavBar />
-			<div className="w-full flex lg:justify-end lg:flex mt-2 lg:max-w-[1280px] lg:mx-auto">
-				<SearchInput />
-			</div>
-			<CloudTags />
 			{children}
 		</>
 	);
