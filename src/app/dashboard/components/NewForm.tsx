@@ -12,7 +12,7 @@ export const NewForm = () => {
 	return (
 		<>
 			<div className="w-full flex flex-row lg:max-w-[1280px] sm:mx-auto px-5">
-				<CreateFormTabs selectedKey={selectedTab} changeTab={onTabChange} />
+				<CreateFormTabs selectedKey={selectedTab} />
 			</div>
 
 			{selectedTab === "general-settings" ? (

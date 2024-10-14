@@ -1,11 +1,14 @@
 import { Tabs, Tab } from "@nextui-org/react";
 import type { FC } from "react";
+import { useTranslations } from "next-intl";
 
 export interface CreateFormTabsProps {
 	selectedKey: string;
 }
 
 export const CreateFormTabs: FC<CreateFormTabsProps> = ({ selectedKey }) => {
+	const t = useTranslations("createFormTabs");
+
 	return (
 		<Tabs
 			size="lg"
@@ -18,12 +21,12 @@ export const CreateFormTabs: FC<CreateFormTabsProps> = ({ selectedKey }) => {
 		>
 			<Tab
 				key="general-settings"
-				title="General Settings"
+				title={t("generalSettings")}
 				className="cursor-default"
 			/>
 			<Tab
 				key="set-questions"
-				title="Set Questions"
+				title={t("setQuestions")}
 				className="cursor-default"
 			/>
 		</Tabs>

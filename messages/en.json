@@ -68,5 +68,44 @@
 		"totalAnswers": "Total Answers",
 		"newForm": "New Form",
 		"seeAnswers": "Answers"
+	},
+	"createFormTabs": {
+		"generalSettings": "General Settings",
+		"setQuestions": "Set Questions"
+	},
+	"generalSettings": {
+		"title": "Title",
+		"topic": "Topic",
+		"description": "Description",
+		"tags": "Tags",
+		"addImage": "Add image",
+		"makeFormPublic": "Make this form public",
+		"searchBy": "Search by",
+		"assignedTo": "Assigned to",
+		"setQuestions": "Set Questions",
+		"dropImage": "Drop an image or",
+		"clickHere": "click here",
+		"toSelectFromYourDevice": "to select from your device(png, jpg, jpeg, webp)",
+		"name": "Name",
+		"email": "Email",
+		"addTopic": "Add a topic",
+		"searchUsers": "Search Users",
+		"selectUsers": "Select Users"
+	},
+	"setQuestions": {
+		"addQuestion": "Add question",
+		"createForm": "Create Form",
+		"questionName": "Question Name",
+		"questionType": "Question Type",
+		"description": "Description",
+		"options": "Options",
+		"addOption": "Add Option",
+		"displayInTable": "Display in your form table",
+		"short": "Short",
+		"long": "Long",
+		"numeric": "Numeric",
+		"single": "Single",
+		"multiple": "Multiple",
+		"option": "Option"
 	}
 }

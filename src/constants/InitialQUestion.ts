@@ -1,11 +1,11 @@
-import type { Question } from "@/interfaces";
+import type { Question, QuestionType } from "@/interfaces";
 import { v4 as uuid } from "uuid";
 
 export const initialQuestion: Question = {
 	id: uuid(),
-	questionName: "Question Name",
-	questionType: "short",
-	description: "This is a short description",
+	questionName: "",
+	questionType: "" as QuestionType,
+	description: "",
 	displayInTable: false,
 	options: [],
 };

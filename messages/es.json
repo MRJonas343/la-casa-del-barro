@@ -69,5 +69,44 @@
 		"totalAnswers": "Respuestas",
 		"newForm": "Crear nuevo",
 		"seeAnswers": "Ver respuestas"
+	},
+	"createFormTabs": {
+		"generalSettings": "Configuración",
+		"setQuestions": "Preguntas"
+	},
+	"generalSettings": {
+		"title": "Título",
+		"topic": "Tema",
+		"description": "Descripción",
+		"tags": "Etiquetas",
+		"addImage": "Añadir imagen",
+		"makeFormPublic": "Hacer público",
+		"searchBy": "Buscar por",
+		"assignedTo": "Asignado a",
+		"setQuestions": "Establecer preguntas",
+		"dropImage": "Arrastra una imagen o",
+		"clickHere": "haz clic aquí",
+		"toSelectFromYourDevice": "para seleccionarla de tu dispositivo(png, jpg, jpeg, webp)",
+		"name": "Nombre",
+		"email": "Email",
+		"searchUsers": "Buscar usuarios",
+		"selectUsers": "Selecciona usuarios",
+		"addTopic": "Añadir un tema"
+	},
+	"setQuestions": {
+		"addQuestion": "Añadir pregunta",
+		"createForm": "Crear Formulario",
+		"questionName": "Nombre de la pregunta",
+		"questionType": "Tipo de pregunta",
+		"description": "Descripción",
+		"options": "Opciones",
+		"addOption": "Añadir opción",
+		"displayInTable": "Mostrar en tu tabla de formularios",
+		"short": "Corta",
+		"long": "Larga",
+		"numeric": "Numérica",
+		"single": "Individual",
+		"multiple": "Múltiple",
+		"option": "Opción"
 	}
 }

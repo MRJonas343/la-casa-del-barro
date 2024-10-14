@@ -9,6 +9,7 @@ import { FaTrash } from "react-icons/fa";
 import type { FC } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useTranslations } from "next-intl";
 
 export const QuestionContainer: FC<QuestionElementProps> = ({
 	id,
@@ -30,6 +31,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 	};
 
 	const isCursorGrabbing = attributes["aria-pressed"];
+	const t = useTranslations("setQuestions");
 
 	return (
 		<div ref={setNodeRef} style={style} key={id}>
@@ -66,7 +68,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 						radius="sm"
 						variant="bordered"
 						className="w-full"
-						label="Question Name"
+						label={t("questionName")}
 						value={questionName}
 						onValueChange={(value) =>
 							onQuestionChange(id, "questionName", value)
@@ -75,7 +77,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 					<Select
 						isRequired
 						radius="sm"
-						label="Type"
+						label={t("questionType")}
 						variant="bordered"
 						selectionMode="single"
 						className="w-full mt-3 sm:mt-0"
@@ -83,11 +85,11 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 							onQuestionChange(id, "questionType", value.anchorKey ?? "short")
 						}
 					>
-						<SelectItem key="short">Short</SelectItem>
-						<SelectItem key="long">Long</SelectItem>
-						<SelectItem key="numeric">Numeric</SelectItem>
-						<SelectItem key="single">Single</SelectItem>
-						<SelectItem key="multiple">Multiple</SelectItem>
+						<SelectItem key="short">{t("short")}</SelectItem>
+						<SelectItem key="long">{t("long")}</SelectItem>
+						<SelectItem key="numeric">{t("numeric")}</SelectItem>
+						<SelectItem key="single">{t("single")}</SelectItem>
+						<SelectItem key="multiple">{t("multiple")}</SelectItem>
 					</Select>
 				</div>
 				<div className={`${questionType === "multiple" && "md:flex md:gap-3"}`}>
@@ -96,7 +98,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 							size="sm"
 							radius="sm"
 							variant="bordered"
-							label="Add a description for this question"
+							label={t("description")}
 							className="w-full mt-3"
 							value={description}
 							onValueChange={(value) =>
@@ -108,7 +110,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 						{questionType === "multiple" && (
 							<div className="flex flex-col pt-2 ">
 								<div className="flex justify-between items-center pb-2">
-									<p className="pl-1 text-small">Options</p>
+									<p className="pl-1 text-small">{t("options")}</p>
 									<div className="flex pr-3">
 										<Button
 											variant="flat"
@@ -132,7 +134,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 											radius="sm"
 											variant="bordered"
 											className="w-full"
-											label={`Option ${index + 1}`}
+											label={`${t("option")} ${index + 1}`}
 											value={option}
 											onValueChange={(value) =>
 												onOptionsChange(
@@ -170,7 +172,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 					isSelected={displayInTable}
 					onValueChange={(e) => onQuestionChange(id, "displayInTable", e)}
 				>
-					Display in your form table
+					{t("displayInTable")}
 				</Checkbox>
 			</Card>
 		</div>

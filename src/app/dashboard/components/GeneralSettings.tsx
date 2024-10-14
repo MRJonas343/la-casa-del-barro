@@ -6,7 +6,6 @@ import {
 	Select,
 	Textarea,
 	Checkbox,
-	Popover,
 	Tooltip,
 } from "@nextui-org/react";
 import type { FormSettings, GeneralSettingsProps } from "@/interfaces";
@@ -20,6 +19,7 @@ import { SearchInput } from "@/components";
 import { useForm } from "react-hook-form";
 import { useState, type FC } from "react";
 import { createForm } from "@/services";
+import { useTranslations } from "next-intl";
 
 export const GeneralSettings: FC<GeneralSettingsProps> = ({
 	changeTab,
@@ -31,6 +31,8 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 	const [image, setImage] = useState<File | null>(null);
 
 	const { data: session } = useSession();
+	const t = useTranslations("generalSettings");
+	const t2 = useTranslations("CloudTags");
 
 	const {
 		register,
@@ -80,7 +82,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 					errorMessage="This field is required"
 					variant="bordered"
 					className="w-full"
-					label="Title"
+					label={t("title")}
 					{...register("title", {
 						required: true,
 					})}
@@ -88,7 +90,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 				<Select
 					isRequired
 					radius="sm"
-					label="Topic"
+					label={t("topic")}
 					variant="bordered"
 					isInvalid={Boolean(errors.topic)}
 					selectedKeys={topicsState}
@@ -108,7 +110,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 					<Input
 						radius="sm"
 						variant="bordered"
-						label="Add a topic"
+						label={t("addTopic")}
 						//@ts-ignore
 						className={`w-full mt-3 md:mt-0 ${!topicsState.has("Other") && "hidden"}`}
 						//@ts-ignore
@@ -125,7 +127,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 				isRequired
 				radius="sm"
 				variant="bordered"
-				label="Description"
+				label={t("description")}
 				className="w-full"
 				errorMessage="This field is required"
 				endContent={
@@ -147,29 +149,29 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 
 			<Select
 				radius="sm"
-				label="Add Tags"
+				label={t("tags")}
 				variant="bordered"
 				selectionMode="multiple"
 				className="w-full"
 				{...register("tags")}
 			>
 				{tabs.map((tag) => (
-					<SelectItem key={tag.id}>{tag.value}</SelectItem>
+					<SelectItem key={tag.id}>{t2(tag.value)}</SelectItem>
 				))}
 			</Select>
 			<div
 				{...getRootProps({ className: "dropzone" })}
 				className="border-2 p-3 border-default-200 rounded-md cursor-pointer"
 			>
-				<label className="text-default-500">Add image</label>
+				<label className="text-default-500">{t("addImage")}</label>
 				<input type="file" className="w-full" {...getInputProps()} />
 
 				<p className="text-default-500">
-					Drop an image or{" "}
+					{t("dropImage")}{" "}
 					<span className="text-blue-600 font-semibold cursor-pointer">
-						click here
+						{t("clickHere")}
 					</span>{" "}
-					to select from your device(png, jpg, jpeg, webp)
+					{t("toSelectFromYourDevice")}
 				</p>
 				<ul>{image?.name}</ul>
 			</div>
@@ -180,31 +182,31 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 				onValueChange={setIsFormPublic}
 				{...register("isPublic")}
 			>
-				Make this form public
+				{t("makeFormPublic")}
 			</Checkbox>
 			{!isFormPublic && (
 				<>
 					<div className="flex mt-1 gap-3">
 						<Select
-							label="Search by"
+							label={t("searchBy")}
 							radius="sm"
 							size="sm"
 							variant="bordered"
 							selectionMode="single"
 							className="w-48"
 						>
-							<SelectItem key="username">Name</SelectItem>
-							<SelectItem key="email">Email</SelectItem>
+							<SelectItem key="username">{t("name")}</SelectItem>
+							<SelectItem key="email">{t("email")}</SelectItem>
 						</Select>
 						<SearchInput
-							placeholder="Search Users"
+							placeholder={t("searchUsers")}
 							size="lg"
 							classname="mx-o"
 						/>
 					</div>
 					<Select
 						items={usersExamples}
-						label="Assigned to"
+						label={t("assignedTo")}
 						variant="bordered"
 						isMultiline={true}
 						selectionMode="multiple"
@@ -237,7 +239,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 				radius="sm"
 				variant="shadow"
 			>
-				Set Questions
+				{t("setQuestions")}
 			</Button>
 		</form>
 	);

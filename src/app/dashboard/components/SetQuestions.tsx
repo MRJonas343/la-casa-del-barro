@@ -30,7 +30,7 @@ export const SetQuestions: FC<SetQuestionsProps> = ({ formId }) => {
 	const [questions, setQuestions] = useState<Question[]>([initialQuestion]);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const t = useTranslations("createForm");
+	const t = useTranslations("setQuestions");
 	const sensors = useDndSensors();
 
 	const createNewForm = async () => {
@@ -88,7 +88,7 @@ export const SetQuestions: FC<SetQuestionsProps> = ({ formId }) => {
 					className="font-semibold"
 					onClick={() => createControlledInput(questions, setQuestions)}
 				>
-					Add question
+					{t("addQuestion")}
 				</Button>
 				<Button
 					isLoading={isSubmitting}
@@ -98,7 +98,7 @@ export const SetQuestions: FC<SetQuestionsProps> = ({ formId }) => {
 					className="font-semibold"
 					onClick={createNewForm}
 				>
-					Create Form
+					{t("createForm")}
 				</Button>
 			</div>
 		</>
