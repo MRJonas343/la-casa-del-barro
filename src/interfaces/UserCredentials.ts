@@ -9,4 +9,13 @@ export interface User {
 	password?: string;
 	hashedPassword?: string;
 	role?: "admin" | "user";
+	status?: "active" | "blooked";
+}
+
+export interface UsersSeed {
+	name: string;
+	email: string;
+	password: string;
+	role?: "admin" | "user";
+	status?: "active" | "blooked";
 }

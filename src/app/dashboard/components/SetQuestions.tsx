@@ -25,6 +25,8 @@ import { useDndSensors } from "@/hooks";
 import { setNewFormQuestions } from "@/services";
 import { handleStatus } from "@/utils/handleStatus";
 import { useTranslations } from "next-intl";
+import { validateQuestions } from "@/validators";
+import toast from "react-hot-toast";
 
 export const SetQuestions: FC<SetQuestionsProps> = ({ formId }) => {
 	const [questions, setQuestions] = useState<Question[]>([initialQuestion]);
@@ -35,6 +37,15 @@ export const SetQuestions: FC<SetQuestionsProps> = ({ formId }) => {
 
 	const createNewForm = async () => {
 		setIsSubmitting(true);
+
+		const questionsAreValid = validateQuestions.safeParse(questions);
+
+		if (!questionsAreValid.success) {
+			toast.error("Some questions are missing a name or type");
+			setIsSubmitting(false);
+			return;
+		}
+
 		const status = await setNewFormQuestions(
 			Number.parseInt(formId),
 			questions,

@@ -1,5 +1,5 @@
 export interface FormCardProps {
-	id: string;
+	id: number;
 	title: string;
 	likes: number;
 	author?: string;

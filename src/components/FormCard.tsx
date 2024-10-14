@@ -19,7 +19,7 @@ export const FormCard: FC<FormCardProps> = ({
 				<Image
 					className="w-[345px] sm:w-[270px] md:h-[150px]"
 					isBlurred
-					src="https://nextui.org/images/hero-card-complete.jpeg"
+					src={imageUrl}
 					alt="Cloud Tags"
 					width={270}
 					height={150}

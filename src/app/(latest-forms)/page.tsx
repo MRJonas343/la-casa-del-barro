@@ -1,13 +1,12 @@
 import { CardsGrid } from "@/components";
-import { cardsDataExamples } from "@/constants";
+import { getLatestForms } from "@/services/forms/getLatestForms";
 
-//The layout component will be the parent component
-//TODO : Thanks to your past you, he will give you a gift
-//Just make the page component receive the parent component
-const page = () => {
+const page = async () => {
+	const initialForms = await getLatestForms(1, 10);
+
 	return (
 		<div className="mt-5 w-screen flex justify-center">
-			<CardsGrid cardsData={cardsDataExamples} />
+			<CardsGrid cardsData={initialForms} />
 		</div>
 	);
 };
