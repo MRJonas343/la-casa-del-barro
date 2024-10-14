@@ -1,16 +1,25 @@
 "use client";
 
-import { Button, Input, Select, Textarea, Checkbox } from "@nextui-org/react";
+import {
+	Button,
+	Input,
+	Select,
+	Textarea,
+	Checkbox,
+	Popover,
+	Tooltip,
+} from "@nextui-org/react";
 import type { FormSettings, GeneralSettingsProps } from "@/interfaces";
 import { tabs, topics, usersExamples } from "@/constants";
+import { FaRegQuestionCircle } from "react-icons/fa";
+import type { Selection } from "@nextui-org/react";
 import { SelectItem } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 import { useDropzone } from "react-dropzone";
 import { SearchInput } from "@/components";
 import { useForm } from "react-hook-form";
-import type { Selection } from "@nextui-org/react";
 import { useState, type FC } from "react";
 import { createForm } from "@/services";
-import { useSession } from "next-auth/react";
 
 export const GeneralSettings: FC<GeneralSettingsProps> = ({
 	changeTab,
@@ -31,6 +40,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 
 	const onSubmit = async (data: FormSettings) => {
 		setIsSubmitting(true);
+		console.log(data);
 
 		if (data.otherTopic) data.topic = data.otherTopic;
 
@@ -40,7 +50,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 
 		const formId = await createForm(data, userId, formData);
 
-		//*TODO : SEND A TOAST WITH THE ERROR
+		//TODO : SEND A TOAST WITH THE ERROR
 		if (formId === "INVALID_FORM") return;
 		setFormId(formId.toString());
 		changeTab("set-questions");
@@ -118,6 +128,15 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 				label="Description"
 				className="w-full"
 				errorMessage="This field is required"
+				endContent={
+					<Tooltip
+						content={<p className="p-2">This field supports markdown</p>}
+					>
+						<Button isIconOnly variant="light">
+							<FaRegQuestionCircle size={20} />
+						</Button>
+					</Tooltip>
+				}
 				isInvalid={Boolean(errors.description)}
 				{...register("description", {
 					required: true,

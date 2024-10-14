@@ -62,6 +62,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 
 				<div className="sm:flex gap-4">
 					<Input
+						isRequired
 						radius="sm"
 						variant="bordered"
 						className="w-full"
@@ -72,6 +73,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 						}
 					/>
 					<Select
+						isRequired
 						radius="sm"
 						label="Type"
 						variant="bordered"
