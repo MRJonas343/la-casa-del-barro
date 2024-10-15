@@ -28,7 +28,8 @@
 		"maths": "Matemáticas",
 		"history": "Historia",
 		"animals": "Animales",
-		"sports": "Deportes"
+		"sports": "Deportes",
+		"noKey": "No hay etiquetas"
 	},
 
 	"auth": {

@@ -28,7 +28,8 @@
 		"maths": "Maths",
 		"history": "History",
 		"animals": "Animals",
-		"sports": "Sports"
+		"sports": "Sports",
+		"noKey": "No tags"
 	},
 	"auth": {
 		"title": "Welcome Back Master 🫡",

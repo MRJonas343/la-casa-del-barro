@@ -3,21 +3,19 @@
 import { Tab, Tabs } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
 import { tabs } from "@/constants";
-import type { FC } from "react";
+import { usePathname } from "next/navigation";
 
-export interface CloudTabsProps {
-	selectedKey: string | null;
-	changeTab: (tab: string) => void;
-}
-
-export const CloudTags: FC<CloudTabsProps> = ({ selectedKey, changeTab }) => {
+export const CloudTags = () => {
 	const t = useTranslations("CloudTags");
+
+	const pathname = usePathname();
+
+	const tab = pathname.split("/")[1];
 
 	return (
 		<div className="w-[95%] mx-auto justify-start max-w-[1250px] lg:mx-auto flex mt-2 lg:mt-2 overflow-x-auto scrollBarCloudTags">
 			<Tabs
-				selectedKey={selectedKey}
-				onSelectionChange={(key) => changeTab(key as string)}
+				selectedKey={tab ?? null}
 				className="max-w-[1250px]"
 				color="primary"
 				variant="light"
@@ -26,7 +24,7 @@ export const CloudTags: FC<CloudTabsProps> = ({ selectedKey, changeTab }) => {
 				{tabs.map((item) => (
 					<Tab
 						key={item.value}
-						className={item.value === "noKey" ? "hidden" : ""}
+						href={`/${item.value}`}
 						title={
 							<div className="flex items-center space-x-2">
 								{item.icon}

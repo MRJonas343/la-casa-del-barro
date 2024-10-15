@@ -10,6 +10,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState, type FC } from "react";
+import { useRouter } from "next/navigation";
 
 export const NavBar: FC = ({
 	position,

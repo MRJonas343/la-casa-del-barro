@@ -1,12 +1,11 @@
 "use client";
 
-import { getLatestForms } from "@/services/forms/getLatestForms";
+import { getLatestForms, getFormsByTag } from "@/services";
 import { CardsGrid, CloudTags, SearchInput } from "@/components";
 import type { FormCardProps } from "@/interfaces";
 import { useInView } from "react-intersection-observer";
 import { Spinner } from "@nextui-org/react";
-import { useEffect, useRef, useState } from "react";
-
+import { useRef, useState } from "react";
 export interface CardsGridProps {
 	cardsData: FormCardProps[];
 }
@@ -15,7 +14,6 @@ const MainPage = ({ cardsData }: CardsGridProps) => {
 	const [cards, setCards] = useState<FormCardProps[]>(cardsData);
 	const [fullTextSearch, setFullTextSearch] = useState("");
 	const [loading, setLoading] = useState(false);
-	const [selectedTab, setSelectedTab] = useState<null | string>("noKey");
 	const pageRef = useRef(1);
 
 	const { ref, inView } = useInView({ threshold: 0.5 });
@@ -36,8 +34,6 @@ const MainPage = ({ cardsData }: CardsGridProps) => {
 		setFullTextSearch(value);
 	};
 
-	const changeTab = (tab: string | null) => setSelectedTab(tab);
-
 	return (
 		<>
 			<div className="w-full flex lg:justify-end lg:flex mt-2 lg:max-w-[1280px] lg:mx-auto">
@@ -46,7 +42,7 @@ const MainPage = ({ cardsData }: CardsGridProps) => {
 					setValue={(value) => changeInFullTextSearch(value)}
 				/>
 			</div>
-			<CloudTags changeTab={changeTab} selectedKey={selectedTab} />
+			<CloudTags />
 			<div className="mt-5 w-screen flex justify-center">
 				<CardsGrid cardsData={cards} />
 			</div>

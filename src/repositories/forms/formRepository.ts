@@ -1,5 +1,5 @@
 import type { FormSettings } from "@/interfaces";
-import { forms, formTags, likes, users } from "@/db/schemas";
+import { forms, formTags, likes, tags, users } from "@/db/schemas";
 import { db } from "@/db";
 import { count, eq } from "drizzle-orm";
 import { desc } from "drizzle-orm";
@@ -50,7 +50,7 @@ const getLastForms = async (offset: number, limit: number) => {
 	return result;
 };
 
-const getFormsByTag = async (tag: string) => {
+const getFormsByTag = async (tag: string, offset: number, limit: number) => {
 	const result = await db
 		.select({
 			id: forms.id,
@@ -63,9 +63,11 @@ const getFormsByTag = async (tag: string) => {
 		.innerJoin(users, eq(forms.author_id, users.id))
 		.leftJoin(likes, eq(likes.form_id, forms.id))
 		.innerJoin(formTags, eq(forms.id, formTags.form_id))
-		.where(eq(formTags.tag_id, Number.parseInt(tag)))
+		.innerJoin(tags, eq(formTags.tag_id, tags.id))
+		.where(eq(tags.tag, tag))
 		.groupBy(forms.id, users.name, forms.title, forms.imageUrl)
-		.orderBy(desc(forms.created_at));
+		.limit(limit)
+		.offset((offset - 1) * limit);
 
 	return result;
 };
@@ -78,4 +80,6 @@ const findFormsWithFullTextSearch = async (search: string) => {
 export const formRepository = {
 	getLastForms,
 	createForm,
+	getFormsByTag,
+	findFormsWithFullTextSearch,
 };
