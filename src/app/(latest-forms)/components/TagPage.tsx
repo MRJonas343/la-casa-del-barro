@@ -1,13 +1,16 @@
 "use client";
 
-import { getLatestForms } from "@/services";
+import { getFormsByTag } from "@/services";
 import { CardsGrid, CloudTags, SearchInput } from "@/components";
 import type { FormCardProps } from "@/interfaces";
 import { useInView } from "react-intersection-observer";
 import { Spinner } from "@nextui-org/react";
 import { useRef, useState } from "react";
 
-const MainPage = ({ cardsData }: { cardsData: FormCardProps[] }) => {
+export const TagPage = ({
+	cardsData,
+	tag,
+}: { cardsData: FormCardProps[]; tag: string }) => {
 	const [cards, setCards] = useState<FormCardProps[]>(cardsData);
 	const [fullTextSearch, setFullTextSearch] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -20,7 +23,8 @@ const MainPage = ({ cardsData }: { cardsData: FormCardProps[] }) => {
 		if (loading || !hasMore) return;
 		setLoading(true);
 		pageRef.current += 1;
-		const { hasMore: newHasMore, forms: newForms } = await getLatestForms(
+		const { hasMore: newHasMore, forms: newForms } = await getFormsByTag(
+			tag,
 			pageRef.current,
 			10,
 		);
@@ -55,4 +59,3 @@ const MainPage = ({ cardsData }: { cardsData: FormCardProps[] }) => {
 		</>
 	);
 };
-export default MainPage;

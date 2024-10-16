@@ -1,14 +1,14 @@
 import { getFormsByTag } from "@/services";
-import MainPage from "../components/MainPage";
+import { TagPage } from "../components/TagPage";
 
 const Page = async ({ params }: { params: { tag: string } }) => {
 	const { tag } = params;
 
-	const forms = await getFormsByTag(tag, 1, 10);
+	const { forms } = await getFormsByTag(tag, 1, 10);
 
 	return (
 		<div>
-			<MainPage cardsData={forms} />
+			<TagPage cardsData={forms} tag={tag} />
 		</div>
 	);
 };

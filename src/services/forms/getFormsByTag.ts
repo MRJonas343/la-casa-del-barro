@@ -7,8 +7,9 @@ export const getFormsByTag = async (
 	offset: number,
 	limit: number,
 ) => {
-	console.log(tag);
 	const forms = await formRepository.getFormsByTag(tag, offset, limit);
 
-	return forms;
+	const hasMore = forms.length === limit;
+
+	return { hasMore, forms };
 };
