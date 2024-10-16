@@ -14,7 +14,7 @@ export const FormCard: FC<FormCardProps> = ({
 	const t = useTranslations("formCard");
 
 	return (
-		<Card className="w-full bg-transparent dark:bg-transparent sm:bg-default-50 pb-3 shadow-none sm:shadow-neutral-700/40 sm:shadow-sm rounded-none sm:rounded-2xl sm:max-w-[250px] sm:min-h-[320px] sm:mb-8 sm:dark:border-3 sm:dark:border-[#353243]">
+		<Card className="w-full bg-transparent dark:bg-transparent sm:bg-default-50 pb-3 shadow-none sm:shadow-neutral-700/40 sm:shadow-sm rounded-none sm:rounded-2xl sm:max-w-[250px] sm:min-h-[320px] sm:mb-8 sm:dark:shadow-md sm:dark:border-[#5A5A89] sm:dark:border-1 sm:dark:border-opacity-30 sm:dark:shadow-[#5A5A89]">
 			<CardHeader className="flex justify-center">
 				<Image
 					isZoomed

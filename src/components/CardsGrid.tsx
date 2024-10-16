@@ -10,7 +10,7 @@ export interface CardsGridProps {
 export const CardsGrid = ({ cardsData }: CardsGridProps) => {
 	return (
 		<div className="w-full flex flex-col items-center">
-			<section className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center w-full lg:w-[90%] max-w-[1300px]">
+			<section className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center w-full lg:w-[80%] max-w-[1300px]">
 				{cardsData.map((card) => (
 					<FormCard
 						key={card.id}
