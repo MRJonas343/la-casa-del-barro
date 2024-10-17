@@ -7,7 +7,5 @@ export const getLatestForms = async (offset: number, limit: number) => {
 
 	const hasMore = forms.length === limit;
 
-	console.log(forms);
-	console.log(hasMore);
 	return { forms, hasMore };
 };

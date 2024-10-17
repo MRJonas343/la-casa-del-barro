@@ -1,8 +1,17 @@
 import type { UsersSeed, QuestionsToSeed } from "@/interfaces";
 import { db } from ".";
-import { forms, questions, users } from "./schemas";
+import {
+	comments,
+	forms,
+	formTags,
+	likes,
+	questions,
+	tags,
+	users,
+} from "./schemas";
 import { hashPassword } from "@/utils/password";
 import "dotenv/config";
+import { sql } from "drizzle-orm";
 
 const usersToSeed: UsersSeed[] = [
 	{
@@ -150,6 +159,7 @@ const usersToSeed: UsersSeed[] = [
 const formsToSeed = [
 	{
 		author_id: 1,
+
 		title: "What do you think about Apples?",
 		topic: "Animals",
 		description:
@@ -158,7 +168,7 @@ const formsToSeed = [
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
 	{
-		author_id: 2,
+		author_id: 1,
 		title: "Do you like Dogs?",
 		topic: "Pets",
 		description:
@@ -167,7 +177,7 @@ const formsToSeed = [
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
 	{
-		author_id: 3,
+		author_id: 2,
 		title: "Your Thoughts on Climate Change?",
 		topic: "Environment",
 		description:
@@ -176,7 +186,7 @@ const formsToSeed = [
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
 	{
-		author_id: 4,
+		author_id: 2,
 		title: "Favorite Books of All Time",
 		topic: "Literature",
 		description:
@@ -185,7 +195,7 @@ const formsToSeed = [
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
 	{
-		author_id: 5,
+		author_id: 2,
 		title: "Best Travel Destinations",
 		topic: "Travel",
 		description:
@@ -194,7 +204,7 @@ const formsToSeed = [
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
 	{
-		author_id: 6,
+		author_id: 3,
 		title: "Healthy Eating Habits",
 		topic: "Health",
 		description:
@@ -203,7 +213,7 @@ const formsToSeed = [
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
 	{
-		author_id: 7,
+		author_id: 5,
 		title: "Technological Innovations",
 		topic: "Technology",
 		description:
@@ -496,58 +506,136 @@ const questionsToSeed: QuestionsToSeed[] = [
 	},
 ];
 
+const tagsToSeed = [
+	{ tag: "Animals" },
+	{ tag: "Business" },
+	{ tag: "Education" },
+	{ tag: "Environment" },
+	{ tag: "Finance" },
+	{ tag: "Health" },
+	{ tag: "History" },
+	{ tag: "Literature" },
+	{ tag: "Maths" },
+	{ tag: "Science" },
+	{ tag: "Sports" },
+	{ tag: "Technology" },
+];
+
 const formTagsToSeed = [
-	{ formId: 1, tagId: 1 },
-	{ formId: 1, tagId: 3 },
-	{ formId: 1, tagId: 5 },
-	{ formId: 2, tagId: 2 },
-	{ formId: 2, tagId: 4 },
-	{ formId: 2, tagId: 6 },
-	{ formId: 3, tagId: 3 },
-	{ formId: 3, tagId: 7 },
-	{ formId: 3, tagId: 9 },
-	{ formId: 4, tagId: 4 },
-	{ formId: 4, tagId: 8 },
-	{ formId: 4, tagId: 10 },
-	{ formId: 5, tagId: 5 },
-	{ formId: 5, tagId: 11 },
-	{ formId: 6, tagId: 6 },
-	{ formId: 6, tagId: 12 },
-	{ formId: 7, tagId: 1 },
-	{ formId: 7, tagId: 7 },
-	{ formId: 7, tagId: 9 },
-	{ formId: 8, tagId: 2 },
-	{ formId: 8, tagId: 8 },
-	{ formId: 8, tagId: 10 },
-	{ formId: 9, tagId: 3 },
-	{ formId: 9, tagId: 11 },
-	{ formId: 9, tagId: 12 },
-	{ formId: 10, tagId: 4 },
-	{ formId: 10, tagId: 6 },
-	{ formId: 10, tagId: 9 },
-	{ formId: 11, tagId: 5 },
-	{ formId: 11, tagId: 7 },
-	{ formId: 11, tagId: 10 },
-	{ formId: 12, tagId: 6 },
-	{ formId: 12, tagId: 12 },
-	{ formId: 13, tagId: 1 },
-	{ formId: 13, tagId: 4 },
-	{ formId: 13, tagId: 8 },
-	{ formId: 14, tagId: 2 },
-	{ formId: 14, tagId: 5 },
-	{ formId: 14, tagId: 11 },
-	{ formId: 15, tagId: 3 },
-	{ formId: 15, tagId: 7 },
-	{ formId: 16, tagId: 4 },
-	{ formId: 16, tagId: 9 },
-	{ formId: 17, tagId: 1 },
-	{ formId: 17, tagId: 6 },
-	{ formId: 18, tagId: 2 },
-	{ formId: 18, tagId: 8 },
-	{ formId: 19, tagId: 3 },
-	{ formId: 19, tagId: 10 },
-	{ formId: 20, tagId: 4 },
-	{ formId: 20, tagId: 12 },
+	{ form_id: 1, tag_id: 1 },
+	{ form_id: 1, tag_id: 3 },
+	{ form_id: 1, tag_id: 5 },
+	{ form_id: 2, tag_id: 2 },
+	{ form_id: 2, tag_id: 4 },
+	{ form_id: 2, tag_id: 6 },
+	{ form_id: 3, tag_id: 3 },
+	{ form_id: 3, tag_id: 7 },
+	{ form_id: 3, tag_id: 9 },
+	{ form_id: 4, tag_id: 4 },
+	{ form_id: 4, tag_id: 8 },
+	{ form_id: 4, tag_id: 10 },
+	{ form_id: 5, tag_id: 5 },
+	{ form_id: 5, tag_id: 11 },
+	{ form_id: 6, tag_id: 6 },
+	{ form_id: 6, tag_id: 12 },
+	{ form_id: 7, tag_id: 1 },
+	{ form_id: 7, tag_id: 7 },
+	{ form_id: 7, tag_id: 9 },
+	{ form_id: 8, tag_id: 2 },
+	{ form_id: 8, tag_id: 8 },
+	{ form_id: 8, tag_id: 10 },
+	{ form_id: 9, tag_id: 3 },
+	{ form_id: 9, tag_id: 11 },
+	{ form_id: 9, tag_id: 12 },
+	{ form_id: 10, tag_id: 4 },
+	{ form_id: 10, tag_id: 6 },
+	{ form_id: 10, tag_id: 9 },
+	{ form_id: 11, tag_id: 5 },
+	{ form_id: 11, tag_id: 7 },
+	{ form_id: 11, tag_id: 10 },
+	{ form_id: 12, tag_id: 6 },
+	{ form_id: 12, tag_id: 12 },
+	{ form_id: 13, tag_id: 1 },
+	{ form_id: 13, tag_id: 4 },
+	{ form_id: 13, tag_id: 8 },
+	{ form_id: 14, tag_id: 2 },
+	{ form_id: 14, tag_id: 5 },
+	{ form_id: 14, tag_id: 11 },
+	{ form_id: 15, tag_id: 3 },
+	{ form_id: 15, tag_id: 7 },
+	{ form_id: 16, tag_id: 4 },
+	{ form_id: 16, tag_id: 9 },
+	{ form_id: 17, tag_id: 1 },
+	{ form_id: 17, tag_id: 6 },
+	{ form_id: 18, tag_id: 2 },
+	{ form_id: 18, tag_id: 8 },
+	{ form_id: 19, tag_id: 3 },
+	{ form_id: 19, tag_id: 10 },
+	{ form_id: 20, tag_id: 4 },
+	{ form_id: 20, tag_id: 12 },
+];
+
+const totalForms = 20;
+const totalUsers = 20;
+
+const generateRandomLikes = () => {
+	const randomFormId = Math.floor(Math.random() * totalForms) + 1;
+	const randomUserId = Math.floor(Math.random() * totalUsers) + 1;
+
+	return { form_id: randomFormId, user_id: randomUserId };
+};
+
+const likesToSeed = () => {
+	const likes = [];
+
+	for (let i = 0; i < 30; i++) {
+		likes.push(generateRandomLikes());
+	}
+
+	return likes;
+};
+
+const commentsToSeed = [
+	{ user_id: 1, form_id: 1, comment: "Great form!" },
+	{ user_id: 2, form_id: 1, comment: "Very helpful, thanks!" },
+	{ user_id: 3, form_id: 1, comment: "I loved the design!" },
+
+	{ user_id: 1, form_id: 2, comment: "Interesting questions!" },
+	{ user_id: 2, form_id: 2, comment: "Could use more options." },
+
+	{ user_id: 1, form_id: 3, comment: "Simple and effective." },
+	{ user_id: 3, form_id: 3, comment: "Good for feedback." },
+	{ user_id: 2, form_id: 3, comment: "Loved it!" },
+
+	{ user_id: 1, form_id: 4, comment: "I have some suggestions." },
+	{ user_id: 3, form_id: 4, comment: "Great overall experience!" },
+	{ user_id: 2, form_id: 4, comment: "Would recommend!" },
+
+	{ user_id: 1, form_id: 5, comment: "Nice layout!" },
+	{ user_id: 2, form_id: 5, comment: "Easy to fill out." },
+	{ user_id: 3, form_id: 5, comment: "Good questions!" },
+	{ user_id: 3, form_id: 5, comment: "I enjoyed this." },
+
+	{ user_id: 1, form_id: 6, comment: "Not bad!" },
+	{ user_id: 2, form_id: 6, comment: "Could be improved." },
+	{ user_id: 1, form_id: 6, comment: "Very useful!" },
+
+	{ user_id: 3, form_id: 7, comment: "Awesome form!" },
+	{ user_id: 2, form_id: 7, comment: "Had some issues." },
+	{ user_id: 1, form_id: 7, comment: "Will use again!" },
+	{ user_id: 3, form_id: 7, comment: "Loved the design!" },
+
+	{ user_id: 2, form_id: 8, comment: "Great job!" },
+	{ user_id: 1, form_id: 8, comment: "I appreciate the effort." },
+	{ user_id: 3, form_id: 8, comment: "Very helpful!" },
+	{ user_id: 2, form_id: 8, comment: "Thanks for this!" },
+
+	{ user_id: 1, form_id: 9, comment: "Would love to see more forms!" },
+	{ user_id: 3, form_id: 9, comment: "Keep it up!" },
+
+	{ user_id: 2, form_id: 10, comment: "Very insightful." },
+	{ user_id: 1, form_id: 10, comment: "Had a great experience!" },
+	{ user_id: 3, form_id: 10, comment: "Nice questions!" },
 ];
 
 const seed = async () => {
@@ -561,8 +649,25 @@ const seed = async () => {
 	await db.insert(users).values(usersToInsert);
 	await db.insert(forms).values(formsToSeed);
 	await db.insert(questions).values(questionsToSeed);
+	await db.insert(tags).values(tagsToSeed);
+	await db.insert(formTags).values(formTagsToSeed);
+	await db.insert(likes).values(likesToSeed());
+	await db.insert(comments).values(commentsToSeed);
 
 	return "SUCCESS";
 };
 
+//*NOT WORKING, TO BE FIXED
+const modifyColumnsToAddFullTextSearch = () => {
+	sql`
+  ALTER TABLE forms ADD FULLTEXT(description, topic, title);
+
+  ALTER TABLE comments ADD FULLTEXT(comment);
+
+  ALTER TABLE questions ADD FULLTEXT(description, question);`;
+
+	return "SUCCESS";
+};
+
+modifyColumnsToAddFullTextSearch();
 seed();

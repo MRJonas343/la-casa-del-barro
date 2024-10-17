@@ -1,7 +1,7 @@
-import type { FormSettings } from "@/interfaces";
+import type { FormCardProps, FormSettings } from "@/interfaces";
 import { forms, formTags, likes, tags, users } from "@/db/schemas";
 import { db } from "@/db";
-import { count, eq } from "drizzle-orm";
+import { count, eq, sql } from "drizzle-orm";
 import { desc } from "drizzle-orm";
 
 const createForm = async (
@@ -73,8 +73,63 @@ const getFormsByTag = async (tag: string, offset: number, limit: number) => {
 };
 
 const findFormsWithFullTextSearch = async (search: string) => {
-	//forms can be find by title, description, author
-	//return result;
+	const [
+		resultsInFormTable,
+		resultsInUserTable,
+		resultsInQuestionsTable,
+		resultsInCommentsTable,
+	] = await Promise.all([
+		db.execute(sql`
+      SELECT f.id, f.title, u.name AS authorName, f.image_url AS imageUrl, COUNT(l.id) AS likes
+      FROM forms f
+      INNER JOIN user u ON f.author_id = u.id
+      LEFT JOIN likes l ON f.id = l.form_id
+      WHERE MATCH(f.title, f.topic, f.description) AGAINST (${search} IN NATURAL LANGUAGE MODE)
+      GROUP BY f.id, u.name, f.title, f.image_url
+    `),
+		db.execute(sql`
+      SELECT f.id, f.title, u.name AS authorName, f.image_url AS imageUrl, COUNT(l.id) AS likes
+      FROM forms f
+      INNER JOIN user u ON f.author_id = u.id
+      LEFT JOIN likes l ON f.id = l.form_id
+      WHERE u.name LIKE CONCAT('%', ${search}, '%')
+      GROUP BY f.id, u.name, f.title, f.image_url
+    `),
+		db.execute(sql`
+      SELECT f.id, f.title, u.name AS authorName, f.image_url AS imageUrl, COUNT(l.id) AS likes
+      FROM forms f
+      INNER JOIN user u ON f.author_id = u.id
+      LEFT JOIN likes l ON f.id = l.form_id
+      INNER JOIN questions q ON q.form_id = f.id
+      WHERE MATCH(q.question, q.description) AGAINST (${search} IN NATURAL LANGUAGE MODE)
+      GROUP BY f.id, u.name, f.title, f.image_url
+    `),
+		db.execute(sql`
+      SELECT f.id, f.title, u.name AS authorName, f.image_url AS imageUrl, COUNT(l.id) AS likes
+      FROM forms f
+      INNER JOIN user u ON f.author_id = u.id
+      LEFT JOIN likes l ON f.id = l.form_id
+      INNER JOIN comments c ON c.form_id = f.id
+      WHERE MATCH(c.comment) AGAINST (${search} IN NATURAL LANGUAGE MODE)
+      GROUP BY f.id, u.name, f.title, f.image_url
+    `),
+	]);
+
+	const results1 = resultsInUserTable[0] as unknown as FormCardProps[];
+	const results2 = resultsInFormTable[0] as unknown as FormCardProps[];
+	const results3 = resultsInQuestionsTable[0] as unknown as FormCardProps[];
+	const results4 = resultsInCommentsTable[0] as unknown as FormCardProps[];
+
+	const mergedResults = [
+		...results1,
+		...results2,
+		...results3,
+		...results4,
+	].filter(
+		(item, index, self) => index === self.findIndex((t) => t.id === item.id),
+	);
+
+	return mergedResults;
 };
 
 export const formRepository = {
