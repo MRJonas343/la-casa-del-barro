@@ -128,6 +128,7 @@ const findFormsWithFullTextSearch = async (search: string) => {
 	].filter(
 		(item, index, self) => index === self.findIndex((t) => t.id === item.id),
 	);
+	console.log(mergedResults);
 
 	return mergedResults;
 };

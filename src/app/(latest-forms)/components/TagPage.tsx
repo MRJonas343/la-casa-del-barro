@@ -1,11 +1,12 @@
 "use client";
 
-import { getFormsByTag } from "@/services";
+import { getFormsByTag, getFormsWithFullTextSearch } from "@/services";
 import { CardsGrid, CloudTags, SearchInput } from "@/components";
 import type { FormCardProps } from "@/interfaces";
 import { useInView } from "react-intersection-observer";
 import { Spinner } from "@nextui-org/react";
 import { useRef, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 export const TagPage = ({
 	cardsData,
@@ -33,20 +34,31 @@ export const TagPage = ({
 		setLoading(false);
 	};
 
-	if (inView && hasMore) loadMore();
+	const debouncedSearch = useDebouncedCallback(async (value: string) => {
+		const result = await getFormsWithFullTextSearch(value);
 
-	const changeInFullTextSearch = (value: string) => {
-		console.log(value);
+		if (result.length === 0) {
+			pageRef.current = 1;
+			const { forms } = await getFormsByTag(tag, 1, 10);
+			setCards(forms);
+			setHasMore(true);
+			return;
+		}
+		setCards(result);
+		setHasMore(true);
+	}, 500);
+
+	const handleInputChange = (value: string) => {
 		setFullTextSearch(value);
+		debouncedSearch(value);
 	};
+
+	if (inView && hasMore && fullTextSearch === "") loadMore();
 
 	return (
 		<>
 			<div className="w-full flex lg:justify-end lg:flex mt-2 lg:max-w-[1280px] lg:mx-auto">
-				<SearchInput
-					value={fullTextSearch}
-					setValue={(value) => changeInFullTextSearch(value)}
-				/>
+				<SearchInput value={fullTextSearch} setValue={handleInputChange} />
 			</div>
 			<CloudTags />
 			<div className="mt-5 w-screen flex justify-center">

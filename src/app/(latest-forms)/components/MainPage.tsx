@@ -38,8 +38,10 @@ const MainPage = ({ cardsData }: { cardsData: FormCardProps[] }) => {
 			pageRef.current = 1;
 			const { forms } = await getLatestForms(1, 10);
 			setCards(forms);
+			setHasMore(true);
 			return;
 		}
+		setHasMore(true);
 		setCards(result);
 	}, 500);
 
@@ -47,6 +49,8 @@ const MainPage = ({ cardsData }: { cardsData: FormCardProps[] }) => {
 		setFullTextSearch(value);
 		debouncedSearch(value);
 	};
+	console.log(fullTextSearch);
+	console.log(hasMore);
 
 	return (
 		<>
