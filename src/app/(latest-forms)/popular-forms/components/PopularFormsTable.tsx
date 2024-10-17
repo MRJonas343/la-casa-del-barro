@@ -6,7 +6,7 @@ import { popularFormsExamples, PopularFormsColumns } from "@/constants";
 
 export const PopularFormsTable = () => {
 	return (
-		<div className="w-full flex justify-center mt-3">
+		<div className="w-full flex justify-center">
 			<Table
 				aria-label="Admin Table"
 				onSelectionChange={() => {}}
