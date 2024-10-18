@@ -1,4 +1,4 @@
-import { CloudTags, NavBar, SearchInput } from "@/components";
+import { NavBar, Snackbar } from "@/components";
 import { mainPageMetaData } from "@/meta";
 
 export const metadata = mainPageMetaData;
@@ -12,6 +12,7 @@ export default function MainPageLayout({
 		<>
 			<NavBar />
 			{children}
+			<Snackbar />
 		</>
 	);
 }

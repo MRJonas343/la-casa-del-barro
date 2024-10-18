@@ -1,10 +1,13 @@
 import type { UsersSeed, QuestionsToSeed } from "@/interfaces";
 import { db } from ".";
 import {
+	answers,
 	comments,
+	filledForms,
 	forms,
 	formTags,
 	likes,
+	options,
 	questions,
 	tags,
 	users,
@@ -163,7 +166,7 @@ const formsToSeed = [
 		title: "What do you think about Apples?",
 		topic: "Animals",
 		description:
-			"#This is a form about apples  \n I would like to know what do you think about apples, your opinions, your experiences and your feelings about them",
+			"# This is a form about apples  \n I would like to know what do you think about **apples**, your opinions, your experiences and your feelings about them",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -172,7 +175,7 @@ const formsToSeed = [
 		title: "Do you like Dogs?",
 		topic: "Pets",
 		description:
-			"#This is a form about dogs  \n I would like to know your experiences with dogs, your favorite breeds, and how they impact your life",
+			"# This is a form about dogs  \n I would like to know your experiences with dogs, your favorite breeds, and how they impact your life",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -181,7 +184,7 @@ const formsToSeed = [
 		title: "Your Thoughts on Climate Change?",
 		topic: "Environment",
 		description:
-			"#This is a form about climate change  \n Share your thoughts, concerns, and actions you are taking to combat climate change",
+			"# This is a form about climate change  \n Share your thoughts, concerns, and actions you are taking to combat climate change",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -190,7 +193,7 @@ const formsToSeed = [
 		title: "Favorite Books of All Time",
 		topic: "Literature",
 		description:
-			"#This is a form about favorite books  \n Tell us about your favorite books, why they are special to you, and how they have impacted your life",
+			"# This is a form about favorite books  \n Tell us about your favorite books, why they are special to you, and how they have impacted your life",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -199,7 +202,7 @@ const formsToSeed = [
 		title: "Best Travel Destinations",
 		topic: "Travel",
 		description:
-			"#This is a form about travel  \n Share your favorite travel destinations, experiences, and tips for fellow travelers",
+			"# This is a form about travel  \n Share your favorite travel destinations, experiences, and tips for fellow travelers",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -208,7 +211,7 @@ const formsToSeed = [
 		title: "Healthy Eating Habits",
 		topic: "Health",
 		description:
-			"#This is a form about healthy eating  \n Share your tips, favorite recipes, and how healthy eating has improved your life",
+			"# This is a form about healthy eating  \n Share your tips, favorite recipes, and how healthy eating has improved your life",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -217,7 +220,7 @@ const formsToSeed = [
 		title: "Technological Innovations",
 		topic: "Technology",
 		description:
-			"#This is a form about technology  \n Discuss the latest technological innovations, their impact on society, and future trends",
+			"# This is a form about technology  \n Discuss the latest technological innovations, their impact on society, and future trends",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -226,7 +229,7 @@ const formsToSeed = [
 		title: "Music That Moves You",
 		topic: "Music",
 		description:
-			"#This is a form about music  \n Share your favorite genres, artists, and how music influences your mood and daily life",
+			"# This is a form about music  \n Share your favorite genres, artists, and how music influences your mood and daily life",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -235,7 +238,7 @@ const formsToSeed = [
 		title: "Fitness Routines",
 		topic: "Fitness",
 		description:
-			"#This is a form about fitness  \n Describe your fitness routines, favorite workouts, and how you stay motivated",
+			"# This is a form about fitness  \n Describe your fitness routines, favorite workouts, and how you stay motivated",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -244,7 +247,7 @@ const formsToSeed = [
 		title: "The Future of Work",
 		topic: "Business",
 		description:
-			"#This is a form about the future of work  \n Discuss trends, remote work, and how the workplace is evolving",
+			"# This is a form about the future of work  \n Discuss trends, remote work, and how the workplace is evolving",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -253,7 +256,7 @@ const formsToSeed = [
 		title: "Learning New Languages",
 		topic: "Education",
 		description:
-			"#This is a form about learning languages  \n Share your experiences, tips, and challenges in learning new languages",
+			"# This is a form about learning languages  \n Share your experiences, tips, and challenges in learning new languages",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -262,7 +265,7 @@ const formsToSeed = [
 		title: "Artistic Expressions",
 		topic: "Art",
 		description:
-			"#This is a form about art  \n Discuss your favorite art forms, artists, and how art impacts your life",
+			"# This is a form about art  \n Discuss your favorite art forms, artists, and how art impacts your life",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -271,7 +274,7 @@ const formsToSeed = [
 		title: "Sustainable Living",
 		topic: "Sustainability",
 		description:
-			"#This is a form about sustainable living  \n Share your practices, ideas, and how you contribute to a sustainable lifestyle",
+			"# This is a form about sustainable living  \n Share your practices, ideas, and how you contribute to a sustainable lifestyle",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -280,7 +283,7 @@ const formsToSeed = [
 		title: "Gaming Communities",
 		topic: "Gaming",
 		description:
-			"#This is a form about gaming  \n Discuss your favorite games, communities, and how gaming has influenced your life",
+			"# This is a form about gaming  \n Discuss your favorite games, communities, and how gaming has influenced your life",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -289,7 +292,7 @@ const formsToSeed = [
 		title: "Gardening Tips",
 		topic: "Gardening",
 		description:
-			"#This is a form about gardening  \n Share your gardening tips, favorite plants, and how gardening benefits your well-being",
+			"# This is a form about gardening  \n Share your gardening tips, favorite plants, and how gardening benefits your well-being",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -298,7 +301,7 @@ const formsToSeed = [
 		title: "Cooking Adventures",
 		topic: "Cooking",
 		description:
-			"#This is a form about cooking  \n Share your favorite recipes, cooking tips, and how cooking has become a part of your life",
+			"# This is a form about cooking  \n Share your favorite recipes, cooking tips, and how cooking has become a part of your life",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -307,7 +310,7 @@ const formsToSeed = [
 		title: "Mental Health Awareness",
 		topic: "Mental Health",
 		description:
-			"#This is a form about mental health  \n Discuss the importance of mental health, personal experiences, and ways to maintain mental well-being",
+			"# This is a form about mental health  \n Discuss the importance of mental health, personal experiences, and ways to maintain mental well-being",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -316,7 +319,7 @@ const formsToSeed = [
 		title: "Fashion Trends",
 		topic: "Fashion",
 		description:
-			"#This is a form about fashion  \n Share your favorite fashion trends, designers, and how fashion influences your identity",
+			"# This is a form about fashion  \n Share your favorite fashion trends, designers, and how fashion influences your identity",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -325,7 +328,7 @@ const formsToSeed = [
 		title: "Photography Techniques",
 		topic: "Photography",
 		description:
-			"#This is a form about photography  \n Discuss your favorite photography techniques, equipment, and how photography has become a hobby",
+			"# This is a form about photography  \n Discuss your favorite photography techniques, equipment, and how photography has become a hobby",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -334,7 +337,7 @@ const formsToSeed = [
 		title: "Personal Finance Tips",
 		topic: "Finance",
 		description:
-			"#This is a form about personal finance  \n Share your tips on budgeting, saving, and investing for a secure financial future",
+			"# This is a form about personal finance  \n Share your tips on budgeting, saving, and investing for a secure financial future",
 		isPublic: true,
 		imageUrl: process.env.DEFAULT_IMAGE_URL ?? "",
 	},
@@ -373,7 +376,14 @@ const questionsToSeed: QuestionsToSeed[] = [
 		order: 4,
 		type: "short",
 	},
-
+	{
+		formId: 1,
+		question: "Are apples good for you?",
+		description: "Yes or No.",
+		displayInTable: true,
+		order: 5,
+		type: "single",
+	},
 	{
 		formId: 2,
 		question: "Do you have a dog?",
@@ -638,6 +648,136 @@ const commentsToSeed = [
 	{ user_id: 3, form_id: 10, comment: "Nice questions!" },
 ];
 
+const filledFormsToSeed = [
+	{
+		form_id: 1,
+		user_id: 1,
+	},
+	{
+		form_id: 1,
+		user_id: 2,
+	},
+	{
+		form_id: 1,
+		user_id: 3,
+	},
+	{
+		form_id: 1,
+		user_id: 5,
+	},
+	{
+		form_id: 1,
+		user_id: 4,
+	},
+	{
+		form_id: 1,
+		user_id: 6,
+	},
+	{
+		form_id: 2,
+		user_id: 3,
+	},
+	{
+		form_id: 2,
+		user_id: 4,
+	},
+	{
+		form_id: 2,
+		user_id: 5,
+	},
+	{
+		form_id: 2,
+		user_id: 2,
+	},
+	{
+		form_id: 2,
+		user_id: 7,
+	},
+	{
+		form_id: 3,
+		user_id: 6,
+	},
+	{
+		form_id: 3,
+		user_id: 2,
+	},
+	{
+		form_id: 3,
+		user_id: 8,
+	},
+	{
+		form_id: 3,
+		user_id: 9,
+	},
+	{
+		form_id: 6,
+		user_id: 3,
+	},
+	{
+		form_id: 6,
+		user_id: 5,
+	},
+	{
+		form_id: 6,
+		user_id: 8,
+	},
+	{
+		form_id: 7,
+		user_id: 4,
+	},
+	{
+		form_id: 7,
+		user_id: 2,
+	},
+	{
+		form_id: 8,
+		user_id: 3,
+	},
+];
+
+const optionsToSeed = [
+	{ questionId: 1, optionText: "Green" },
+	{ questionId: 1, optionText: "Red" },
+	{ questionId: 1, optionText: "Golden" },
+	{ questionId: 1, optionText: "All of them are good" },
+];
+
+const answersToSeed = [
+	{ questionID: 1, filledFormID: 1, value: "Green" },
+	{
+		questionID: 2,
+		filledFormID: 1,
+		value: "Because I like them, I will buy them",
+	},
+	{ questionID: 3, filledFormID: 1, value: 4 },
+	{ questionID: 4, filledFormID: 1, value: "Fresh" },
+
+	{ questionID: 1, filledFormID: 2, value: "Golden" },
+	{ questionID: 2, filledFormID: 2, value: "I love them" },
+	{ questionID: 3, filledFormID: 2, value: 5 },
+	{ questionID: 4, filledFormID: 2, value: "Frozen" },
+
+	{ questionID: 1, filledFormID: 3, value: "All of them are good" },
+	{ questionID: 2, filledFormID: 3, value: "I love them" },
+	{ questionID: 3, filledFormID: 3, value: 5 },
+	{ questionID: 4, filledFormID: 3, value: "Frozen" },
+
+	{ questionID: 1, filledFormID: 4, value: "All of them are good" },
+	{ questionID: 2, filledFormID: 4, value: "I love them" },
+	{ questionID: 3, filledFormID: 4, value: 5 },
+	{ questionID: 4, filledFormID: 4, value: "Frozen" },
+
+	{ questionID: 1, filledFormID: 5, value: "All of them are good" },
+	{ questionID: 2, filledFormID: 5, value: "I love them" },
+	{ questionID: 3, filledFormID: 5, value: 5 },
+	{ questionID: 4, filledFormID: 5, value: "Frozen" },
+
+	{ questionID: 1, filledFormID: 6, value: "Red" },
+	{ questionID: 2, filledFormID: 6, value: "I love them" },
+	{ questionID: 3, filledFormID: 6, value: 5 },
+	{ questionID: 4, filledFormID: 6, value: "Frozen" },
+];
+
 const seed = async () => {
 	const usersToInsert = await Promise.all(
 		usersToSeed.map(async (user) => ({
@@ -653,21 +793,24 @@ const seed = async () => {
 	await db.insert(formTags).values(formTagsToSeed);
 	await db.insert(likes).values(likesToSeed());
 	await db.insert(comments).values(commentsToSeed);
+	await db.insert(filledForms).values(filledFormsToSeed);
+	await db.insert(options).values(optionsToSeed);
+	await db.insert(answers).values(answersToSeed);
 
 	return "SUCCESS";
 };
 
 //*NOT WORKING, TO BE FIXED
-const modifyColumnsToAddFullTextSearch = () => {
-	sql`
-  ALTER TABLE forms ADD FULLTEXT(description, topic, title);
+// const modifyColumnsToAddFullTextSearch = () => {
+// 	sql`
+//   ALTER TABLE forms ADD FULLTEXT(description, topic, title);
 
-  ALTER TABLE comments ADD FULLTEXT(comment);
+//   ALTER TABLE comments ADD FULLTEXT(comment);
 
-  ALTER TABLE questions ADD FULLTEXT(description, question);`;
+//   ALTER TABLE questions ADD FULLTEXT(description, question);`;
 
-	return "SUCCESS";
-};
+// 	return "SUCCESS";
+// };
 
-modifyColumnsToAddFullTextSearch();
+// modifyColumnsToAddFullTextSearch();
 seed();

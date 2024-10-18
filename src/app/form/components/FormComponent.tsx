@@ -8,25 +8,30 @@ import {
 	Image,
 	Button,
 	Checkbox,
+	Input,
 } from "@nextui-org/react";
-import type { FormProps, QuestionProps } from "@/interfaces";
-import { MarkdownRenderArea, QuestionField, Snackbar } from "@/components";
+import type { FormProps, QuestionProps, Comment } from "@/interfaces";
+import { MarkdownRenderArea, QuestionField } from "@/components";
 import { FaHeart } from "react-icons/fa6";
-import { useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import { useSession } from "next-auth/react";
-import { fillForm } from "@/services";
+import { createComment, fillForm } from "@/services";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { IoMdSend } from "react-icons/io";
 
 export const FormComponent: FC<FormProps> = ({
 	questions,
 	formGeneralData,
+	comments,
 }) => {
 	const [questionsState, setQuestionsState] =
 		useState<QuestionProps[]>(questions);
 	const [isFormLiked, setIsFormLiked] = useState(false);
 	const [shouldSendCopy, setShouldSendCopy] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [commentsState, setCommentsState] = useState<Comment[]>(comments);
+	const [comment, setComment] = useState("");
 	const { data: session } = useSession();
 	const router = useRouter();
 
@@ -58,6 +63,26 @@ export const FormComponent: FC<FormProps> = ({
 
 		setIsSubmitting(false);
 	};
+
+	const uploadComment = async () => {
+		if (!comment) return;
+		const result = await createComment(
+			formGeneralData.id,
+			Number.parseInt(session?.user?.id ?? ""),
+			comment,
+		);
+		setCommentsState(result);
+		setComment("");
+	};
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		if (!session) {
+			toast("You are in read only mode, please login to fill the form", {
+				duration: 5000,
+			});
+		}
+	}, []);
 
 	return (
 		<>
@@ -91,6 +116,7 @@ export const FormComponent: FC<FormProps> = ({
 
 				<div className="w-full max-w-[800px] mx-auto flex flex-col gap-4">
 					<Checkbox
+						isDisabled={!session}
 						className="px-3"
 						isSelected={shouldSendCopy}
 						onValueChange={setShouldSendCopy}
@@ -99,6 +125,7 @@ export const FormComponent: FC<FormProps> = ({
 					</Checkbox>
 
 					<Checkbox
+						isDisabled={!session}
 						className="px-3"
 						icon={<FaHeart />}
 						color="danger"
@@ -109,6 +136,7 @@ export const FormComponent: FC<FormProps> = ({
 					</Checkbox>
 
 					<Button
+						isDisabled={!session}
 						onClick={submitForm}
 						isLoading={isSubmitting}
 						variant="shadow"
@@ -119,8 +147,41 @@ export const FormComponent: FC<FormProps> = ({
 						Submit
 					</Button>
 				</div>
+
+				<Divider className="mt-4" />
+				<div className="mx-2">
+					<h2 className="text-lg font-semibold text-center mt-4 mb-2">
+						Comments
+					</h2>
+
+					<Card className="w-full max-w-[800px] mx-auto flex flex-col p-4">
+						<div className="w-full flex mb-2">
+							<Input
+								radius="sm"
+								placeholder="Add a comment"
+								value={comment}
+								onValueChange={setComment}
+							/>
+							<Button
+								radius="sm"
+								variant="flat"
+								color="primary"
+								className="ml-2"
+								onClick={uploadComment}
+								isIconOnly
+							>
+								<IoMdSend size={20} />
+							</Button>
+						</div>
+						{commentsState.map((comment) => (
+							<div className="flex flex-col pb-3 px-1" key={comment.id}>
+								<p className="text-sm text-gray-500">{comment.userName}</p>
+								<p className="text-sm">{comment.comment}</p>
+							</div>
+						))}
+					</Card>
+				</div>
 			</section>
-			<Snackbar />
 		</>
 	);
 };

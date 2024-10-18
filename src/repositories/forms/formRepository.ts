@@ -9,7 +9,7 @@ import {
 	users,
 } from "@/db/schemas";
 import { db } from "@/db";
-import { count, eq, sql } from "drizzle-orm";
+import { count, eq, sql, and } from "drizzle-orm";
 import { desc } from "drizzle-orm";
 
 const createForm = async (
@@ -171,7 +171,32 @@ const insertAnswers = async (data: NewFilledForm) => {
 };
 
 const insertLike = async (data: NewFilledForm) => {
+	const isFormLiked = await db
+		.select({
+			id: likes.id,
+		})
+		.from(likes)
+		.where(and(eq(likes.form_id, data.formId), eq(likes.user_id, data.userId)))
+		.limit(1);
+
+	if (isFormLiked.length > 0) return;
+
 	await db.insert(likes).values({ form_id: data.formId, user_id: data.userId });
+};
+
+const haveTheUserFilledTheForm = async (formId: number, userId: number) => {
+	const result = await db
+		.select({
+			id: filledForms.id,
+			user_id: filledForms.user_id,
+		})
+		.from(filledForms)
+		.where(
+			and(eq(filledForms.form_id, formId), eq(filledForms.user_id, userId)),
+		)
+		.limit(1);
+
+	return result.length > 0;
 };
 
 export const formRepository = {
@@ -182,4 +207,5 @@ export const formRepository = {
 	findFormsWithFullTextSearch,
 	insertAnswers,
 	insertLike,
+	haveTheUserFilledTheForm,
 };

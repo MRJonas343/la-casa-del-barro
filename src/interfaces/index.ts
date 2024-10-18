@@ -1,3 +1,4 @@
+export * from "./Comment";
 export * from "./FormCard";
 export * from "./FormProps";
 export * from "./FormSettings";
