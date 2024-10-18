@@ -1,6 +1,7 @@
 "use server";
 
 import { commentsRepository } from "@/repositories";
+import { revalidatePath } from "next/cache";
 
 export const createComment = async (
 	formId: number,
@@ -13,7 +14,7 @@ export const createComment = async (
 		comment,
 	);
 
-	const newComments = await commentsRepository.getComments(formId);
+	revalidatePath(`/form/${formId}`);
 
-	return newComments;
+	return "SUCCESS";
 };

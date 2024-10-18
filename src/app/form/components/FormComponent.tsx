@@ -71,7 +71,7 @@ export const FormComponent: FC<FormProps> = ({
 			Number.parseInt(session?.user?.id ?? ""),
 			comment,
 		);
-		setCommentsState(result);
+		//setCommentsState(result);
 		setComment("");
 	};
 
@@ -173,7 +173,7 @@ export const FormComponent: FC<FormProps> = ({
 								<IoMdSend size={20} />
 							</Button>
 						</div>
-						{commentsState.map((comment) => (
+						{comments.map((comment) => (
 							<div className="flex flex-col pb-3 px-1" key={comment.id}>
 								<p className="text-sm text-gray-500">{comment.userName}</p>
 								<p className="text-sm">{comment.comment}</p>
