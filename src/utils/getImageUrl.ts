@@ -15,7 +15,9 @@ export const getImageUrl = async (
 
 		if (!isImageCorrect) imageUrl;
 
-		imageUrl = await uploadImage(image, userId, formTitle);
+		const formatedTitle = formTitle.replaceAll(" ", "-");
+
+		imageUrl = await uploadImage(image, userId, formatedTitle);
 	}
 	return imageUrl;
 };

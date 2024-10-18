@@ -1,5 +1,13 @@
-import type { FormCardProps, FormSettings } from "@/interfaces";
-import { forms, formTags, likes, tags, users } from "@/db/schemas";
+import type { FormCardProps, FormSettings, NewFilledForm } from "@/interfaces";
+import {
+	answers,
+	filledForms,
+	forms,
+	formTags,
+	likes,
+	tags,
+	users,
+} from "@/db/schemas";
 import { db } from "@/db";
 import { count, eq, sql } from "drizzle-orm";
 import { desc } from "drizzle-orm";
@@ -133,9 +141,45 @@ const findFormsWithFullTextSearch = async (search: string) => {
 	return mergedResults;
 };
 
+const getFormById = async (id: number) => {
+	const result = await db.query.forms.findFirst({
+		where: eq(forms.id, id),
+	});
+
+	return result;
+};
+
+const insertFilledForm = async (data: NewFilledForm) => {
+	const result = await db.insert(filledForms).values({
+		form_id: data.formId,
+		user_id: data.userId,
+	});
+
+	return result[0].insertId;
+};
+
+const insertAnswers = async (data: NewFilledForm) => {
+	const filledFormId = await insertFilledForm(data);
+
+	const answersToInsert = data.form.map((question) => ({
+		questionID: question.id,
+		filledFormID: filledFormId,
+		value: question.value,
+	}));
+
+	await db.insert(answers).values(answersToInsert);
+};
+
+const insertLike = async (data: NewFilledForm) => {
+	await db.insert(likes).values({ form_id: data.formId, user_id: data.userId });
+};
+
 export const formRepository = {
+	getFormById,
 	getLastForms,
 	createForm,
 	getFormsByTag,
 	findFormsWithFullTextSearch,
+	insertAnswers,
+	insertLike,
 };

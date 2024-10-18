@@ -1,8 +1,11 @@
+"use client";
+
 import { Button, Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 import type { FormCardProps } from "@/interfaces";
 import { FcLike } from "react-icons/fc";
 import type { FC } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 export const FormCard: FC<FormCardProps> = ({
 	id,
@@ -12,6 +15,12 @@ export const FormCard: FC<FormCardProps> = ({
 	imageUrl,
 }) => {
 	const t = useTranslations("formCard");
+
+	const router = useRouter();
+
+	const redirectToForm = () => {
+		router.push(`/form/${id}`);
+	};
 
 	return (
 		<Card className="w-full bg-transparent dark:bg-transparent sm:bg-default-50 pb-3 shadow-none sm:shadow-neutral-700/40 sm:shadow-sm rounded-none sm:rounded-2xl sm:max-w-[250px] sm:min-h-[320px] sm:mb-8 sm:dark:shadow-md sm:dark:border-[#5A5A89] sm:dark:border-1 sm:dark:border-opacity-30 sm:dark:shadow-[#5A5A89]">
@@ -33,7 +42,12 @@ export const FormCard: FC<FormCardProps> = ({
 						<FcLike size={25} />
 						<span>{likes}</span>
 					</div>
-					<Button radius="sm" variant="flat" color="primary" className="">
+					<Button
+						radius="sm"
+						variant="flat"
+						color="primary"
+						onClick={redirectToForm}
+					>
 						{t("answer")}
 					</Button>
 				</div>
