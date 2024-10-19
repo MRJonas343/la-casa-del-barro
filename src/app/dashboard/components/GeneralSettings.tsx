@@ -42,7 +42,6 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 
 	const onSubmit = async (data: FormSettings) => {
 		setIsSubmitting(true);
-		console.log(data);
 
 		if (data.otherTopic) data.topic = data.otherTopic;
 

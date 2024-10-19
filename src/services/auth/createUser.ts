@@ -43,7 +43,6 @@ export const createUser = async (
 
 		return "SUCCESS";
 	} catch (error) {
-		console.log(error);
 		return "ERROR";
 	}
 };

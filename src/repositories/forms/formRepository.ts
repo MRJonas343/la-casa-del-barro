@@ -136,7 +136,6 @@ const findFormsWithFullTextSearch = async (search: string) => {
 	].filter(
 		(item, index, self) => index === self.findIndex((t) => t.id === item.id),
 	);
-	console.log(mergedResults);
 
 	return mergedResults;
 };
@@ -199,6 +198,25 @@ const haveTheUserFilledTheForm = async (formId: number, userId: number) => {
 	return result.length > 0;
 };
 
+const getPopularForms = async () => {
+	const result = await db
+		.select({
+			id: forms.id,
+			title: forms.title,
+			authorName: users.name,
+			imageUrl: forms.imageUrl,
+			answerTimes: count(filledForms.id),
+		})
+		.from(forms)
+		.innerJoin(users, eq(forms.author_id, users.id))
+		.leftJoin(filledForms, eq(filledForms.form_id, forms.id))
+		.groupBy(forms.id, users.name, forms.title, forms.imageUrl)
+		.orderBy(desc(count(filledForms.id)))
+		.limit(5);
+
+	return result;
+};
+
 export const formRepository = {
 	getFormById,
 	getLastForms,
@@ -208,4 +226,5 @@ export const formRepository = {
 	insertAnswers,
 	insertLike,
 	haveTheUserFilledTheForm,
+	getPopularForms,
 };

@@ -49,8 +49,6 @@ const MainPage = ({ cardsData }: { cardsData: FormCardProps[] }) => {
 		setFullTextSearch(value);
 		debouncedSearch(value);
 	};
-	console.log(fullTextSearch);
-	console.log(hasMore);
 
 	return (
 		<>

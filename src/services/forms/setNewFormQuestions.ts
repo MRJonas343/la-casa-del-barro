@@ -15,7 +15,6 @@ export const setNewFormQuestions = async (
 	try {
 		await questionsRepository.setNewFormQuestions(formId, questions);
 	} catch (error) {
-		console.log(error);
 		return "ERROR";
 	}
 

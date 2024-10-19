@@ -11,20 +11,25 @@ import {
 import { Table, TableBody, TableCell, getKeyValue } from "@nextui-org/react";
 import { MyFormsColumns, myFormsExamples } from "@/constants";
 import { useAsyncList } from "@react-stately/data";
-import { useState } from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useTranslations } from "next-intl";
+import { useState, type FC } from "react";
+import type { UserForms } from "@/interfaces";
 
-export const MyFormsTable = () => {
+interface MyFormsTableProps {
+	forms: UserForms[];
+}
+
+export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
+	const [formsState, setFormsState] = useState<UserForms[]>(forms);
 	const [isLoading, setIsLoading] = useState(true);
 	const t = useTranslations("myFormsTable");
 
 	const list = useAsyncList({
 		async load() {
-			//*TODO USE THE DATA COMING FROM THE PARENT COMPONENT
 			setIsLoading(false);
 			return {
-				items: myFormsExamples,
+				items: formsState,
 			};
 		},
 		async sort({ items, sortDescriptor }) {
@@ -84,7 +89,7 @@ export const MyFormsTable = () => {
 					<TableHeader columns={MyFormsColumns}>
 						<TableColumn
 							allowsSorting
-							key="name"
+							key="title"
 							align="start"
 							className="lg:text-lg"
 						>

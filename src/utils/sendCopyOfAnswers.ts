@@ -12,6 +12,4 @@ export const sendCopyOfAnswers = async (formData: NewFilledForm) => {
 		subject: "Hello World",
 		react: EmailTemplate(formData),
 	});
-
-	console.log(data);
 };

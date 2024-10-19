@@ -1,5 +1,5 @@
 export const MyFormsColumns = [
-	{ key: "name", label: "Name" },
+	{ key: "title", label: "Title" },
 	{ key: "likes", label: "Likes" },
 	{ key: "totalAnswers", label: "Total Answers" },
 ];

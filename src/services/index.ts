@@ -9,5 +9,7 @@ export * from "./forms/getFormById";
 export * from "./forms/getFormsByTag";
 export * from "./forms/getFormsWithFullTextSearch";
 export * from "./forms/getLatestForms";
+export * from "./forms/getPopularForms";
+export * from "./forms/getUserForms";
 export * from "./forms/setNewFormQuestions";
 export * from "./lang/local";

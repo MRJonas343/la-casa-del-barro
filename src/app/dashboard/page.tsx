@@ -1,3 +1,4 @@
+import { getUserForms } from "@/services";
 import { redirect } from "next/navigation";
 import { Dashboard } from "./components";
 import { NavBar } from "@/components";
@@ -8,10 +9,14 @@ const page = async () => {
 
 	if (!session) return redirect("/login");
 
+	const userForms = await getUserForms(
+		Number.parseInt(session?.user?.id ?? ""),
+	);
+
 	return (
 		<>
 			<NavBar />
-			<Dashboard />
+			<Dashboard userForms={userForms} />
 		</>
 	);
 };

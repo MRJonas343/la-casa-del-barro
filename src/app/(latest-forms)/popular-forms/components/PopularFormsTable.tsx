@@ -2,9 +2,14 @@
 
 import { Button, Table, TableBody, TableCell } from "@nextui-org/react";
 import { TableHeader, TableColumn, TableRow } from "@nextui-org/react";
-import { popularFormsExamples, PopularFormsColumns } from "@/constants";
+import { PopularFormsColumns } from "@/constants";
+import type { PopularForms } from "@/interfaces";
+import { useRouter } from "next/navigation";
+import type { FC } from "react";
 
-export const PopularFormsTable = () => {
+export const PopularFormsTable: FC<PopularForms> = ({ popularForms }) => {
+	const router = useRouter();
+
 	return (
 		<div className="w-full flex justify-center">
 			<Table
@@ -22,8 +27,8 @@ export const PopularFormsTable = () => {
 					)}
 				</TableHeader>
 				<TableBody>
-					{popularFormsExamples.map((item, index) => (
-						<TableRow key={item.position}>
+					{popularForms.map((form, index) => (
+						<TableRow key={form.id}>
 							<TableCell className="px-2 sm:px-3 sm:text-2xl lg:text-6xl font-semibold sm:w-[15%]">
 								<div
 									className={`sm:flex sm:justify-center ${index + 1 === 1 ? "text-yellow-500" : index + 1 === 2 ? "text-gray-500 brightness-150" : index + 1 === 3 ? "text-yellow-800" : ""}`}
@@ -33,14 +38,14 @@ export const PopularFormsTable = () => {
 							</TableCell>
 							<TableCell className="sm:p-4 sm:flex sm:flex-col gap-1">
 								<p className=" font-semibold sm:text-xl md:text-2xl lg:text-3xl">
-									{item.body.title}
+									{form.title}
 								</p>
 								<div className="pt-1">
 									<span className="pr-3 sm:pr-10 opacity-60 lg:text-lg">
-										{item.body.answers} answers
+										{form.answerTimes} answers
 									</span>
 									<span className="opacity-60  lg:text-lg">
-										By {item.body.author}
+										By {form.authorName}
 									</span>
 								</div>
 							</TableCell>
@@ -50,6 +55,7 @@ export const PopularFormsTable = () => {
 									color="primary"
 									variant="flat"
 									className="sm:mx-auto sm:w-[80%] sm:h-12 sm:flex sm:font-semibold"
+									onClick={() => router.push(`/form/${form.id}`)}
 								>
 									Answer
 								</Button>
