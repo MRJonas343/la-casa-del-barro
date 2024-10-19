@@ -1,25 +1,44 @@
 import { db } from "@/db";
-import { filledForms, forms } from "@/db/schemas";
-import { users } from "@/db/schemas";
-import { countDistinct, eq } from "drizzle-orm";
-import { likes } from "@/db/schemas";
+import { forms, questions } from "@/db/schemas";
+import { eq, and } from "drizzle-orm";
 
 const getUserForms = async (userId: number) => {
-	const result = await db
+	const formsResult = await db
 		.select({
-			id: forms.id,
+			formId: forms.id,
+			formName: forms.title,
+			topic: forms.topic,
 			title: forms.title,
-			totalAnswers: countDistinct(filledForms.id),
-			likes: countDistinct(likes.id),
 		})
 		.from(forms)
-		.innerJoin(users, eq(forms.author_id, users.id))
-		.leftJoin(filledForms, eq(filledForms.form_id, forms.id))
-		.leftJoin(likes, eq(likes.form_id, forms.id))
-		.where(eq(users.id, userId))
-		.groupBy(forms.id, forms.title);
+		.where(eq(forms.author_id, userId));
 
-	return result;
+	const formWithQuestions = await Promise.all(
+		formsResult.map(async (form) => {
+			const questionsResult = await db
+				.select({
+					question: questions.question,
+				})
+				.from(questions)
+				.where(
+					and(
+						eq(questions.formId, form.formId),
+						eq(questions.displayInTable, true),
+					),
+				);
+
+			const questionsArray = questionsResult.map((q) => q.question);
+
+			return {
+				formId: form.formId,
+				topic: form.topic,
+				formName: form.formName,
+				questions: questionsArray,
+			};
+		}),
+	);
+
+	return formWithQuestions;
 };
 
 export const dashboardRepository = {

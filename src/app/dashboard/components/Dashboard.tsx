@@ -3,13 +3,13 @@
 import { DashboardTabs, MyFormsTable, MyFilledForm } from ".";
 import { SearchInput } from "@/components";
 import type { UserForms } from "@/interfaces";
-import { useState, type FC } from "react";
+import { useState } from "react";
 
 interface DashboardProps {
 	userForms: UserForms[];
 }
 
-export const Dashboard: FC<DashboardProps> = ({ userForms }) => {
+export const Dashboard = ({ userForms }: DashboardProps) => {
 	const [tab, setTab] = useState("my-forms");
 
 	const changeTab = (tab: string) => setTab(tab);
@@ -24,7 +24,8 @@ export const Dashboard: FC<DashboardProps> = ({ userForms }) => {
 			</div>
 			{tab === "my-forms" ? (
 				<>
-					<MyFormsTable forms={userForms} />
+					{" "}
+					<MyFormsTable forms={userForms} />{" "}
 				</>
 			) : (
 				<>

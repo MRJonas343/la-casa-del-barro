@@ -1,6 +1,9 @@
 export interface UserForms {
-	id: number;
-	title: string;
-	totalAnswers: number;
-	likes: number;
+	formId: number;
+	formName: string;
+	topic: string;
+	questions: (string | null)[];
+}
+export interface MyFormsTableProps {
+	forms: UserForms[];
 }

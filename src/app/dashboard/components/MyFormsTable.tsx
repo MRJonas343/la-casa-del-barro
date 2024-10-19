@@ -9,16 +9,12 @@ import {
 	Link,
 } from "@nextui-org/react";
 import { Table, TableBody, TableCell, getKeyValue } from "@nextui-org/react";
-import { MyFormsColumns, myFormsExamples } from "@/constants";
+import type { MyFormsTableProps, UserForms } from "@/interfaces";
+import { MyFormsColumns } from "@/constants";
 import { useAsyncList } from "@react-stately/data";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useTranslations } from "next-intl";
 import { useState, type FC } from "react";
-import type { UserForms } from "@/interfaces";
-
-interface MyFormsTableProps {
-	forms: UserForms[];
-}
 
 export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 	const [formsState, setFormsState] = useState<UserForms[]>(forms);
@@ -87,29 +83,14 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 					onSortChange={list.sort}
 				>
 					<TableHeader columns={MyFormsColumns}>
-						<TableColumn
-							allowsSorting
-							key="title"
-							align="start"
-							className="lg:text-lg"
-						>
-							{t("name")}
+						<TableColumn allowsSorting key="formName" className="lg:text-lg">
+							Form Name
 						</TableColumn>
-						<TableColumn
-							allowsSorting
-							key="likes"
-							align="center"
-							className="lg:text-lg"
-						>
-							{t("likes")}
+						<TableColumn allowsSorting key="topic" className="lg:text-lg">
+							Topic
 						</TableColumn>
-						<TableColumn
-							allowsSorting
-							key="totalAnswers"
-							align="center"
-							className="lg:text-lg"
-						>
-							{t("totalAnswers")}
+						<TableColumn allowsSorting key="questions">
+							Questions
 						</TableColumn>
 					</TableHeader>
 					<TableBody
@@ -118,10 +99,20 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 						loadingContent={<Spinner size="lg" label="Loading..." />}
 					>
 						{(item) => (
-							<TableRow key={item.id}>
+							<TableRow key={item.formId}>
 								{(columnKey) => (
 									<TableCell className="lg:text-lg">
-										{getKeyValue(item, columnKey)}
+										{columnKey === "questions" ? (
+											<ul className="list-disc list-inside">
+												{item.questions?.map((question) => (
+													<li key={question}>
+														{question || "No question available"}
+													</li>
+												))}
+											</ul>
+										) : (
+											getKeyValue(item, columnKey)
+										)}
 									</TableCell>
 								)}
 							</TableRow>
