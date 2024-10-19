@@ -56,7 +56,7 @@ const FilledQuestion: FC<Question> = ({
 						color="primary"
 						variant="bordered"
 						label={"Tu respuesta"}
-						value={question}
+						value={answer as string}
 						description={description}
 					/>
 				)}
