@@ -1,15 +1,16 @@
 "use client";
 
 import { DashboardTabs, MyFormsTable, MyFilledForm } from ".";
+import type { FilledForm, UserForms } from "@/interfaces";
 import { SearchInput } from "@/components";
-import type { UserForms } from "@/interfaces";
 import { useState } from "react";
 
 interface DashboardProps {
 	userForms: UserForms[];
+	filledForms: FilledForm[];
 }
 
-export const Dashboard = ({ userForms }: DashboardProps) => {
+export const Dashboard = ({ userForms, filledForms }: DashboardProps) => {
 	const [tab, setTab] = useState("my-forms");
 
 	const changeTab = (tab: string) => setTab(tab);
@@ -29,7 +30,7 @@ export const Dashboard = ({ userForms }: DashboardProps) => {
 				</>
 			) : (
 				<>
-					<MyFilledForm />
+					<MyFilledForm filledForms={filledForms} />
 				</>
 			)}
 		</>

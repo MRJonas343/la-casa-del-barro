@@ -1,5 +1,6 @@
 export * from "./CardsDataExample";
 export * from "./CloudTags";
+export * from "./FilledFormsColumns";
 export * from "./InitialQUestion";
 export * from "./MyFormsColumns";
 export * from "./MyFormsExample";

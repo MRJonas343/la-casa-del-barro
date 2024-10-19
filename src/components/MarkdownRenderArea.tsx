@@ -1,7 +1,9 @@
 import { Code, Image, Link } from "@nextui-org/react";
 import ReactMarkdown from "react-markdown";
 
-export const MarkdownRenderArea = ({ children }: { children: string }) => {
+export const MarkdownRenderArea = ({
+	children,
+}: { children: string | undefined }) => {
 	return (
 		<ReactMarkdown
 			components={{

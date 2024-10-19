@@ -12,17 +12,13 @@ export const questions = mysqlTable("questions", {
 	formId: int("form_id")
 		.notNull()
 		.references(() => forms.id, { onDelete: "cascade" }),
-	question: text("question"),
+	question: text("question").notNull(),
 	description: text("description"),
-	displayInTable: boolean("display_in_table").default(false),
+	displayInTable: boolean("display_in_table").default(false).notNull(),
 	order: int("order").notNull(),
-	type: mysqlEnum("type", [
-		"short",
-		"long",
-		"numeric",
-		"single",
-		"multiple",
-	]).default("short"),
+	type: mysqlEnum("type", ["short", "long", "numeric", "single", "multiple"])
+		.default("short")
+		.notNull(),
 });
 
 export type InsertQuestion = typeof questions.$inferInsert;

@@ -26,7 +26,7 @@ export const NavBar: FC = ({
 
 	return (
 		<Navbar
-			position={position ?? "static"}
+			position={position ?? "sticky"}
 			isBordered
 			onMenuOpenChange={setIsMenuOpen}
 			maxWidth="xl"

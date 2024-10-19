@@ -1,5 +1,6 @@
 export * from "./CardsGrid";
 export * from "./CloudTags";
+export * from "./CommentsSection";
 export * from "./EmailTemplate";
 export * from "./FormCard";
 export * from "./FormMasterLogo";

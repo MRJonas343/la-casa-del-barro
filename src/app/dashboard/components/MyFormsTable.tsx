@@ -89,7 +89,7 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 						<TableColumn allowsSorting key="topic" className="lg:text-lg">
 							Topic
 						</TableColumn>
-						<TableColumn allowsSorting key="questions">
+						<TableColumn allowsSorting key="questions" className="lg:text-lg">
 							Questions
 						</TableColumn>
 					</TableHeader>

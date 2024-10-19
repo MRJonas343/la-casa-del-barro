@@ -10,7 +10,7 @@ export const filledForms = mysqlTable("filled_forms", {
 	user_id: int("user_id")
 		.notNull()
 		.references(() => users.id, { onDelete: "cascade" }),
-	filled_at: timestamp().default(sql`(CURRENT_TIMESTAMP)`),
+	filled_at: timestamp().default(sql`(CURRENT_TIMESTAMP)`).notNull(),
 });
 
 export type InsertFilledForm = typeof filledForms.$inferInsert;

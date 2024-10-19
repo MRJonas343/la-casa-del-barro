@@ -1,6 +1,6 @@
+import { filledForms, forms, questions } from "@/db/schemas";
+import { eq, and, desc } from "drizzle-orm";
 import { db } from "@/db";
-import { forms, questions } from "@/db/schemas";
-import { eq, and } from "drizzle-orm";
 
 const getUserForms = async (userId: number) => {
 	const formsResult = await db
@@ -41,6 +41,23 @@ const getUserForms = async (userId: number) => {
 	return formWithQuestions;
 };
 
+const getUserFilledForms = async (userId: number) => {
+	const result = await db
+		.select({
+			formId: forms.id,
+			formName: forms.title,
+			topic: forms.topic,
+			filledAt: filledForms.filled_at,
+		})
+		.from(filledForms)
+		.innerJoin(forms, eq(filledForms.form_id, forms.id))
+		.where(eq(filledForms.user_id, userId))
+		.orderBy(desc(filledForms.filled_at));
+
+	return result;
+};
+
 export const dashboardRepository = {
 	getUserForms,
+	getUserFilledForms,
 };

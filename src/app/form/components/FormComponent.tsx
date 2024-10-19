@@ -30,7 +30,6 @@ export const FormComponent: FC<FormProps> = ({
 	const [isFormLiked, setIsFormLiked] = useState(false);
 	const [shouldSendCopy, setShouldSendCopy] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [commentsState, setCommentsState] = useState<Comment[]>(comments);
 	const [comment, setComment] = useState("");
 	const { data: session } = useSession();
 	const router = useRouter();
@@ -66,12 +65,12 @@ export const FormComponent: FC<FormProps> = ({
 
 	const uploadComment = async () => {
 		if (!comment) return;
-		const result = await createComment(
+		await createComment(
 			formGeneralData.id,
 			Number.parseInt(session?.user?.id ?? ""),
 			comment,
 		);
-		//setCommentsState(result);
+
 		setComment("");
 	};
 

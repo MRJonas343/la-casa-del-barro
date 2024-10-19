@@ -1,4 +1,6 @@
 export * from "./Comment";
+export * from "./FilledFormProps";
+export * from "./FilledForms";
 export * from "./FormCard";
 export * from "./FormProps";
 export * from "./FormSettings";

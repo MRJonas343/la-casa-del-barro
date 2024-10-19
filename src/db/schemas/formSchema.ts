@@ -14,7 +14,7 @@ export const forms = mysqlTable("forms", {
 	author_id: int("author_id")
 		.notNull()
 		.references(() => users.id, { onDelete: "cascade" }),
-	created_at: timestamp().default(sql`(CURRENT_TIMESTAMP)`),
+	created_at: timestamp().default(sql`(CURRENT_TIMESTAMP)`).notNull(),
 	title: text("title").notNull(),
 	topic: varchar("topic", { length: 100 }).notNull(),
 	description: text("description").notNull(),
