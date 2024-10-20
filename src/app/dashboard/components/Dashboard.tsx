@@ -17,9 +17,6 @@ export const Dashboard = ({ userForms, filledForms }: DashboardProps) => {
 
 	return (
 		<>
-			<div className="w-full flex lg:justify-end lg:flex mt-4 lg:max-w-[1280px] lg:mx-auto">
-				<SearchInput />
-			</div>
 			<div className="w-full flex flex-col lg:flex-row lg:max-w-[1280px] lg:mx-auto px-5">
 				<DashboardTabs selectedKey={tab} changeTab={(tab) => changeTab(tab)} />
 			</div>

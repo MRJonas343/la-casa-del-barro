@@ -89,7 +89,7 @@ export const MyFilledForm = ({
 						loadingContent={<Spinner size="lg" label="Loading..." />}
 					>
 						{(item) => (
-							<TableRow key={item.formId}>
+							<TableRow key={item.formId} className="cursor-pointer">
 								{(columnKey) => (
 									<TableCell>{getKeyValue(item, columnKey)}</TableCell>
 								)}
