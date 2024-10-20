@@ -1,4 +1,4 @@
-import { getFilledForms, getUserForms } from "@/services";
+import { getFilledFormsByUser, getUserForms } from "@/services";
 import { redirect } from "next/navigation";
 import { Dashboard } from "./components";
 import { NavBar } from "@/components";
@@ -11,7 +11,7 @@ const page = async () => {
 
 	const [userForms, filledForms] = await Promise.all([
 		getUserForms(Number.parseInt(session?.user?.id ?? "")),
-		getFilledForms(Number.parseInt(session?.user?.id ?? "")),
+		getFilledFormsByUser(Number.parseInt(session?.user?.id ?? "")),
 	]);
 
 	return (

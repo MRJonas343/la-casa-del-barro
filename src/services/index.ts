@@ -4,6 +4,7 @@ export * from "./comments/createComment";
 export * from "./comments/getComments";
 export * from "./filledForms/fillForm";
 export * from "./filledForms/getFilledForm";
+export * from "./filledForms/getFilledForms";
 export * from "./filledForms/getFormQuestions";
 export * from "./forms/createForm";
 export * from "./forms/getFilledForms";

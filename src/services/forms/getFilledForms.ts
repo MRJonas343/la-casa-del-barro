@@ -2,7 +2,7 @@
 
 import { dashboardRepository } from "@/repositories";
 
-export const getFilledForms = async (userId: number) => {
+export const getFilledFormsByUser = async (userId: number) => {
 	const forms = await dashboardRepository.getUserFilledForms(userId);
 
 	const formatedForms = forms.map((form) => ({

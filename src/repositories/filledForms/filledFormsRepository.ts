@@ -2,12 +2,14 @@ import { db } from "@/db";
 import {
 	answers,
 	comments,
+	filledForms,
 	forms,
 	options,
 	questions,
 	users,
 } from "@/db/schemas";
-import { eq, and, inArray, asc, sql } from "drizzle-orm";
+import { user } from "@nextui-org/react";
+import { eq, and, inArray, asc, sql, desc } from "drizzle-orm";
 
 const getFormWithUserAnswers = async (userId: number, formId: number) => {
 	const [form, commentsResult, questionsResult] = await Promise.all([
@@ -91,6 +93,23 @@ const getFormWithUserAnswers = async (userId: number, formId: number) => {
 	return { form, commentsResult, questions: questionsWithOptions };
 };
 
+const getFilledFormsByFormId = async (formId: number) => {
+	const result = await db
+		.select({
+			userId: filledForms.user_id,
+			userName: users.name,
+			filledAt: filledForms.filled_at,
+		})
+		.from(filledForms)
+		.innerJoin(forms, eq(filledForms.form_id, forms.id))
+		.innerJoin(users, eq(filledForms.user_id, users.id))
+		.where(eq(filledForms.form_id, formId))
+		.orderBy(desc(filledForms.filled_at));
+
+	return result;
+};
+
 export const filledFormsRepository = {
 	getFormWithUserAnswers,
+	getFilledFormsByFormId,
 };

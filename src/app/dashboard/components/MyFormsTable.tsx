@@ -7,6 +7,7 @@ import {
 	Spinner,
 	Button,
 	Link,
+	useDisclosure,
 } from "@nextui-org/react";
 import { Table, TableBody, TableCell, getKeyValue } from "@nextui-org/react";
 import type { MyFormsTableProps, UserForms } from "@/interfaces";
@@ -14,11 +15,15 @@ import { MyFormsColumns } from "@/constants";
 import { useAsyncList } from "@react-stately/data";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useTranslations } from "next-intl";
-import { useState, type FC } from "react";
+import { useRef, useState, type FC } from "react";
+import { ModalWithFillForms } from "./ModalWithFillForms";
 
 export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
+	const formIdRef = useRef(0);
 	const [formsState, setFormsState] = useState<UserForms[]>(forms);
 	const [isLoading, setIsLoading] = useState(true);
+
+	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const t = useTranslations("myFormsTable");
 
 	const list = useAsyncList({
@@ -61,7 +66,12 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 				>
 					{t("newForm")}
 				</Button>
-				<Button variant="bordered" radius="sm" color="primary">
+				<Button
+					variant="bordered"
+					radius="sm"
+					color="primary"
+					onClick={() => onOpen()}
+				>
 					{t("seeAnswers")}
 				</Button>
 				<Button variant="bordered" color="primary" radius="sm" isIconOnly>
@@ -74,7 +84,10 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 			<div className="w-full flex justify-center mt-5">
 				<Table
 					aria-label="Admin Table"
-					onSelectionChange={() => {}}
+					onSelectionChange={(keys) => {
+						//@ts-ignore
+						formIdRef.current = Number.parseInt([...keys][0]);
+					}}
 					radius="md"
 					color="primary"
 					selectionMode="single"
@@ -120,6 +133,12 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 					</TableBody>
 				</Table>
 			</div>
+			<ModalWithFillForms
+				formId={formIdRef.current}
+				isOpen={isOpen}
+				onOpen={onOpen}
+				onOpenChange={onOpenChange}
+			/>
 		</>
 	);
 };
