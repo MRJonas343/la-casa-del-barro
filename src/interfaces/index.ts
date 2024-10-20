@@ -9,7 +9,6 @@ export * from "./LocalSwitcherSelectProps";
 export * from "./LogoProps";
 export * from "./NewFilledForm";
 export * from "./PopularForms";
-
 export * from "./QuestionElement";
 export * from "./questionsToSeed";
 export * from "./QuestionType";

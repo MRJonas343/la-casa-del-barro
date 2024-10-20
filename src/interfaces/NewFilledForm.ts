@@ -1,7 +1,8 @@
-import type { QuestionProps } from "./question";
+import type { NewQuestion } from ".";
+import type { QuestionFieldProps } from ".";
 
 export interface NewFilledForm {
-	form: QuestionProps[];
+	form: QuestionFieldProps[];
 	isFormLiked: boolean;
 	shouldSendCopy: boolean;
 	userId: number;

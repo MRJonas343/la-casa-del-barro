@@ -43,3 +43,14 @@ export interface NewQuestion {
 	options?: string[];
 	value?: string;
 }
+
+export interface QuestionFieldProps {
+	id: number;
+	question: string | null;
+	description: string | null;
+	displayInTable: boolean | null;
+	order: number | null;
+	type: QuestionType | null;
+	options?: string[];
+	value?: string | boolean;
+}

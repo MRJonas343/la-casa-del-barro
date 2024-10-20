@@ -1,4 +1,4 @@
-import type { AnswerProps } from "@/interfaces";
+import type { AnswerProps } from "@/interfaces/question";
 import {
 	Card,
 	CardBody,

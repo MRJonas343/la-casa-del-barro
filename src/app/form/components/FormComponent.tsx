@@ -10,7 +10,12 @@ import {
 	Checkbox,
 	Input,
 } from "@nextui-org/react";
-import type { FormProps, QuestionProps, Comment } from "@/interfaces";
+import type {
+	FormProps,
+	NewQuestion,
+	Comment,
+	QuestionFieldProps,
+} from "@/interfaces";
 import { MarkdownRenderArea, QuestionField } from "@/components";
 import { FaHeart } from "react-icons/fa6";
 import { useEffect, useState, type FC } from "react";
@@ -26,7 +31,7 @@ export const FormComponent: FC<FormProps> = ({
 	comments,
 }) => {
 	const [questionsState, setQuestionsState] =
-		useState<QuestionProps[]>(questions);
+		useState<QuestionFieldProps[]>(questions);
 	const [isFormLiked, setIsFormLiked] = useState(false);
 	const [shouldSendCopy, setShouldSendCopy] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
