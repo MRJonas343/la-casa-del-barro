@@ -1,12 +1,12 @@
 "use server";
 
-import type { Question } from "@/interfaces";
+import type { NewQuestion } from "@/interfaces";
 import { questionsRepository } from "@/repositories";
 import { validateQuestions } from "@/validators";
 
 export const setNewFormQuestions = async (
 	formId: number,
-	questions: Question[],
+	questions: NewQuestion[],
 ) => {
 	const isFormValid = validateQuestions.safeParse(questions);
 

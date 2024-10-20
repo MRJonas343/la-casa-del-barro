@@ -15,7 +15,7 @@ import {
 	restrictToParentElement,
 	restrictToVerticalAxis,
 } from "@dnd-kit/modifiers";
-import type { SetQuestionsProps, Question } from "@/interfaces";
+import type { SetQuestionsProps, NewQuestion } from "@/interfaces";
 import { QuestionContainer } from "./QuestionContainer";
 import { initialQuestion } from "@/constants";
 import { DndContext } from "@dnd-kit/core";
@@ -29,7 +29,7 @@ import { validateQuestions } from "@/validators";
 import toast from "react-hot-toast";
 
 export const SetQuestions: FC<SetQuestionsProps> = ({ formId }) => {
-	const [questions, setQuestions] = useState<Question[]>([initialQuestion]);
+	const [questions, setQuestions] = useState<NewQuestion[]>([initialQuestion]);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const t = useTranslations("setQuestions");

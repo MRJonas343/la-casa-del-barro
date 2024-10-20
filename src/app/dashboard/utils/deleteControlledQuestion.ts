@@ -1,9 +1,9 @@
 import type { Dispatch, SetStateAction } from "react";
-import type { Question } from "@/interfaces";
+import type { NewQuestion } from "@/interfaces";
 
 export const deleteControlledQuestion = (
 	id: string,
-	setQuestionsState: Dispatch<SetStateAction<Question[]>>,
+	setQuestionsState: Dispatch<SetStateAction<NewQuestion[]>>,
 ) => {
 	setQuestionsState((prevState) =>
 		prevState.filter((question) => question.id !== id),

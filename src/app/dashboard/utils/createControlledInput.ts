@@ -1,12 +1,12 @@
 import type { Dispatch, SetStateAction } from "react";
-import type { Question, QuestionType } from "@/interfaces";
+import type { NewQuestion, QuestionType } from "@/interfaces";
 import { v4 as uuid } from "uuid";
 
 export const createControlledInput = (
-	questionsState: Question[],
-	setQuestionsState: Dispatch<SetStateAction<Question[]>>,
+	questionsState: NewQuestion[],
+	setQuestionsState: Dispatch<SetStateAction<NewQuestion[]>>,
 ) => {
-	const newQuestion: Question = {
+	const newQuestion: NewQuestion = {
 		id: uuid(),
 		questionName: "",
 		questionType: "" as QuestionType,

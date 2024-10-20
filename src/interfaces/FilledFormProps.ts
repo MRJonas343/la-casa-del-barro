@@ -1,3 +1,5 @@
+import type { QuestionType } from ".";
+
 export interface FilledFormProps {
 	form: Form | undefined;
 	commentsResult: CommentsResult[];
@@ -30,4 +32,14 @@ export interface Question {
 	type: string;
 	answer: unknown;
 	options?: unknown[];
+}
+
+export interface NewQuestion {
+	id: string;
+	questionName: string;
+	questionType: QuestionType;
+	description: string;
+	displayInTable: boolean;
+	options?: string[];
+	value?: string;
 }

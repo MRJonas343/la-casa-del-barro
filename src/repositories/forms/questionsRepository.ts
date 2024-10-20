@@ -1,13 +1,13 @@
 import { createOptions } from "@/utils/createOptions";
 import { questions, options } from "@/db/schemas";
-import type { Question } from "@/interfaces";
+import type { NewQuestion } from "@/interfaces";
 import { eq, inArray } from "drizzle-orm";
 import { db } from "@/db";
 import { asc } from "drizzle-orm";
 
 const setNewFormQuestions = async (
 	formId: number,
-	questionsArray: Question[],
+	questionsArray: NewQuestion[],
 ) => {
 	const questionsObjects = questionsArray.map((question, index) => ({
 		formId: formId,

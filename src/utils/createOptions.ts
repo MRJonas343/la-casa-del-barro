@@ -1,4 +1,4 @@
-import type { Question } from "@/interfaces";
+import type { NewQuestion } from "@/interfaces";
 
 type insertedQuestions = {
 	id: number;
@@ -7,7 +7,7 @@ type insertedQuestions = {
 
 export const createOptions = (
 	insertedQuestions: insertedQuestions[],
-	questionsArray: Question[],
+	questionsArray: NewQuestion[],
 ) => {
 	const optionsObjects = insertedQuestions.flatMap((question) => {
 		const originalQuestion = questionsArray.find(

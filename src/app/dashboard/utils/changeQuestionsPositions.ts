@@ -1,11 +1,11 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import type { Question } from "@/interfaces";
+import type { NewQuestion } from "@/interfaces";
 
 export const changeQuestionsPositions = (
 	event: DragEndEvent,
-	setQuestions: Dispatch<SetStateAction<Question[]>>,
+	setQuestions: Dispatch<SetStateAction<NewQuestion[]>>,
 ) => {
 	const { active, over } = event;
 
