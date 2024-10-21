@@ -7,19 +7,28 @@ import {
 	Textarea,
 	Checkbox,
 	Tooltip,
+	Autocomplete,
+	AutocompleteItem,
+	User,
 } from "@nextui-org/react";
-import type { FormSettings, GeneralSettingsProps } from "@/interfaces";
-import { tabs, topics, usersExamples } from "@/constants";
-import { FaRegQuestionCircle } from "react-icons/fa";
+import type {
+	FormSettings,
+	GeneralSettingsProps,
+	UserType,
+} from "@/interfaces";
+import { tabs, topics } from "@/constants";
+import { FaRegQuestionCircle, FaSearch } from "react-icons/fa";
 import type { Selection } from "@nextui-org/react";
 import { SelectItem } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useDropzone } from "react-dropzone";
-import { SearchInput } from "@/components";
 import { useForm } from "react-hook-form";
 import { useState, type FC } from "react";
-import { createForm } from "@/services";
+import { createForm, getUsersByEmail, getUsersByName } from "@/services";
 import { useTranslations } from "next-intl";
+import { useDebouncedCallback } from "use-debounce";
+import { getUserById } from "@/services/users/getUserById";
+import { IoCloseCircleSharp } from "react-icons/io5";
 
 export const GeneralSettings: FC<GeneralSettingsProps> = ({
 	changeTab,
@@ -29,6 +38,12 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 	const [isFormPublic, setIsFormPublic] = useState(false);
 	const [topicsState, setTopicsState] = useState<Selection>(new Set([]));
 	const [image, setImage] = useState<File | null>(null);
+	const [selectedUsers, setSelectedUsers] = useState<UserType[]>([]);
+	const [inputValue, setInputValue] = useState("");
+	const [users, setUsers] = useState<UserType[]>([]);
+	const [searchingBy, setSearchingBy] = useState<Selection>(
+		new Set(["username"]),
+	);
 
 	const { data: session } = useSession();
 	const t = useTranslations("generalSettings");
@@ -49,9 +64,8 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 		if (image) formData.append("image", image);
 		const userId = Number.parseInt(session?.user?.id ?? "");
 
-		const formId = await createForm(data, userId, formData);
+		const formId = await createForm(data, userId, selectedUsers, formData);
 
-		//TODO : SEND A TOAST WITH THE ERROR
 		if (formId === "INVALID_FORM") return;
 		setFormId(formId.toString());
 		changeTab("set-questions");
@@ -66,6 +80,41 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 		},
 		onDrop: (acceptedFiles) => setImage(acceptedFiles[0]),
 	});
+
+	const debouncedSearch = useDebouncedCallback(async (value: string) => {
+		//@ts-ignore
+		if (searchingBy.has("username")) {
+			const users = await getUsersByName(value);
+			if (users.length === 0) return setUsers([]);
+			setUsers(users);
+			return;
+		}
+		//@ts-ignore
+		if (searchingBy.has("email")) {
+			const users = await getUsersByEmail(value);
+			if (users.length === 0) return setUsers([]);
+			setUsers(users);
+			return;
+		}
+	}, 700);
+
+	const handleSearchInputChange = (value: string) => {
+		setInputValue(value);
+		debouncedSearch(value);
+	};
+
+	const selectUser = async (id: number) => {
+		if (selectedUsers.find((user) => user.id === id)) return;
+		const user = await getUserById(id);
+		if (!user) return setInputValue("");
+		setSelectedUsers([...selectedUsers, user]);
+		setInputValue("");
+	};
+
+	const deleteSelectedUser = (id: number) => {
+		const newUsers = selectedUsers.filter((user) => user.id !== id);
+		setSelectedUsers(newUsers);
+	};
 
 	return (
 		<form
@@ -193,41 +242,57 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 							variant="bordered"
 							selectionMode="single"
 							className="w-48"
+							selectedKeys={searchingBy}
+							onSelectionChange={setSearchingBy}
 						>
 							<SelectItem key="username">{t("name")}</SelectItem>
 							<SelectItem key="email">{t("email")}</SelectItem>
 						</Select>
-						<SearchInput
-							placeholder={t("searchUsers")}
+						<Autocomplete
+							aria-label="autocomplete"
+							aria-labelledby="autocomplete-label"
+							radius="sm"
 							size="lg"
-							classname="mx-o"
-						/>
+							isClearable
+							startContent={<FaSearch />}
+							placeholder="search"
+							className="w-full"
+							variant="bordered"
+							inputValue={inputValue}
+							onSelectionChange={(value) => selectUser(value as number)}
+							onInputChange={(value) => handleSearchInputChange(value)}
+						>
+							{users.map((user) => (
+								<AutocompleteItem
+									key={user.id}
+									textValue={`${user.name} ${user.email}`}
+								>
+									<User name={user.name} description={user.email} />
+								</AutocompleteItem>
+							))}
+						</Autocomplete>
 					</div>
-					<Select
-						items={usersExamples}
-						label={t("assignedTo")}
-						variant="bordered"
-						isMultiline={true}
-						selectionMode="multiple"
-						placeholder="Select Users"
-						labelPlacement="outside"
-						className="w-full"
-						classNames={{
-							trigger: "min-h-12 py-2",
-						}}
-						{...register("users")}
-					>
-						{(user) => (
-							<SelectItem key={user.id} textValue={user.name}>
-								<div className="flex flex-col">
-									<span className="text-small">{user.name}</span>
-									<span className="text-tiny text-default-400">
-										{user.email}
-									</span>
-								</div>
-							</SelectItem>
-						)}
-					</Select>
+
+					<div className="border-2 min-h-24 gap-2 p-4 w-full rounded-lg border-default-200 flex flex-col items-start sm:flex-wrap sm:flex-row sm:gap-4">
+						{selectedUsers.map((user) => (
+							<div
+								key={user.id}
+								className="flex items-start mb-1 border-default-200 border-2 rounded-lg p-2"
+							>
+								<User
+									name={user.name}
+									description={user.email}
+									className="min-w-56 justify-start"
+								/>
+								<Button isIconOnly variant="light" color="danger">
+									<IoCloseCircleSharp
+										size={24}
+										onClick={() => deleteSelectedUser(user.id)}
+									/>
+								</Button>
+							</div>
+						))}
+					</div>
 				</>
 			)}
 			<Button

@@ -14,11 +14,13 @@ import type { FC } from "react";
 import { useSession } from "next-auth/react";
 
 interface QuestionFieldProps {
+	isDisabled: boolean;
 	question: AnswerProps;
 	updateValue: (id: number, value: string | boolean) => void;
 }
 
 export const QuestionField: FC<QuestionFieldProps> = ({
+	isDisabled,
 	question,
 	updateValue,
 }) => {
@@ -33,7 +35,7 @@ export const QuestionField: FC<QuestionFieldProps> = ({
 			<CardBody>
 				{question.type === "long" && (
 					<Textarea
-						isDisabled={!session}
+						isDisabled={isDisabled}
 						radius="sm"
 						color="primary"
 						variant="bordered"
@@ -45,7 +47,7 @@ export const QuestionField: FC<QuestionFieldProps> = ({
 				)}
 				{question.type === "short" && (
 					<Input
-						isDisabled={!session}
+						isDisabled={isDisabled}
 						radius="sm"
 						color="primary"
 						variant="bordered"
@@ -58,7 +60,7 @@ export const QuestionField: FC<QuestionFieldProps> = ({
 
 				{question.type === "numeric" && (
 					<Input
-						isDisabled={!session}
+						isDisabled={isDisabled}
 						radius="sm"
 						color="primary"
 						variant="bordered"
@@ -73,7 +75,7 @@ export const QuestionField: FC<QuestionFieldProps> = ({
 				{question.type === "single" && (
 					<>
 						<Checkbox
-							isDisabled={!session}
+							isDisabled={isDisabled}
 							isSelected={Boolean(question.value)}
 							onValueChange={(isSelected) =>
 								updateValue(question.id, isSelected)
@@ -89,13 +91,13 @@ export const QuestionField: FC<QuestionFieldProps> = ({
 				{question.type === "multiple" && (
 					<div className="flex flex-col gap-2">
 						<RadioGroup
-							isDisabled={!session}
+							isDisabled={isDisabled}
 							label={question.question}
 							value={question.value?.toString() || ""}
 							onValueChange={(value) => updateValue(question.id, value)}
 						>
 							{question.options?.map((option) => (
-								<Radio isDisabled={!session} key={option} value={option}>
+								<Radio isDisabled={isDisabled} key={option} value={option}>
 									{option}
 								</Radio>
 							))}

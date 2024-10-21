@@ -16,3 +16,7 @@ export * from "./forms/getPopularForms";
 export * from "./forms/getUserForms";
 export * from "./forms/setNewFormQuestions";
 export * from "./lang/local";
+export * from "./permissions/checkPermission";
+export * from "./users/getUserById";
+export * from "./users/getUsersByEmail";
+export * from "./users/getUsersByName";

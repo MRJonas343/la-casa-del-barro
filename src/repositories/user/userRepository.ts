@@ -1,7 +1,7 @@
 import type { User } from "@/interfaces";
 import { users } from "@/db/schemas";
-import { eq } from "drizzle-orm";
 import { db } from "@/db";
+import { like, sql, eq } from "drizzle-orm";
 
 const createUser = async (user: User) => {
 	const result = await db.insert(users).values({
@@ -45,10 +45,40 @@ const deleteUser = async (id: number) => {
 	return result;
 };
 
+const findUsersByName = async (name: string) => {
+	const result = await db
+		.select({
+			id: users.id,
+			name: users.name,
+			email: users.email,
+		})
+		.from(users)
+		.where(like(users.name, `%${name}%`))
+		.limit(10);
+
+	return result;
+};
+
+const findUsersByEmail = async (email: string) => {
+	const result = await db
+		.select({
+			id: users.id,
+			name: users.name,
+			email: users.email,
+		})
+		.from(users)
+		.where(like(users.email, `%${email}%`))
+		.limit(10);
+
+	return result;
+};
+
 export const userRepository = {
 	createUser,
 	findUserByEmail,
 	findUserById,
 	findUserByName,
 	deleteUser,
+	findUsersByName,
+	findUsersByEmail,
 };

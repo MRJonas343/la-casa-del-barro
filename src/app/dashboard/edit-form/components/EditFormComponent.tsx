@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { EditFormTabs } from "./EditFormTabs";
+import FormSettings from "./FormSettings";
 
 const EditFormComponent = () => {
 	const [selectedTab, setSelectedTab] = useState("general-settings");
@@ -19,6 +20,7 @@ const EditFormComponent = () => {
 					selectedKey={selectedTab}
 				/>
 			</div>
+			{selectedTab === "general-settings" && <FormSettings />}
 		</>
 	);
 };

@@ -10,17 +10,12 @@ import {
 	Checkbox,
 	Input,
 } from "@nextui-org/react";
-import type {
-	FormProps,
-	NewQuestion,
-	Comment,
-	QuestionFieldProps,
-} from "@/interfaces";
+import type { FormProps, Comment, QuestionFieldProps } from "@/interfaces";
 import { MarkdownRenderArea, QuestionField } from "@/components";
 import { FaHeart } from "react-icons/fa6";
 import { useEffect, useState, type FC } from "react";
 import { useSession } from "next-auth/react";
-import { createComment, fillForm } from "@/services";
+import { createComment, fillForm, checkPermission } from "@/services";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { IoMdSend } from "react-icons/io";
@@ -36,6 +31,7 @@ export const FormComponent: FC<FormProps> = ({
 	const [shouldSendCopy, setShouldSendCopy] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [comment, setComment] = useState("");
+	const [isFormDisabled, setIsFormDisabled] = useState(false);
 	const { data: session } = useSession();
 	const router = useRouter();
 
@@ -79,13 +75,23 @@ export const FormComponent: FC<FormProps> = ({
 		setComment("");
 	};
 
+	const checkUserPermission = async () => {
+		const hasPermission = await checkPermission(
+			formGeneralData.id,
+			Number.parseInt(session?.user?.id ?? "0"),
+		);
+		if (!hasPermission) setIsFormDisabled(true);
+	};
+
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (!session) {
 			toast("You are in read only mode, please login to fill the form", {
 				duration: 5000,
 			});
+			setIsFormDisabled(true);
 		}
+		if (!formGeneralData.isPublic) checkUserPermission();
 	}, []);
 
 	return (
@@ -113,6 +119,7 @@ export const FormComponent: FC<FormProps> = ({
 				{questionsState.map((question) => (
 					<QuestionField
 						key={question.id}
+						isDisabled={isFormDisabled}
 						question={question}
 						updateValue={updateValue}
 					/>
@@ -120,7 +127,7 @@ export const FormComponent: FC<FormProps> = ({
 
 				<div className="w-full max-w-[800px] mx-auto flex flex-col gap-4">
 					<Checkbox
-						isDisabled={!session}
+						isDisabled={isFormDisabled}
 						className="px-3"
 						isSelected={shouldSendCopy}
 						onValueChange={setShouldSendCopy}
@@ -129,7 +136,7 @@ export const FormComponent: FC<FormProps> = ({
 					</Checkbox>
 
 					<Checkbox
-						isDisabled={!session}
+						isDisabled={isFormDisabled}
 						className="px-3"
 						icon={<FaHeart />}
 						color="danger"
@@ -140,7 +147,7 @@ export const FormComponent: FC<FormProps> = ({
 					</Checkbox>
 
 					<Button
-						isDisabled={!session}
+						isDisabled={isFormDisabled}
 						onClick={submitForm}
 						isLoading={isSubmitting}
 						variant="shadow"
