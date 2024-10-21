@@ -17,11 +17,14 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { useTranslations } from "next-intl";
 import { useRef, useState, type FC } from "react";
 import { ModalWithFillForms } from "./ModalWithFillForms";
+import { useRouter } from "next/navigation";
 
 export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 	const formIdRef = useRef(0);
 	const [formsState, setFormsState] = useState<UserForms[]>(forms);
 	const [isLoading, setIsLoading] = useState(true);
+
+	const router = useRouter();
 
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const t = useTranslations("myFormsTable");
@@ -70,11 +73,23 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 					variant="bordered"
 					radius="sm"
 					color="primary"
-					onClick={() => onOpen()}
+					onClick={() =>
+						formIdRef.current !== 0 && formIdRef.current && onOpen()
+					}
 				>
 					{t("seeAnswers")}
 				</Button>
-				<Button variant="bordered" color="primary" radius="sm" isIconOnly>
+				<Button
+					variant="bordered"
+					color="primary"
+					radius="sm"
+					isIconOnly
+					onClick={() => {
+						formIdRef.current !== 0 &&
+							formIdRef.current &&
+							router.push(`dashboard/edit-form/${formIdRef.current}`);
+					}}
+				>
 					<MdEdit size={20} />
 				</Button>
 				<Button variant="bordered" color="danger" radius="sm" isIconOnly>
@@ -86,7 +101,7 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 					aria-label="Admin Table"
 					onSelectionChange={(keys) => {
 						//@ts-ignore
-						formIdRef.current = Number.parseInt([...keys][0]);
+						formIdRef.current = [...keys][0];
 					}}
 					radius="md"
 					color="primary"

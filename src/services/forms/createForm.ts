@@ -15,7 +15,7 @@ export const createForm = async (
 
 	if (!isNewFormValid.success) return "INVALID_FORM";
 
-	const imageUrl = await getImageUrl(imageInForm, userId, data.title);
+	const imageUrl = await getImageUrl(imageInForm);
 
 	const formId = await formRepository.createForm(data, userId, imageUrl);
 
