@@ -1,7 +1,7 @@
 "use client";
 
 import { CardsGrid, CloudTags, SearchInput } from "@/components";
-import { debouncedSearch } from "../helpers/debounceSearch";
+import { useDebouncedSearch } from "../hooks/useDebounceSearch";
 import { loadMoreCards } from "../services/loadMoreCards";
 import { initializeState, reducer } from "../store/state";
 import { useInView } from "react-intersection-observer";
@@ -17,6 +17,12 @@ export const TagPage = ({
 	const [state, dispatch] = useReducer(reducer, cardsData, initializeState);
 	const { ref, inView } = useInView({ threshold: 0.5 });
 	const pageRef = useRef(1);
+	const debouncedSearch = useDebouncedSearch(
+		dispatch,
+		pageRef,
+		getFormsByTag,
+		tag,
+	);
 
 	const loadMore = async () => {
 		await loadMoreCards(state, dispatch, pageRef, getFormsByTag, tag);
@@ -24,7 +30,7 @@ export const TagPage = ({
 
 	const handleInputChange = (value: string) => {
 		dispatch({ type: "SET_FULL_TEXT_SEARCH", payload: value });
-		debouncedSearch(value, dispatch, pageRef, getFormsByTag, tag);
+		debouncedSearch(value);
 	};
 
 	if (inView && state.hasMore && state.fullTextSearch === "") loadMore();

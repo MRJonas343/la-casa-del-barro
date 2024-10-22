@@ -1,9 +1,9 @@
 "use client";
 
 import { CardsGrid, CloudTags, SearchInput } from "@/components";
-import { debouncedSearch } from "../helpers/debounceSearch";
-import { loadMoreCards } from "../services/loadMoreCards";
+import { useDebouncedSearch } from "../hooks/useDebounceSearch";
 import { reducer, initializeState } from "../store/state";
+import { loadMoreCards } from "../services/loadMoreCards";
 import { useInView } from "react-intersection-observer";
 import type { FormCardProps } from "@/interfaces";
 import { Spinner } from "@nextui-org/react";
@@ -14,6 +14,7 @@ const MainPage = ({ cardsData }: { cardsData: FormCardProps[] }) => {
 	const [state, dispatch] = useReducer(reducer, cardsData, initializeState);
 	const { ref, inView } = useInView({ threshold: 0.5 });
 	const pageRef = useRef(1);
+	const debouncedSearch = useDebouncedSearch(dispatch, pageRef, getLatestForms);
 
 	const loadMore = async () => {
 		await loadMoreCards(state, dispatch, pageRef, getLatestForms);
@@ -23,7 +24,7 @@ const MainPage = ({ cardsData }: { cardsData: FormCardProps[] }) => {
 
 	const handleInputChange = (value: string) => {
 		dispatch({ type: "SET_FULL_TEXT_SEARCH", payload: value });
-		debouncedSearch(value, dispatch, pageRef, getLatestForms);
+		debouncedSearch(value);
 	};
 
 	return (

@@ -1,8 +1,8 @@
+import { getFormsWithFullTextSearch } from "@/services";
 import { useDebouncedCallback } from "use-debounce";
+import type { FormCardProps } from "@/interfaces";
 import type { Action } from "../store/state";
 import type { MutableRefObject } from "react";
-import type { FormCardProps } from "@/interfaces";
-import { getFormsWithFullTextSearch } from "@/services";
 
 type ResetDataFunction = (
 	page: number,
@@ -10,14 +10,13 @@ type ResetDataFunction = (
 	tag?: string,
 ) => Promise<{ hasMore: boolean; forms: FormCardProps[] }>;
 
-export const debouncedSearch = useDebouncedCallback(
-	async (
-		value: string,
-		dispatch: (value: Action) => void,
-		pageRef: MutableRefObject<number>,
-		resetDataFunction: ResetDataFunction,
-		tag?: string,
-	) => {
+export const useDebouncedSearch = (
+	dispatch: (value: Action) => void,
+	pageRef: MutableRefObject<number>,
+	resetDataFunction: ResetDataFunction,
+	tag?: string,
+) => {
+	return useDebouncedCallback(async (value: string) => {
 		const result = await getFormsWithFullTextSearch(value);
 
 		if (result.length === 0) {
@@ -34,6 +33,5 @@ export const debouncedSearch = useDebouncedCallback(
 
 		dispatch({ type: "SET_HAS_MORE", payload: true });
 		dispatch({ type: "SET_CARDS", payload: result });
-	},
-	500,
-);
+	}, 500);
+};
