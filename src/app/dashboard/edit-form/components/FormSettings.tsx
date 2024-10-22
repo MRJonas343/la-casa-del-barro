@@ -14,8 +14,11 @@ import { tabs, topics, usersExamples } from "@/constants";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { useDropzone } from "react-dropzone";
 import { SearchInput } from "@/components";
+import type { FormGeneralData } from "@/interfaces/formDataToUpdate";
+import { useForm } from "react-hook-form";
+import type { FormSettingsType } from "@/interfaces";
 
-const FormSettings = () => {
+const FormSettings = ({ data }: { data: FormGeneralData }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [isFormPublic, setIsFormPublic] = useState(false);
 	const [topicsState, setTopicsState] = useState<Selection>(new Set([]));
@@ -32,6 +35,12 @@ const FormSettings = () => {
 		onDrop: (acceptedFiles) => setImage(acceptedFiles[0]),
 	});
 
+	const {
+		register,
+		formState: { errors },
+		handleSubmit,
+	} = useForm<FormSettingsType>();
+
 	return (
 		<form
 			//onSubmit={handleSubmit(onSubmit)}
@@ -41,15 +50,16 @@ const FormSettings = () => {
 				<Input
 					isRequired
 					autoFocus
+					defaultValue={data.form.title}
 					radius="sm"
-					//isInvalid={Boolean(errors.title)}
+					isInvalid={Boolean(errors.title)}
 					errorMessage="This field is required"
 					variant="bordered"
 					className="w-full"
 					label={t("title")}
-					// {...register("title", {
-					//   required: true,
-					// })}
+					{...register("title", {
+						required: true,
+					})}
 				/>
 				<Select
 					isRequired

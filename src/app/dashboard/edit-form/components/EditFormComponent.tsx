@@ -1,26 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import type { FormDataToUpdate } from "@/interfaces/formDataToUpdate";
 import { EditFormTabs } from "./EditFormTabs";
+import FormQuestions from "./FormQuestions";
+import { type FC, useState } from "react";
 import FormSettings from "./FormSettings";
 
-const EditFormComponent = () => {
-	const [selectedTab, setSelectedTab] = useState("general-settings");
+export interface EditFormProps {
+	formId: string;
+	data: FormDataToUpdate;
+}
 
-	const changeTab = (tab: string) => {
-		console.log(tab);
-		setSelectedTab(tab);
-	};
+const EditFormComponent: FC<EditFormProps> = ({ formId, data }) => {
+	const [selectedTab, setSelectedTab] = useState("general-settings");
 
 	return (
 		<>
 			<div className="w-full flex flex-col lg:flex-row lg:max-w-[1280px] lg:mx-auto px-5">
 				<EditFormTabs
-					onSelectionChange={(key) => changeTab(key)}
+					onSelectionChange={(key) => setSelectedTab(key)}
 					selectedKey={selectedTab}
 				/>
 			</div>
-			{selectedTab === "general-settings" && <FormSettings />}
+
+			{selectedTab === "general-settings" && (
+				<FormSettings data={data.formGeneralData} />
+			)}
+			{selectedTab === "set-questions" && (
+				<FormQuestions data={data.questions} />
+			)}
 		</>
 	);
 };

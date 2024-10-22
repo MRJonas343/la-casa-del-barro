@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { formPermissions } from "@/db/schemas";
+import { formPermissions, users } from "@/db/schemas";
 import { and, eq } from "drizzle-orm";
 
 type Permission = {
@@ -23,7 +23,22 @@ const getPermission = async (formId: number, userId: number) => {
 	return result;
 };
 
+const getUsersWithPermissions = async (formId: number) => {
+	const result = await db
+		.select({
+			id: users.id,
+			name: users.name,
+			email: users.email,
+		})
+		.from(users)
+		.innerJoin(formPermissions, eq(formPermissions.user_id, users.id))
+		.where(eq(formPermissions.form_id, formId));
+
+	return result;
+};
+
 export const permissionRepository = {
+	getUsersWithPermissions,
 	getPermission,
 	createPermissions,
 };
