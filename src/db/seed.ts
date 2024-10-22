@@ -14,14 +14,13 @@ import {
 } from "./schemas";
 import { hashPassword } from "@/utils/password";
 import "dotenv/config";
-import { sql } from "drizzle-orm";
 
 const usersToSeed: UsersSeed[] = [
 	{
 		name: "Admin",
 		email: "admin@formmaster.com",
 		password: process.env.ADMIN_PASSWORD ?? "",
-		role: "user",
+		role: "admin",
 		status: "active",
 	},
 	{
@@ -390,7 +389,7 @@ const questionsToSeed: QuestionsToSeed[] = [
 		description: "Yes or No.",
 		displayInTable: true,
 		order: 1,
-		type: "multiple",
+		type: "single",
 	},
 	{
 		formId: 2,

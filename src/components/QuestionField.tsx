@@ -24,8 +24,6 @@ export const QuestionField: FC<QuestionFieldProps> = ({
 	question,
 	updateValue,
 }) => {
-	const { data: session } = useSession();
-
 	return (
 		<Card className="w-full max-w-[800px] mx-auto flex flex-col">
 			<CardHeader>

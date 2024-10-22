@@ -34,10 +34,14 @@ export default async function FormPage({ params }: { params: { id: string } }) {
 		formId,
 	);
 
-	if (isFormFilled) isReadOnly = true;
+	if (isFormFilled) redirect(`/filled-form/${formId}/${session.user?.id}`);
 
 	if (!formGeneralData.isPublic) {
-		const hasPermission = await checkPermission(formId, formGeneralData.id);
+		const hasPermission = await checkPermission(
+			formId,
+			Number.parseInt(session.user?.id ?? ""),
+		);
+
 		if (!hasPermission) isReadOnly = true;
 	}
 

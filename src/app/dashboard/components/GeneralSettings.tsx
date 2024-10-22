@@ -110,13 +110,13 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 						variant="bordered"
 						label={t("addTopic")}
 						//@ts-ignore
-						className={`w-full mt-3 md:mt-0 ${!topicsState.has("Other") && "hidden"}`}
+						className={`w-full mt-3 md:mt-0 ${!state.topicsState.has("Other") && "hidden"}`}
 						//@ts-ignore
-						isRequired={topicsState.has("Other")}
+						isRequired={state.topicsState.has("Other")}
 						isInvalid={Boolean(errors.otherTopic)}
 						{...register("otherTopic", {
 							//@ts-ignore
-							required: topicsState.has("Other"),
+							required: state.topicsState.has("Other"),
 						})}
 					/>
 				}

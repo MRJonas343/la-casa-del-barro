@@ -77,8 +77,8 @@ export const FormComponent: FC<FormProps> = ({
 						key={question.id}
 						isDisabled={isReadOnly}
 						question={question}
-						updateValue={(value) =>
-							updateValue(question.id, value, state, dispatch)
+						updateValue={(questionId, value) =>
+							updateValue(questionId, value, state, dispatch)
 						}
 					/>
 				))}

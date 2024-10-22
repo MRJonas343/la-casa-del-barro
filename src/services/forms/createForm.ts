@@ -20,7 +20,7 @@ export const createForm = async (
 
 	const formId = await formRepository.createForm(data, userId, imageUrl);
 
-	if (data.isPublic) await setPermissions(formId, users);
+	if (!data.isPublic && users.length > 0) await setPermissions(formId, users);
 
 	return formId;
 };

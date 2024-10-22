@@ -50,6 +50,7 @@ export const SetQuestions: FC<SetQuestionsProps> = ({ formId }) => {
 			Number.parseInt(formId),
 			questions,
 		);
+		toast.success("Form is successfully created");
 		handleStatus(status, t, "/dashboard");
 		setIsSubmitting(false);
 	};

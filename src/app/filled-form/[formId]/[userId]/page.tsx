@@ -10,6 +10,7 @@ const page = async ({
 	const session = await auth();
 
 	if (!session) return redirect("/login");
+	const userId = Number.parseInt(session.user?.id ?? "");
 
 	const form = await getFilledForm(
 		Number.parseInt(params.formId),
@@ -18,8 +19,8 @@ const page = async ({
 
 	//@ts-ignore
 	if (session.user?.role !== "admin") {
-		if (form.form?.author_id !== session.user?.id) {
-			if (session.user?.id !== params.userId) return redirect("/");
+		if (form.form?.author_id !== userId) {
+			if (userId !== Number.parseInt(params.userId)) return redirect("/");
 		}
 	}
 
