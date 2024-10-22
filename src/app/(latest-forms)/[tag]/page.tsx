@@ -4,7 +4,7 @@ import { TagPage } from "../components/TagPage";
 const Page = async ({ params }: { params: { tag: string } }) => {
 	const { tag } = params;
 
-	const { forms } = await getFormsByTag(tag, 1, 10);
+	const { forms } = await getFormsByTag(1, 10, tag);
 
 	return (
 		<div>
