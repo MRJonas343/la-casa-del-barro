@@ -80,7 +80,10 @@ export const FormComponent: FC<FormProps> = ({
 			formGeneralData.id,
 			Number.parseInt(session?.user?.id ?? "0"),
 		);
-		if (!hasPermission) setIsFormDisabled(true);
+		if (!hasPermission) {
+			toast("You dont have permission to fill this form");
+			setIsFormDisabled(true);
+		}
 	};
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
