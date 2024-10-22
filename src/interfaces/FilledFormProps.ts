@@ -52,5 +52,5 @@ export interface QuestionFieldProps {
 	order: number | null;
 	type: QuestionType | null;
 	options?: string[];
-	value?: string | boolean;
+	value?: string | boolean | number;
 }

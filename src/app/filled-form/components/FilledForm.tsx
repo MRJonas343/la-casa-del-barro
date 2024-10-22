@@ -1,8 +1,9 @@
 import { Card, CardHeader, Image, CardBody, Divider } from "@nextui-org/react";
-import type { FilledFormProps } from "@/interfaces";
 import { MarkdownRenderArea, CommentsSection } from "@/components";
+import type { FilledFormProps } from "@/interfaces";
 import FilledQuestion from "./FilledQuestion";
 
+//TODO: IF IT IS ADMIN HE CAN EDIT THE FORM
 export const FilledForm = ({ data }: { data: FilledFormProps }) => {
 	return (
 		<section className="flex w-[95%] mx-auto mt-5 flex-col gap-4 mb-10">

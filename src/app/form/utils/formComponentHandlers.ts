@@ -1,0 +1,65 @@
+import type { Session } from "next-auth";
+import type { FormAction, FormState } from "../store/state";
+
+import { createComment, fillForm } from "@/services";
+import type { formGeneralData } from "@/interfaces/question";
+import toast from "react-hot-toast";
+import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+
+export const updateValue = (
+	id: number,
+	value: string | boolean | number,
+	state: FormState,
+	dispatch: (value: FormAction) => void,
+) => {
+	dispatch({
+		type: "SET_QUESTIONS_STATE",
+		payload: state.questionsState.map((question) =>
+			question.id === id ? { ...question, value } : question,
+		),
+	});
+};
+
+export const submitForm = async (
+	formGeneralData: formGeneralData,
+	state: FormState,
+	dispatch: (value: FormAction) => void,
+	router: AppRouterInstance,
+	session: Session | null,
+) => {
+	dispatch({ type: "SET_IS_SUBMITTING", payload: true });
+
+	const result = await fillForm({
+		form: state.questionsState,
+		isFormLiked: state.isFormLiked,
+		shouldSendCopy: state.shouldSendCopy,
+
+		userId: Number.parseInt(session?.user?.id ?? ""),
+		formId: formGeneralData.id,
+		userEmail: session?.user?.email,
+		userName: session?.user?.name,
+		formName: formGeneralData.title,
+	});
+
+	if (result === "SUCCESS") toast.success("Form submitted successfully");
+
+	router.push("/dashboard");
+
+	dispatch({ type: "SET_IS_SUBMITTING", payload: false });
+};
+
+export const uploadComment = async (
+	formGeneralData: formGeneralData,
+	state: FormState,
+	dispatch: (value: FormAction) => void,
+	session: Session | null,
+) => {
+	if (!state.comment) return;
+	await createComment(
+		formGeneralData.id,
+		Number.parseInt(session?.user?.id ?? ""),
+		state.comment,
+	);
+
+	dispatch({ type: "SET_COMMENT", payload: "" });
+};

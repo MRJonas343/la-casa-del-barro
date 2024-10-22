@@ -1,7 +1,5 @@
 "use client";
 
-import { FilledFormsColumns } from "@/constants";
-import type { FilledForm } from "@/interfaces";
 import {
 	getKeyValue,
 	Spinner,
@@ -12,46 +10,22 @@ import {
 	TableHeader,
 	TableRow,
 } from "@nextui-org/react";
-import { useAsyncList } from "@react-stately/data";
-import { useState } from "react";
+import { FilledFormsColumns } from "@/constants";
+import type { FilledForm } from "@/interfaces";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useSortableList, type GenericItem } from "@/hooks/useSortableList";
 
 export const MyFilledForm = ({
 	filledForms,
 }: { filledForms: FilledForm[] }) => {
-	const [isLoading, setIsLoading] = useState(true);
+	const { isLoading, list } = useSortableList({
+		items: filledForms as unknown as GenericItem[],
+	});
 
 	const router = useRouter();
 
 	const { data: session } = useSession();
-
-	const list = useAsyncList({
-		async load() {
-			setIsLoading(false);
-			return {
-				items: filledForms,
-			};
-		},
-		async sort({ items, sortDescriptor }) {
-			const columnKey = sortDescriptor.column as keyof (typeof items)[0];
-
-			return {
-				items: items.sort((a, b) => {
-					const first = a[columnKey];
-					const second = b[columnKey];
-
-					const cmp =
-						(Number.parseInt(first as string) || first) <
-						(Number.parseInt(second as string) || second)
-							? -1
-							: 1;
-
-					return sortDescriptor.direction === "descending" ? -cmp : cmp;
-				}),
-			};
-		},
-	});
 
 	const gotoForm = (formId: number) => {
 		if (!formId || !session?.user) return;
@@ -89,7 +63,10 @@ export const MyFilledForm = ({
 						loadingContent={<Spinner size="lg" label="Loading..." />}
 					>
 						{(item) => (
-							<TableRow key={item.formId} className="cursor-pointer">
+							<TableRow
+								key={item.formId as React.Key}
+								className="cursor-pointer"
+							>
 								{(columnKey) => (
 									<TableCell>{getKeyValue(item, columnKey)}</TableCell>
 								)}

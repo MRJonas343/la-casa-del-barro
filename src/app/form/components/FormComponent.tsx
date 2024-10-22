@@ -10,81 +10,36 @@ import {
 	Checkbox,
 	Input,
 } from "@nextui-org/react";
-import type { FormProps, Comment, QuestionFieldProps } from "@/interfaces";
 import { MarkdownRenderArea, QuestionField } from "@/components";
-import { FaHeart } from "react-icons/fa6";
-import { useEffect, useState, type FC } from "react";
+import { formInitialState, formReducer } from "../store/state";
+import { useEffect, useReducer, type FC } from "react";
+import type { FormProps } from "@/interfaces";
 import { useSession } from "next-auth/react";
-import { createComment, fillForm, checkPermission } from "@/services";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 import { IoMdSend } from "react-icons/io";
+import { FaHeart } from "react-icons/fa6";
+import toast from "react-hot-toast";
+import {
+	submitForm,
+	updateValue,
+	uploadComment,
+} from "../utils/formComponentHandlers";
 
 export const FormComponent: FC<FormProps> = ({
 	questions,
 	formGeneralData,
 	comments,
+	isReadOnly,
 }) => {
-	const [questionsState, setQuestionsState] =
-		useState<QuestionFieldProps[]>(questions);
-	const [isFormLiked, setIsFormLiked] = useState(false);
-	const [shouldSendCopy, setShouldSendCopy] = useState(false);
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [comment, setComment] = useState("");
-	const [isFormDisabled, setIsFormDisabled] = useState(false);
+	const [state, dispatch] = useReducer(
+		formReducer,
+		questions,
+		formInitialState,
+	);
+
 	const { data: session } = useSession();
+
 	const router = useRouter();
-
-	const updateValue = (id: number, value: string | boolean) => {
-		setQuestionsState((prevState) =>
-			prevState.map((question) =>
-				question.id === id ? { ...question, value } : question,
-			),
-		);
-	};
-
-	const submitForm = async () => {
-		setIsSubmitting(true);
-
-		const result = await fillForm({
-			form: questionsState,
-			isFormLiked,
-			shouldSendCopy,
-			userId: Number.parseInt(session?.user?.id ?? ""),
-			formId: formGeneralData.id,
-			userEmail: session?.user?.email,
-			userName: session?.user?.name,
-			formName: formGeneralData.title,
-		});
-
-		if (result === "SUCCESS") toast.success("Form submitted successfully");
-
-		router.push("/dashboard");
-
-		setIsSubmitting(false);
-	};
-
-	const uploadComment = async () => {
-		if (!comment) return;
-		await createComment(
-			formGeneralData.id,
-			Number.parseInt(session?.user?.id ?? ""),
-			comment,
-		);
-
-		setComment("");
-	};
-
-	const checkUserPermission = async () => {
-		const hasPermission = await checkPermission(
-			formGeneralData.id,
-			Number.parseInt(session?.user?.id ?? "0"),
-		);
-		if (!hasPermission) {
-			toast("You dont have permission to fill this form");
-			setIsFormDisabled(true);
-		}
-	};
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
@@ -92,9 +47,7 @@ export const FormComponent: FC<FormProps> = ({
 			toast("You are in read only mode, please login to fill the form", {
 				duration: 5000,
 			});
-			setIsFormDisabled(true);
 		}
-		if (!formGeneralData.isPublic) checkUserPermission();
 	}, []);
 
 	return (
@@ -119,40 +72,51 @@ export const FormComponent: FC<FormProps> = ({
 						</MarkdownRenderArea>
 					</CardBody>
 				</Card>
-				{questionsState.map((question) => (
+				{state.questionsState.map((question) => (
 					<QuestionField
 						key={question.id}
-						isDisabled={isFormDisabled}
+						isDisabled={isReadOnly}
 						question={question}
-						updateValue={updateValue}
+						updateValue={(value) =>
+							updateValue(question.id, value, state, dispatch)
+						}
 					/>
 				))}
 
 				<div className="w-full max-w-[800px] mx-auto flex flex-col gap-4">
 					<Checkbox
-						isDisabled={isFormDisabled}
+						isDisabled={isReadOnly}
 						className="px-3"
-						isSelected={shouldSendCopy}
-						onValueChange={setShouldSendCopy}
+						isSelected={state.shouldSendCopy}
+						onValueChange={(value) =>
+							dispatch({
+								type: "SET_SHOULD_SEND_COPY",
+								payload: value,
+							})
+						}
 					>
 						Send me a copy of my answers
 					</Checkbox>
 
 					<Checkbox
-						isDisabled={isFormDisabled}
+						isDisabled={isReadOnly}
 						className="px-3"
 						icon={<FaHeart />}
 						color="danger"
-						isSelected={isFormLiked}
-						onValueChange={setIsFormLiked}
+						isSelected={state.isFormLiked}
+						onValueChange={(value) =>
+							dispatch({ type: "SET_IS_FORM_LIKED", payload: value })
+						}
 					>
 						Did you like this form?
 					</Checkbox>
 
 					<Button
-						isDisabled={isFormDisabled}
-						onClick={submitForm}
-						isLoading={isSubmitting}
+						isDisabled={isReadOnly}
+						onClick={() =>
+							submitForm(formGeneralData, state, dispatch, router, session)
+						}
+						isLoading={state.isSubmitting}
 						variant="shadow"
 						color="primary"
 						radius="sm"
@@ -173,15 +137,19 @@ export const FormComponent: FC<FormProps> = ({
 							<Input
 								radius="sm"
 								placeholder="Add a comment"
-								value={comment}
-								onValueChange={setComment}
+								value={state.comment}
+								onValueChange={(value) =>
+									dispatch({ type: "SET_COMMENT", payload: value })
+								}
 							/>
 							<Button
 								radius="sm"
 								variant="flat"
 								color="primary"
 								className="ml-2"
-								onClick={uploadComment}
+								onClick={() =>
+									uploadComment(formGeneralData, state, dispatch, session)
+								}
 								isIconOnly
 							>
 								<IoMdSend size={20} />

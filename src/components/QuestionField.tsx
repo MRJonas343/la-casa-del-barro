@@ -16,7 +16,7 @@ import { useSession } from "next-auth/react";
 interface QuestionFieldProps {
 	isDisabled: boolean;
 	question: AnswerProps;
-	updateValue: (id: number, value: string | boolean) => void;
+	updateValue: (id: number, value: string | boolean | number) => void;
 }
 
 export const QuestionField: FC<QuestionFieldProps> = ({

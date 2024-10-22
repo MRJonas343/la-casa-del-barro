@@ -109,7 +109,19 @@ const getFilledFormsByFormId = async (formId: number) => {
 	return result;
 };
 
+const getFilledFormsByUserId = async (userId: number, formId: number) => {
+	const result = await db.query.filledForms.findFirst({
+		where: and(
+			eq(filledForms.user_id, userId),
+			eq(filledForms.form_id, formId),
+		),
+	});
+
+	return result;
+};
+
 export const filledFormsRepository = {
 	getFormWithUserAnswers,
 	getFilledFormsByFormId,
+	getFilledFormsByUserId,
 };
