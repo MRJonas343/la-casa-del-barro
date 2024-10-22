@@ -11,41 +11,33 @@ import {
 	AutocompleteItem,
 	User,
 } from "@nextui-org/react";
-import type {
-	FormSettings,
-	GeneralSettingsProps,
-	UserType,
-} from "@/interfaces";
+import type { FormSettings, GeneralSettingsProps } from "@/interfaces";
 import { tabs, topics } from "@/constants";
 import { FaRegQuestionCircle, FaSearch } from "react-icons/fa";
-import type { Selection } from "@nextui-org/react";
 import { SelectItem } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
-import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
-import { useState, type FC } from "react";
-import { createForm, getUsersByEmail, getUsersByName } from "@/services";
+import { useReducer, type FC } from "react";
 import { useTranslations } from "next-intl";
-import { useDebouncedCallback } from "use-debounce";
-import { getUserById } from "@/services/users/getUserById";
 import { IoCloseCircleSharp } from "react-icons/io5";
+import { initialState, reducer } from "../store/generalSettingsState";
+import { submitGeneralSettings } from "../utils/submitGeneralSettings";
+import { useImageDropzone } from "@/hooks/useImageDropZone";
+import { useDebouncedSearch } from "../hooks/useDebounceSearch";
+import {
+	deleteSelectedUser,
+	selectUser,
+} from "../utils/handleUsersInSelectState";
 
 export const GeneralSettings: FC<GeneralSettingsProps> = ({
 	changeTab,
 	setFormId,
 }) => {
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [isFormPublic, setIsFormPublic] = useState(false);
-	const [topicsState, setTopicsState] = useState<Selection>(new Set([]));
-	const [image, setImage] = useState<File | null>(null);
-	const [selectedUsers, setSelectedUsers] = useState<UserType[]>([]);
-	const [inputValue, setInputValue] = useState("");
-	const [users, setUsers] = useState<UserType[]>([]);
-	const [searchingBy, setSearchingBy] = useState<Selection>(
-		new Set(["username"]),
-	);
-
+	const [state, dispatch] = useReducer(reducer, initialState);
+	const { getRootProps, getInputProps } = useImageDropzone({ dispatch });
+	const debouncedSearch = useDebouncedSearch(state, dispatch);
 	const { data: session } = useSession();
+
 	const t = useTranslations("generalSettings");
 	const t2 = useTranslations("CloudTags");
 
@@ -56,64 +48,20 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 	} = useForm<FormSettings>();
 
 	const onSubmit = async (data: FormSettings) => {
-		setIsSubmitting(true);
-
-		if (data.otherTopic) data.topic = data.otherTopic;
-
-		const formData = new FormData();
-		if (image) formData.append("image", image);
-		const userId = Number.parseInt(session?.user?.id ?? "");
-
-		const formId = await createForm(data, userId, selectedUsers, formData);
-
-		if (formId === "INVALID_FORM") return;
-		setFormId(formId.toString());
-		changeTab("set-questions");
-
-		setIsSubmitting(false);
+		if (!session) return;
+		await submitGeneralSettings(
+			data,
+			setFormId,
+			changeTab,
+			dispatch,
+			state,
+			session,
+		);
 	};
-
-	const { getRootProps, getInputProps } = useDropzone({
-		maxFiles: 1,
-		accept: {
-			"image/*": [".png", ".jpg", ".jpeg", ".webp"],
-		},
-		onDrop: (acceptedFiles) => setImage(acceptedFiles[0]),
-	});
-
-	const debouncedSearch = useDebouncedCallback(async (value: string) => {
-		//@ts-ignore
-		if (searchingBy.has("username")) {
-			const users = await getUsersByName(value);
-			if (users.length === 0) return setUsers([]);
-			setUsers(users);
-			return;
-		}
-		//@ts-ignore
-		if (searchingBy.has("email")) {
-			const users = await getUsersByEmail(value);
-			if (users.length === 0) return setUsers([]);
-			setUsers(users);
-			return;
-		}
-	}, 700);
 
 	const handleSearchInputChange = (value: string) => {
-		setInputValue(value);
+		dispatch({ type: "SET_INPUT_VALUE", payload: value });
 		debouncedSearch(value);
-	};
-
-	const selectUser = async (id: number) => {
-		if (selectedUsers.find((user) => user.id === id)) return;
-		const user = await getUserById(id);
-		if (!user) return setInputValue("");
-		setSelectedUsers([...selectedUsers, user]);
-		setInputValue("");
-	};
-
-	const deleteSelectedUser = (id: number) => {
-		const newUsers = selectedUsers.filter((user) => user.id !== id);
-		setSelectedUsers(newUsers);
 	};
 
 	return (
@@ -141,8 +89,10 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 					label={t("topic")}
 					variant="bordered"
 					isInvalid={Boolean(errors.topic)}
-					selectedKeys={topicsState}
-					onSelectionChange={setTopicsState}
+					selectedKeys={state.topicsState}
+					onSelectionChange={(topics) =>
+						dispatch({ type: "SET_TOPICS", payload: topics })
+					}
 					errorMessage="This field is required"
 					selectionMode="single"
 					className="w-full mt-3 md:mt-0"
@@ -221,18 +171,20 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 					</span>{" "}
 					{t("toSelectFromYourDevice")}
 				</p>
-				<ul>{image?.name}</ul>
+				<ul>{state.image?.name}</ul>
 			</div>
 			<Checkbox
 				radius="sm"
 				className=""
-				isSelected={isFormPublic}
-				onValueChange={setIsFormPublic}
+				isSelected={state.isFormPublic}
+				onValueChange={(isFormPublic) =>
+					dispatch({ type: "SET_FORM_PUBLIC", payload: isFormPublic })
+				}
 				{...register("isPublic")}
 			>
 				{t("makeFormPublic")}
 			</Checkbox>
-			{!isFormPublic && (
+			{!state.isFormPublic && (
 				<>
 					<div className="flex mt-1 gap-3">
 						<Select
@@ -242,8 +194,10 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 							variant="bordered"
 							selectionMode="single"
 							className="w-48"
-							selectedKeys={searchingBy}
-							onSelectionChange={setSearchingBy}
+							selectedKeys={state.searchingBy}
+							onSelectionChange={(searchingBy) =>
+								dispatch({ type: "SET_SEARCHING_BY", payload: searchingBy })
+							}
 						>
 							<SelectItem key="username">{t("name")}</SelectItem>
 							<SelectItem key="email">{t("email")}</SelectItem>
@@ -258,11 +212,13 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 							placeholder="search"
 							className="w-full"
 							variant="bordered"
-							inputValue={inputValue}
-							onSelectionChange={(value) => selectUser(value as number)}
+							inputValue={state.inputValue}
+							onSelectionChange={(value) =>
+								selectUser(value as number, state, dispatch)
+							}
 							onInputChange={(value) => handleSearchInputChange(value)}
 						>
-							{users.map((user) => (
+							{state.users.map((user) => (
 								<AutocompleteItem
 									key={user.id}
 									textValue={`${user.name} ${user.email}`}
@@ -274,7 +230,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 					</div>
 
 					<div className="border-2 min-h-24 gap-2 p-4 w-full rounded-lg border-default-200 flex flex-col items-start sm:flex-wrap sm:flex-row sm:gap-4">
-						{selectedUsers.map((user) => (
+						{state.selectedUsers.map((user) => (
 							<div
 								key={user.id}
 								className="flex items-start mb-1 border-default-200 border-2 rounded-lg p-2"
@@ -287,7 +243,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 								<Button isIconOnly variant="light" color="danger">
 									<IoCloseCircleSharp
 										size={24}
-										onClick={() => deleteSelectedUser(user.id)}
+										onClick={() => deleteSelectedUser(user.id, state, dispatch)}
 									/>
 								</Button>
 							</div>
@@ -296,7 +252,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 				</>
 			)}
 			<Button
-				isLoading={isSubmitting}
+				isLoading={state.isSubmitting}
 				className="mb-10 font-semibold"
 				type="submit"
 				color="primary"

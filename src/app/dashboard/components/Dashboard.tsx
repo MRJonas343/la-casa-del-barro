@@ -2,7 +2,6 @@
 
 import { DashboardTabs, MyFormsTable, MyFilledForm } from ".";
 import type { FilledForm, UserForms } from "@/interfaces";
-import { SearchInput } from "@/components";
 import { useState } from "react";
 
 interface DashboardProps {

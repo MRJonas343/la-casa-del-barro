@@ -10,51 +10,26 @@ import {
 	useDisclosure,
 } from "@nextui-org/react";
 import { Table, TableBody, TableCell, getKeyValue } from "@nextui-org/react";
-import type { MyFormsTableProps, UserForms } from "@/interfaces";
+import type { MyFormsTableProps } from "@/interfaces";
 import { MyFormsColumns } from "@/constants";
-import { useAsyncList } from "@react-stately/data";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useTranslations } from "next-intl";
-import { useRef, useState, type FC } from "react";
+import { useRef, type FC } from "react";
 import { ModalWithFillForms } from "./ModalWithFillForms";
 import { useRouter } from "next/navigation";
+import { useSortableList, type GenericItem } from "@/hooks/useSortableList";
 
 export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
-	const formIdRef = useRef(0);
-	const [formsState, setFormsState] = useState<UserForms[]>(forms);
-	const [isLoading, setIsLoading] = useState(true);
+	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+	const { isLoading, list } = useSortableList({
+		items: forms as unknown as GenericItem[],
+	});
+
+	const formIdRef = useRef(0);
 	const router = useRouter();
 
-	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const t = useTranslations("myFormsTable");
-
-	const list = useAsyncList({
-		async load() {
-			setIsLoading(false);
-			return {
-				items: formsState,
-			};
-		},
-		async sort({ items, sortDescriptor }) {
-			const columnKey = sortDescriptor.column as keyof (typeof items)[0];
-
-			return {
-				items: items.sort((a, b) => {
-					const first = a[columnKey];
-					const second = b[columnKey];
-
-					const cmp =
-						(Number.parseInt(first as string) || first) <
-						(Number.parseInt(second as string) || second)
-							? -1
-							: 1;
-
-					return sortDescriptor.direction === "descending" ? -cmp : cmp;
-				}),
-			};
-		},
-	});
 
 	return (
 		<>
@@ -127,11 +102,12 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 						loadingContent={<Spinner size="lg" label="Loading..." />}
 					>
 						{(item) => (
-							<TableRow key={item.formId}>
+							<TableRow key={item.formId as React.Key}>
 								{(columnKey) => (
 									<TableCell className="lg:text-lg">
 										{columnKey === "questions" ? (
 											<ul className="list-disc list-inside">
+												{/* @ts-ignore */}
 												{item.questions?.map((question) => (
 													<li key={question}>
 														{question || "No question available"}
