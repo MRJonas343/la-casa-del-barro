@@ -17,6 +17,11 @@ export interface Form {
 	description: string;
 	isPublic: boolean;
 	imageUrl: string;
+	tags: Tags[];
+}
+export interface Tags {
+	id: number;
+	tag: string;
 }
 
 export interface UsersWithPermission {

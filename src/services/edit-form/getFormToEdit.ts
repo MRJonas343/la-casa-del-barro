@@ -1,14 +1,27 @@
 "use server";
 
 import type { UserType } from "@/interfaces";
-import { formRepository, permissionRepository } from "@/repositories";
+import {
+	formRepository,
+	permissionRepository,
+	tagsRepository,
+} from "@/repositories";
 
 export const getFormToEdit = async (formId: number) => {
-	const form = await formRepository.getFormById(formId);
+	const formData = await formRepository.getFormById(formId);
+	if (!formData) return;
+
+	const tags = await tagsRepository.getTagsByFormId(formId);
+
+	const form = {
+		...formData,
+		tags: tags.map((tag) => ({
+			id: tag.tagId,
+			tag: tag.tagName,
+		})),
+	};
 
 	let usersWithPermissions: UserType[] = [];
-
-	if (!form) return;
 
 	if (!form.isPublic) {
 		usersWithPermissions =

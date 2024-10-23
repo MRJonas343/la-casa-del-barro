@@ -4,4 +4,5 @@ export * from "./filledForms/filledFormsRepository";
 export * from "./forms/formRepository";
 export * from "./forms/questionsRepository";
 export * from "./permissions/permissionRepository";
+export * from "./tags/tagsRepository";
 export * from "./user/userRepository";

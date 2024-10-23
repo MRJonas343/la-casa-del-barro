@@ -1,6 +1,10 @@
 import { useDebouncedCallback } from "use-debounce";
 import { getUsersByName, getUsersByEmail } from "@/services";
 import type { Action, initialState } from "../store/generalSettingsState";
+import type {
+	FormSettingsAction,
+	FormSettingsState,
+} from "../edit-form/store/state";
 
 export const useDebouncedSearch = (
 	state: typeof initialState,
@@ -26,6 +30,22 @@ export const useDebouncedSearch = (
 			dispatch({ type: "SET_USERS", payload: users });
 			return;
 		}
+	}, 700);
+
+	return debouncedSearch;
+};
+
+export const useDebouncedSearch2 = (
+	state: FormSettingsState,
+	dispatch: (value: FormSettingsAction) => void,
+) => {
+	const debouncedSearch = useDebouncedCallback(async (value: string) => {
+		const result = await getUsersByName(value);
+		if (result.length === 0) {
+			dispatch({ type: "SET_USERS", payload: [] });
+			return;
+		}
+		dispatch({ type: "SET_USERS", payload: result });
 	}, 700);
 
 	return debouncedSearch;

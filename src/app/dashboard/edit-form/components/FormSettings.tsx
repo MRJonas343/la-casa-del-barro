@@ -1,4 +1,6 @@
 import {
+	Autocomplete,
+	AutocompleteItem,
 	Button,
 	Checkbox,
 	Input,
@@ -6,40 +8,42 @@ import {
 	SelectItem,
 	Textarea,
 	Tooltip,
+	User,
 } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
-import type { Selection } from "@nextui-org/react";
-import { tabs, topics, usersExamples } from "@/constants";
-import { FaRegQuestionCircle } from "react-icons/fa";
-import { useDropzone } from "react-dropzone";
-import { SearchInput } from "@/components";
+import { useReducer } from "react";
+import { tabs, topics } from "@/constants";
+import { FaRegQuestionCircle, FaSearch } from "react-icons/fa";
 import type { FormGeneralData } from "@/interfaces/formDataToUpdate";
 import { useForm } from "react-hook-form";
 import type { FormSettingsType } from "@/interfaces";
+import { IoCloseCircleSharp } from "react-icons/io5";
+import { useImageDropzone2 } from "@/hooks/useImageDropZone";
+import { formSettingsReducer, initializer } from "../store/state";
+import {
+	deleteSelectedUser,
+	selectUser,
+} from "../utils/handleUsersInSelectState";
+import { useDebouncedSearch2 } from "../../hooks/useDebounceSearch";
 
 const FormSettings = ({ data }: { data: FormGeneralData }) => {
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [isFormPublic, setIsFormPublic] = useState(false);
-	const [topicsState, setTopicsState] = useState<Selection>(new Set([]));
-	const [image, setImage] = useState<File | null>(null);
+	const [state, dispatch] = useReducer(formSettingsReducer, initializer(data));
+	const { getRootProps, getInputProps } = useImageDropzone2({ dispatch });
+	const debouncedSearch = useDebouncedSearch2(state, dispatch);
 
 	const t = useTranslations("generalSettings");
 	const t2 = useTranslations("CloudTags");
-
-	const { getRootProps, getInputProps } = useDropzone({
-		maxFiles: 1,
-		accept: {
-			"image/*": [".png", ".jpg", ".jpeg", ".webp"],
-		},
-		onDrop: (acceptedFiles) => setImage(acceptedFiles[0]),
-	});
 
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 	} = useForm<FormSettingsType>();
+
+	const handleSearchInputChange = (value: string) => {
+		dispatch({ type: "SET_TEXT_SEARCH_VALUE", payload: value });
+		debouncedSearch(value);
+	};
 
 	return (
 		<form
@@ -66,15 +70,17 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 					radius="sm"
 					label={t("topic")}
 					variant="bordered"
-					//isInvalid={Boolean(errors.topic)}
-					selectedKeys={topicsState}
-					onSelectionChange={setTopicsState}
+					isInvalid={Boolean(errors.topic)}
+					selectedKeys={state.topicsState}
+					onSelectionChange={(topics) =>
+						dispatch({ type: "SET_TOPICS_STATE", payload: topics })
+					}
 					errorMessage="This field is required"
 					selectionMode="single"
 					className="w-full mt-3 md:mt-0"
-					// {...register("topic", {
-					//   required: true,
-					// })}
+					{...register("topic", {
+						required: true,
+					})}
 				>
 					{topics.map((topic) => (
 						<SelectItem key={topic.topic}>{topic.topic}</SelectItem>
@@ -86,14 +92,14 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 						variant="bordered"
 						label={t("addTopic")}
 						//@ts-ignore
-						className={`w-full mt-3 md:mt-0 ${!topicsState.has("Other") && "hidden"}`}
+						className={`w-full mt-3 md:mt-0 ${!state.topicsState.has("Other") && "hidden"}`}
 						//@ts-ignore
-						isRequired={topicsState.has("Other")}
-						// isInvalid={Boolean(errors.otherTopic)}
-						// {...register("otherTopic", {
-						//   //@ts-ignore
-						//   required: topicsState.has("Other"),
-						// })}
+						isRequired={state.topicsState.has("Other")}
+						isInvalid={Boolean(errors.otherTopic)}
+						{...register("otherTopic", {
+							//@ts-ignore
+							required: state.topicsState.has("Other"),
+						})}
 					/>
 				}
 			</div>
@@ -101,6 +107,7 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 				isRequired
 				radius="sm"
 				variant="bordered"
+				defaultValue={data.form.description}
 				label={t("description")}
 				className="w-full"
 				errorMessage="This field is required"
@@ -113,10 +120,10 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 						</Button>
 					</Tooltip>
 				}
-				// isInvalid={Boolean(errors.description)}
-				// {...register("description", {
-				//   required: true,
-				// })}
+				isInvalid={Boolean(errors.description)}
+				{...register("description", {
+					required: true,
+				})}
 			>
 				Description
 			</Textarea>
@@ -125,9 +132,10 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 				radius="sm"
 				label={t("tags")}
 				variant="bordered"
+				defaultSelectedKeys={data.form.tags.map((tag) => tag.id.toString())}
 				selectionMode="multiple"
 				className="w-full"
-				// {...register("tags")}
+				{...register("tags")}
 			>
 				{tabs.map((tag) => (
 					<SelectItem key={tag.id}>{t2(tag.value)}</SelectItem>
@@ -147,18 +155,21 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 					</span>{" "}
 					{t("toSelectFromYourDevice")}
 				</p>
-				<ul>{image?.name}</ul>
+				<ul>{state.image?.name}</ul>
 			</div>
 			<Checkbox
 				radius="sm"
 				className=""
-				isSelected={isFormPublic}
-				onValueChange={setIsFormPublic}
-				// {...register("isPublic")}
+				isSelected={state.isFormPublic}
+				onValueChange={(isFormPublic) =>
+					dispatch({ type: "SET_IS_FORM_PUBLIC", payload: isFormPublic })
+				}
+				{...register("isPublic")}
 			>
 				{t("makeFormPublic")}
 			</Checkbox>
-			{!isFormPublic && (
+
+			{!state.isFormPublic && (
 				<>
 					<div className="flex mt-1 gap-3">
 						<Select
@@ -168,45 +179,65 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 							variant="bordered"
 							selectionMode="single"
 							className="w-48"
+							selectedKeys={state.searchingBy}
+							onSelectionChange={(searchingBy) =>
+								dispatch({ type: "SET_SEARCHING_BY", payload: searchingBy })
+							}
 						>
 							<SelectItem key="username">{t("name")}</SelectItem>
 							<SelectItem key="email">{t("email")}</SelectItem>
 						</Select>
-						<SearchInput
-							placeholder={t("searchUsers")}
+						<Autocomplete
+							aria-label="autocomplete"
+							aria-labelledby="autocomplete-label"
+							radius="sm"
 							size="lg"
-							classname="mx-o"
-						/>
+							isClearable
+							startContent={<FaSearch />}
+							placeholder="search"
+							className="w-full"
+							variant="bordered"
+							inputValue={state.textSearchValue}
+							onSelectionChange={(value) =>
+								selectUser(value as number, state, dispatch)
+							}
+							onInputChange={(value) => handleSearchInputChange(value)}
+						>
+							{state.users.map((user) => (
+								<AutocompleteItem
+									key={user.id}
+									textValue={`${user.name} ${user.email}`}
+								>
+									<User name={user.name} description={user.email} />
+								</AutocompleteItem>
+							))}
+						</Autocomplete>
 					</div>
-					<Select
-						items={usersExamples}
-						label={t("assignedTo")}
-						variant="bordered"
-						isMultiline={true}
-						selectionMode="multiple"
-						placeholder="Select Users"
-						labelPlacement="outside"
-						className="w-full"
-						classNames={{
-							trigger: "min-h-12 py-2",
-						}}
-						// {...register("users")}
-					>
-						{(user) => (
-							<SelectItem key={user.id} textValue={user.name}>
-								<div className="flex flex-col">
-									<span className="text-small">{user.name}</span>
-									<span className="text-tiny text-default-400">
-										{user.email}
-									</span>
-								</div>
-							</SelectItem>
-						)}
-					</Select>
+
+					<div className="border-2 min-h-24 gap-2 p-4 w-full rounded-lg border-default-200 flex flex-col items-start sm:flex-wrap sm:flex-row sm:gap-4">
+						{state.selectedUsers.map((user) => (
+							<div
+								key={user.id}
+								className="flex items-start mb-1 border-default-200 border-2 rounded-lg p-2"
+							>
+								<User
+									name={user.name}
+									description={user.email}
+									className="min-w-56 justify-start"
+								/>
+								<Button isIconOnly variant="light" color="danger">
+									<IoCloseCircleSharp
+										size={24}
+										onClick={() => deleteSelectedUser(user.id, state, dispatch)}
+									/>
+								</Button>
+							</div>
+						))}
+					</div>
 				</>
 			)}
 			<Button
-				isLoading={isSubmitting}
+				isLoading={state.isSubmitting}
 				className="mb-10 font-semibold"
 				type="submit"
 				color="primary"
