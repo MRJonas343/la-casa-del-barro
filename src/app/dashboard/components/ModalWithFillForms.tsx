@@ -114,14 +114,6 @@ export const ModalWithFillForms: FC<ModalWithFillFormsProps> = ({
 								</Table>
 							</div>
 						</ModalBody>
-						<ModalFooter>
-							<Button color="danger" variant="light" onPress={onClose}>
-								Close
-							</Button>
-							<Button color="primary" onPress={onClose}>
-								Action
-							</Button>
-						</ModalFooter>
 					</>
 				)}
 			</ModalContent>

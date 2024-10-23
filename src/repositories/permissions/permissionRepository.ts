@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { formPermissions, users } from "@/db/schemas";
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 
 type Permission = {
 	form_id: number;
@@ -8,8 +8,21 @@ type Permission = {
 };
 
 const createPermissions = async (permissions: Permission[]) => {
-	const result = await db.insert(formPermissions).values(permissions);
-	return result;
+	for (const permission of permissions) {
+		const exists = await db
+			.select()
+			.from(formPermissions)
+			.where(
+				and(
+					eq(formPermissions.form_id, permission.form_id),
+					eq(formPermissions.user_id, permission.user_id),
+				),
+			)
+			.limit(1);
+		if (exists.length === 0) {
+			await db.insert(formPermissions).values(permission);
+		}
+	}
 };
 
 const getPermission = async (formId: number, userId: number) => {
@@ -37,8 +50,25 @@ const getUsersWithPermissions = async (formId: number) => {
 	return result;
 };
 
+const deletePermissionsByFormId = async (
+	formId: number,
+	usersIds: number[],
+) => {
+	const result = await db
+		.delete(formPermissions)
+		.where(
+			and(
+				eq(formPermissions.form_id, formId),
+				inArray(formPermissions.user_id, usersIds),
+			),
+		);
+
+	return result;
+};
+
 export const permissionRepository = {
 	getUsersWithPermissions,
 	getPermission,
 	createPermissions,
+	deletePermissionsByFormId,
 };

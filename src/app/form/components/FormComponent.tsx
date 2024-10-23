@@ -10,14 +10,17 @@ import {
 	Checkbox,
 	Input,
 } from "@nextui-org/react";
-import { MarkdownRenderArea, QuestionField } from "@/components";
+import {
+	CustomHeartIcon,
+	MarkdownRenderArea,
+	QuestionField,
+} from "@/components";
 import { formInitialState, formReducer } from "../store/state";
 import { useEffect, useReducer, type FC } from "react";
 import type { FormProps } from "@/interfaces";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { IoMdSend } from "react-icons/io";
-import { FaHeart } from "react-icons/fa6";
 import toast from "react-hot-toast";
 import {
 	submitForm,
@@ -41,7 +44,6 @@ export const FormComponent: FC<FormProps> = ({
 
 	const router = useRouter();
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (!session) {
 			toast("You are in read only mode, please login to fill the form", {
@@ -101,7 +103,7 @@ export const FormComponent: FC<FormProps> = ({
 					<Checkbox
 						isDisabled={isReadOnly}
 						className="px-3"
-						icon={<FaHeart />}
+						icon={<CustomHeartIcon />}
 						color="danger"
 						isSelected={state.isFormLiked}
 						onValueChange={(value) =>

@@ -50,9 +50,19 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 	};
 
 	const submitHandler = async (formData: FormSettingsType) => {
-		const result = await onSubmit(formData, initialData, state);
-		//console.log(result);
-		toast.success("Form updated successfully");
+		const newTags =
+			typeof formData.tags === "string"
+				? formData.tags.split(",")
+				: formData.tags;
+
+		const newFormData = {
+			...formData,
+			tags: newTags,
+		};
+
+		dispatch({ type: "SET_IS_SUBMITTING", payload: true });
+		const result = await onSubmit(newFormData, initialData, state);
+		dispatch({ type: "SET_IS_SUBMITTING", payload: false });
 	};
 
 	return (

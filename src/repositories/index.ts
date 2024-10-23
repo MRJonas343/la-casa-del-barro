@@ -1,5 +1,6 @@
 export * from "./comments/commentsRespository";
 export * from "./dashboard/dashboardRepository";
+export * from "./edit-form/editFormRepository";
 export * from "./filledForms/filledFormsRepository";
 export * from "./forms/formRepository";
 export * from "./forms/questionsRepository";

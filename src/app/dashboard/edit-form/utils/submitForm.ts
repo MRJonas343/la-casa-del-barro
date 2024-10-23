@@ -1,11 +1,15 @@
-import type { FormSettingsType } from "@/interfaces";
-import type { FormGeneralData } from "@/interfaces/formDataToUpdate";
+import type { NewFormSettingsType, UserType } from "@/interfaces";
+import type {
+	FormGeneralData,
+	UsersWithPermission,
+} from "@/interfaces/formDataToUpdate";
 import type { MutableRefObject } from "react";
 import type { FormSettingsState } from "../store/state";
 import { updateFormSetting } from "@/services";
+import toast from "react-hot-toast";
 
 export const onSubmit = async (
-	data: FormSettingsType,
+	data: NewFormSettingsType,
 	initialData: MutableRefObject<FormGeneralData>,
 	state: FormSettingsState,
 ) => {
@@ -36,22 +40,39 @@ export const onSubmit = async (
 		Object.assign(dataToUpdate, { isPublic: data.isPublic });
 	}
 
-	const initialTags = initialData.current.form.tags.map((tagObj) =>
-		tagObj.id.toString(),
-	);
+	const prevTagsIds = initialData.current.form.tags.map((tagObj) => tagObj.id);
+	const newTagsIds = data.tags[0]
+		? data.tags.map((tag) => Number.parseInt(tag))
+		: [];
 
-	const arraysAreEqual = initialTags.every((value, index) => {
-		return value === data.tags[index].toString();
-	});
+	const tagsAreEqual =
+		newTagsIds.length > 0 &&
+		newTagsIds.every((value, index) => {
+			return value === prevTagsIds[index];
+		});
 
-	if (!arraysAreEqual) {
-		Object.assign(dataToUpdate, { tags: data.tags });
+	if (!tagsAreEqual) {
+		const removedTags = prevTagsIds.filter((id) => !newTagsIds.includes(id));
+		const addedTags = newTagsIds.filter((id) => !prevTagsIds.includes(id));
+
+		if (removedTags.length > 0) {
+			Object.assign(dataToUpdate, { tagsToDelete: removedTags });
+		}
+
+		if (addedTags.length > 0) {
+			Object.assign(dataToUpdate, {
+				tagsToAdd: addedTags,
+			});
+		}
 	}
 
 	if (!data.isPublic) {
-		const selectedUserIds = state.selectedUsers.map((user) => user.id);
+		const selectedUserIds = state.selectedUsers.map(
+			(user: UserType) => user.id,
+		);
+
 		const initialUserIds = initialData.current.usersWithPermissions.map(
-			(user) => user.id,
+			(user: UsersWithPermission) => user.id,
 		);
 
 		const addedUsers = selectedUserIds.filter(
@@ -60,12 +81,21 @@ export const onSubmit = async (
 		const removedUsers = initialUserIds.filter(
 			(id) => !selectedUserIds.includes(id),
 		);
+
 		if (addedUsers.length > 0 || removedUsers.length > 0) {
-			Object.assign(dataToUpdate, { users: state.selectedUsers });
+			if (addedUsers.length > 0) {
+				Object.assign(dataToUpdate, { usersToAdd: addedUsers });
+			}
+
+			if (removedUsers.length > 0) {
+				Object.assign(dataToUpdate, { usersToRemove: removedUsers });
+			}
 		}
 	}
 
-	if (Object.keys(dataToUpdate).length === 0 && !state.image) return;
+	if (Object.keys(dataToUpdate).length === 0 && !state.image) {
+		return toast("No changes made");
+	}
 
 	const result = await updateFormSetting(
 		initialData.current.form.id,
@@ -73,5 +103,7 @@ export const onSubmit = async (
 		imageInForm,
 	);
 
-	return dataToUpdate;
+	if (result) toast.success("Form updated successfully");
+
+	return result;
 };

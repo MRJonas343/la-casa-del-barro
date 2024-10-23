@@ -1,24 +1,93 @@
 "use server";
 
-import { db } from "@/db";
-import { forms } from "@/db/schemas";
-import type { FormSettingsType } from "@/interfaces";
-import { eq } from "drizzle-orm";
-
-type FormSettingPartial = Partial<FormSettingsType>;
+import type { FormSettingsToUpdate } from "@/interfaces";
+import {
+	editFormRepository,
+	permissionRepository,
+	tagsRepository,
+} from "@/repositories";
+import { uploadImage } from "@/utils";
+import { deleteImage } from "@/utils/deleteImage";
+import { revalidatePath } from "next/cache";
 
 export const updateFormSetting = async (
 	formId: number,
-	data: FormSettingPartial,
+	data: FormSettingsToUpdate,
 	imageInForm?: FormData,
 ) => {
-	console.log(data);
-	console.log(imageInForm);
-	console.log(formId);
+	const keysToUpdate = {};
+	let newImageKey: string | null = null;
+
 	if (imageInForm?.has("image")) {
-		//update the imagen then
-		//you know, delete the old image and upload the new one
-		console.log("update the imagen then");
+		const imageKey = await editFormRepository.getPrevImage(formId);
+		if (imageKey) {
+			const result = await deleteImage(imageKey);
+			if (result === "ERROR") return;
+		}
+
+		const image = imageInForm.get("image") as File;
+		newImageKey = await uploadImage(image);
 	}
-	//const result = await db.update(forms).set(data).where(eq(forms.id, formId));
+
+	if (data.title) {
+		Object.assign(keysToUpdate, { title: data.title });
+	}
+
+	if (data.topic) {
+		Object.assign(keysToUpdate, { topic: data.topic });
+	}
+
+	if (data.otherTopic) {
+		Object.assign(keysToUpdate, { topic: data.otherTopic });
+	}
+
+	if (data.description) {
+		Object.assign(keysToUpdate, { description: data.description });
+	}
+
+	if (typeof data.isPublic !== "undefined") {
+		Object.assign(keysToUpdate, { isPublic: data.isPublic });
+	}
+
+	if (newImageKey) {
+		Object.assign(keysToUpdate, { imageUrl: newImageKey });
+	}
+
+	if (data.tagsToAdd) {
+		const tags = data.tagsToAdd.map((tag) => ({
+			form_id: formId,
+			tag_id: tag,
+		}));
+
+		await tagsRepository.insertTagsByFormId(formId, tags);
+	}
+
+	if (data.tagsToDelete) {
+		const tags = data.tagsToDelete.map((tag) => ({
+			form_id: formId,
+			tag_id: tag,
+		}));
+
+		await tagsRepository.deleteTagsByFormId(formId, tags);
+	}
+
+	if (data.usersToAdd) {
+		const permissions = data.usersToAdd.map((userId) => ({
+			form_id: formId,
+			user_id: userId,
+		}));
+
+		await permissionRepository.createPermissions(permissions);
+	}
+
+	if (data.usersToRemove) {
+		await permissionRepository.deletePermissionsByFormId(
+			formId,
+			data.usersToRemove,
+		);
+	}
+
+	revalidatePath(`/dashboard/edit-form/${formId}`);
+
+	return "SUCCESS";
 };
