@@ -56,7 +56,7 @@ export const FormComponent: FC<FormProps> = ({
 				<Card className="w-full max-w-[800px] mx-auto flex flex-col">
 					<CardHeader className="flex gap-3">
 						<Image
-							alt="nextui logo"
+							alt={formGeneralData.title}
 							height={40}
 							radius="sm"
 							src={formGeneralData.imageUrl}

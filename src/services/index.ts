@@ -3,6 +3,7 @@ export * from "./auth/createUser";
 export * from "./comments/createComment";
 export * from "./comments/getComments";
 export * from "./edit-form/getFormToEdit";
+export * from "./edit-form/updateFormSetting";
 export * from "./filledForms/fillForm";
 export * from "./filledForms/getFilledForm";
 export * from "./filledForms/getFilledForms";

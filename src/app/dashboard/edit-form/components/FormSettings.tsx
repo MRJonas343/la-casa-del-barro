@@ -9,9 +9,10 @@ import {
 	Textarea,
 	Tooltip,
 	User,
+	Image,
 } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
-import { useReducer } from "react";
+import { useReducer, useRef } from "react";
 import { tabs, topics } from "@/constants";
 import { FaRegQuestionCircle, FaSearch } from "react-icons/fa";
 import type { FormGeneralData } from "@/interfaces/formDataToUpdate";
@@ -25,11 +26,14 @@ import {
 	selectUser,
 } from "../utils/handleUsersInSelectState";
 import { useDebouncedSearch2 } from "../../hooks/useDebounceSearch";
+import { onSubmit } from "../utils/submitForm";
+import toast from "react-hot-toast";
 
 const FormSettings = ({ data }: { data: FormGeneralData }) => {
 	const [state, dispatch] = useReducer(formSettingsReducer, initializer(data));
 	const { getRootProps, getInputProps } = useImageDropzone2({ dispatch });
 	const debouncedSearch = useDebouncedSearch2(state, dispatch);
+	const initialData = useRef(data);
 
 	const t = useTranslations("generalSettings");
 	const t2 = useTranslations("CloudTags");
@@ -45,9 +49,15 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 		debouncedSearch(value);
 	};
 
+	const submitHandler = async (formData: FormSettingsType) => {
+		const result = await onSubmit(formData, initialData, state);
+		//console.log(result);
+		toast.success("Form updated successfully");
+	};
+
 	return (
 		<form
-			//onSubmit={handleSubmit(onSubmit)}
+			onSubmit={handleSubmit(submitHandler)}
 			className="mt-4 flex flex-col gap-3 w-[90%] sm:w-[95%] mx-auto max-w-[1240px]"
 		>
 			<div className="md:flex md:gap-8">
@@ -143,18 +153,31 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 			</Select>
 			<div
 				{...getRootProps({ className: "dropzone" })}
-				className="border-2 p-3 border-default-200 rounded-md cursor-pointer"
+				className="border-2 p-3 border-default-200 rounded-lg cursor-pointer"
 			>
-				<label className="text-default-500">{t("addImage")}</label>
+				<div className="flex items-center gap-2 pb-2">
+					{data.form.imageUrl && (
+						<Image
+							radius="sm"
+							src={data.form.imageUrl}
+							alt="form image"
+							width={40}
+							height={40}
+						/>
+					)}
+					<label className="text-default-500">Change Image</label>
+				</div>
 				<input type="file" className="w-full" {...getInputProps()} />
 
-				<p className="text-default-500">
-					{t("dropImage")}{" "}
-					<span className="text-blue-600 font-semibold cursor-pointer">
-						{t("clickHere")}
-					</span>{" "}
-					{t("toSelectFromYourDevice")}
-				</p>
+				{!state.image?.name && (
+					<p className="text-default-500">
+						{t("dropImage")}{" "}
+						<span className="text-blue-600 font-semibold cursor-pointer">
+							{t("clickHere")}
+						</span>{" "}
+						{t("toSelectFromYourDevice")}
+					</p>
+				)}
 				<ul>{state.image?.name}</ul>
 			</div>
 			<Checkbox
@@ -244,7 +267,7 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 				radius="sm"
 				variant="shadow"
 			>
-				{t("setQuestions")}
+				Update Form
 			</Button>
 		</form>
 	);
