@@ -18,7 +18,8 @@
 		"@dnd-kit/sortable": "^8.0.0",
 		"@nextui-org/react": "^2.4.8",
 		"@react-stately/data": "^3.11.7",
-		"bcrypt": "^5.1.1",
+		"@types/bcryptjs": "^2.4.6",
+		"bcryptjs": "^2.4.3",
 		"dnd-kit": "^0.0.2",
 		"dotenv": "^16.4.5",
 		"drizzle-orm": "^0.35.1",
@@ -42,7 +43,6 @@
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
-		"@types/bcrypt": "^5.0.2",
 		"@types/node": "^22.7.6",
 		"@types/react": "^18.3.11",
 		"@types/react-dom": "^18.3.1",

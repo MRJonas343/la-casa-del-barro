@@ -7,7 +7,7 @@ import { initializeState, reducer } from "../store/state";
 import { useInView } from "react-intersection-observer";
 import type { FormCardProps } from "@/interfaces";
 import { Spinner } from "@nextui-org/react";
-import { useReducer, useRef } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { getFormsByTag } from "@/services";
 
 export const TagPage = ({
@@ -33,7 +33,11 @@ export const TagPage = ({
 		debouncedSearch(value);
 	};
 
-	if (inView && state.hasMore && state.fullTextSearch === "") loadMore();
+	useEffect(() => {
+		if (inView && state.hasMore && state.fullTextSearch === "") {
+			loadMore();
+		}
+	}, [inView, state.hasMore, state.fullTextSearch]);
 
 	return (
 		<>

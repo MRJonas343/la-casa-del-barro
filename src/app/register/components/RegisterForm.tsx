@@ -35,11 +35,11 @@ export const RegisterForm = () => {
 	};
 
 	return (
-		<form
+        (<form
 			onSubmit={handleSubmit(onSubmit)}
 			className="flex flex-col gap-4  max-w-[600px] w-[95%]"
 		>
-			<Input
+            <Input
 				radius="sm"
 				size="lg"
 				variant="bordered"
@@ -53,7 +53,7 @@ export const RegisterForm = () => {
 					maxLength: 50,
 				})}
 			/>
-			<Input
+            <Input
 				radius="sm"
 				size="lg"
 				variant="bordered"
@@ -66,7 +66,7 @@ export const RegisterForm = () => {
 					pattern: /^\S+@\S+$/i,
 				})}
 			/>
-			<Input
+            <Input
 				radius="sm"
 				size="lg"
 				variant="bordered"
@@ -94,8 +94,7 @@ export const RegisterForm = () => {
 					maxLength: 40,
 				})}
 			/>
-
-			<Button
+            <Button
 				color="primary"
 				variant="shadow"
 				size="lg"
@@ -106,13 +105,11 @@ export const RegisterForm = () => {
 			>
 				{t("register")}
 			</Button>
-			{/* <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-gray-700 after:mt-0.5 after:flex-1 after:border-t after:border-gray-700">
+            {/* <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-gray-700 after:mt-0.5 after:flex-1 after:border-t after:border-gray-700">
 				<p className="mx-4 mb-0 text-center"> Or login with </p>
 			</div> */}
-
-			<p className="text-center pt-2">{t("haveAccount")}</p>
-
-			<Link
+            <p className="text-center pt-2">{t("haveAccount")}</p>
+            <Link
 				color="primary"
 				size="lg"
 				className="text-xl font-semibold flex justify-center cursor-pointer"
@@ -120,6 +117,6 @@ export const RegisterForm = () => {
 			>
 				{t("loginHere")}
 			</Link>
-		</form>
-	);
+        </form>)
+    );
 };

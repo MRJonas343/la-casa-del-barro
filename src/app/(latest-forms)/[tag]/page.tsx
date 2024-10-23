@@ -1,12 +1,13 @@
 import { getFormsByTag } from "@/services";
 import { TagPage } from "../components/TagPage";
 
-const Page = async ({ params }: { params: { tag: string } }) => {
-	const { tag } = params;
+const Page = async (props: { params: Promise<{ tag: string }> }) => {
+    const params = await props.params;
+    const { tag } = params;
 
-	const { forms } = await getFormsByTag(1, 10, tag);
+    const { forms } = await getFormsByTag(1, 10, tag);
 
-	return (
+    return (
 		<div>
 			<TagPage cardsData={forms} tag={tag} />
 		</div>

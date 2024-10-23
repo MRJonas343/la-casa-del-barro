@@ -8,7 +8,7 @@ import { useInView } from "react-intersection-observer";
 import type { FormCardProps } from "@/interfaces";
 import { Spinner } from "@nextui-org/react";
 import { getLatestForms } from "@/services";
-import { useReducer, useRef } from "react";
+import { useEffect, useReducer, useRef } from "react";
 
 const MainPage = ({ cardsData }: { cardsData: FormCardProps[] }) => {
 	const [state, dispatch] = useReducer(reducer, cardsData, initializeState);
@@ -20,12 +20,16 @@ const MainPage = ({ cardsData }: { cardsData: FormCardProps[] }) => {
 		await loadMoreCards(state, dispatch, pageRef, getLatestForms);
 	};
 
-	if (inView && state.hasMore && state.fullTextSearch === "") loadMore();
-
 	const handleInputChange = (value: string) => {
 		dispatch({ type: "SET_FULL_TEXT_SEARCH", payload: value });
 		debouncedSearch(value);
 	};
+
+	useEffect(() => {
+		if (inView && state.hasMore && state.fullTextSearch === "") {
+			loadMore();
+		}
+	}, [inView, state.hasMore, state.fullTextSearch]);
 
 	return (
 		<>

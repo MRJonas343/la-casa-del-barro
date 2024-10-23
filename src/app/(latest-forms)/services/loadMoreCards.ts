@@ -20,11 +20,24 @@ export const loadMoreCards = async (
 	dispatch({ type: "SET_LOADING", payload: true });
 	pageRef.current += 1;
 
-	const { hasMore: newHasMore, forms: newForms } = tag
-		? await fetchData(1, 10, tag)
-		: await fetchData(1, 10);
+	if (tag) {
+		const { hasMore: newHasMore, forms: newForms } = await fetchData(
+			pageRef.current,
+			10,
+			tag,
+		);
+		dispatch({ type: "SET_HAS_MORE", payload: newHasMore });
+		dispatch({ type: "SET_CARDS", payload: [...state.cards, ...newForms] });
+	}
 
-	dispatch({ type: "SET_CARDS", payload: newForms });
-	dispatch({ type: "SET_HAS_MORE", payload: newHasMore });
+	if (!tag) {
+		const { hasMore: newHasMore, forms: newForms } = await fetchData(
+			pageRef.current,
+			10,
+		);
+		dispatch({ type: "SET_CARDS", payload: [...state.cards, ...newForms] });
+		dispatch({ type: "SET_HAS_MORE", payload: newHasMore });
+	}
+
 	dispatch({ type: "SET_LOADING", payload: false });
 };

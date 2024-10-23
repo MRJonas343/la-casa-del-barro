@@ -4,27 +4,26 @@ import { getFilledForm } from "@/services";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-const page = async ({
-	params,
-}: { params: { formId: string; userId: string } }) => {
-	const session = await auth();
+const page = async (props: { params: Promise<{ formId: string; userId: string }> }) => {
+    const params = await props.params;
+    const session = await auth();
 
-	if (!session) return redirect("/login");
-	const userId = Number.parseInt(session.user?.id ?? "");
+    if (!session) return redirect("/login");
+    const userId = Number.parseInt(session.user?.id ?? "");
 
-	const form = await getFilledForm(
+    const form = await getFilledForm(
 		Number.parseInt(params.formId),
 		Number.parseInt(params.userId),
 	);
 
-	//@ts-ignore
-	if (session.user?.role !== "admin") {
+    //@ts-ignore
+    if (session.user?.role !== "admin") {
 		if (form.form?.author_id !== userId) {
 			if (userId !== Number.parseInt(params.userId)) return redirect("/");
 		}
 	}
 
-	return (
+    return (
 		<>
 			<NavBar />
 			<FilledForm data={form} />
