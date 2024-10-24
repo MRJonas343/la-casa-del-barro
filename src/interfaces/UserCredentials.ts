@@ -9,7 +9,7 @@ export interface User {
 	password?: string;
 	hashedPassword?: string;
 	role?: "admin" | "user";
-	status?: "active" | "blooked";
+	status?: "active" | "blocked";
 }
 
 export interface UsersSeed {
@@ -17,5 +17,5 @@ export interface UsersSeed {
 	email: string;
 	password: string;
 	role?: "admin" | "user";
-	status?: "active" | "blooked";
+	status?: "active" | "blocked";
 }

@@ -19,4 +19,5 @@ export * from "./status";
 export * from "./SwitchThemeProps";
 export * from "./UserCredentials";
 export * from "./userForms";
+export * from "./Users";
 export * from "./UserType";

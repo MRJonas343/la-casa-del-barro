@@ -26,6 +26,7 @@ export * from "./forms/setNewFormQuestions";
 export * from "./lang/local";
 export * from "./permissions/checkFormOwnership";
 export * from "./permissions/checkPermission";
+export * from "./users/getAllUsers";
 export * from "./users/getUserById";
 export * from "./users/getUsersByEmail";
 export * from "./users/getUsersByName";

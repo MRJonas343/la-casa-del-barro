@@ -39,7 +39,7 @@ const findUserByName = async (name: string) => {
 	return result;
 };
 
-const deleteUser = async (id: number) => {
+const deleteUserById = async (id: number) => {
 	const result = await db.delete(users).where(eq(users.id, id));
 
 	return result;
@@ -73,12 +73,27 @@ const findUsersByEmail = async (email: string) => {
 	return result;
 };
 
+const findAllUsers = async () => {
+	const result = await db
+		.select({
+			id: users.id,
+			name: users.name,
+			email: users.email,
+			role: users.role,
+			status: users.status,
+		})
+		.from(users);
+
+	return result;
+};
+
 export const userRepository = {
 	createUser,
 	findUserByEmail,
 	findUserById,
 	findUserByName,
-	deleteUser,
+	deleteUserById,
 	findUsersByName,
 	findUsersByEmail,
+	findAllUsers,
 };

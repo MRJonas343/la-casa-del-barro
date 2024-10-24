@@ -35,7 +35,7 @@ const usersToSeed: UsersSeed[] = [
 		email: "charlie@example.com",
 		password: "password",
 		role: "user",
-		status: "blooked",
+		status: "blocked",
 	},
 	{
 		name: "Diana",
@@ -63,7 +63,7 @@ const usersToSeed: UsersSeed[] = [
 		email: "grace@example.com",
 		password: "password",
 		role: "user",
-		status: "blooked",
+		status: "blocked",
 	},
 	{
 		name: "Hank",
@@ -77,7 +77,7 @@ const usersToSeed: UsersSeed[] = [
 		email: "ivy@example.com",
 		password: "password",
 		role: "user",
-		status: "blooked",
+		status: "blocked",
 	},
 	{
 		name: "Jack",
@@ -98,7 +98,7 @@ const usersToSeed: UsersSeed[] = [
 		email: "leo@example.com",
 		password: "password",
 		role: "user",
-		status: "blooked",
+		status: "blocked",
 	},
 	{
 		name: "Mia",
@@ -126,7 +126,7 @@ const usersToSeed: UsersSeed[] = [
 		email: "paul@example.com",
 		password: "password",
 		role: "user",
-		status: "blooked",
+		status: "blocked",
 	},
 	{
 		name: "Quinn",
@@ -140,7 +140,7 @@ const usersToSeed: UsersSeed[] = [
 		email: "rita@example.com",
 		password: "password",
 		role: "user",
-		status: "blooked",
+		status: "blocked",
 	},
 	{
 		name: "Sam",
@@ -154,7 +154,7 @@ const usersToSeed: UsersSeed[] = [
 		email: "tina@example.com",
 		password: "password",
 		role: "user",
-		status: "blooked",
+		status: "blocked",
 	},
 ];
 

@@ -14,11 +14,6 @@ export interface EditFormProps {
 const EditFormComponent: FC<EditFormProps> = ({ formId, data }) => {
 	const [selectedTab, setSelectedTab] = useState("general-settings");
 
-	const formatedQuestions = data.questions.map((question) => ({
-		...question,
-		id: String(question.id),
-	}));
-
 	return (
 		<>
 			<div className="w-full flex flex-col lg:flex-row lg:max-w-[1280px] lg:mx-auto px-5">
@@ -32,10 +27,7 @@ const EditFormComponent: FC<EditFormProps> = ({ formId, data }) => {
 				<FormSettings data={data.formGeneralData} />
 			)}
 			{selectedTab === "edit-questions" && (
-				<FormQuestions
-					data={formatedQuestions}
-					formId={Number.parseInt(formId)}
-				/>
+				<FormQuestions data={data.questions} formId={Number.parseInt(formId)} />
 			)}
 		</>
 	);

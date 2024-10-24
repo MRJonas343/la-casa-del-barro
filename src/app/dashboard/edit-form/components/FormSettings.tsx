@@ -27,7 +27,6 @@ import {
 } from "../utils/handleUsersInSelectState";
 import { useDebouncedSearch2 } from "../../hooks/useDebounceSearch";
 import { onSubmit } from "../utils/submitForm";
-import toast from "react-hot-toast";
 
 const FormSettings = ({ data }: { data: FormGeneralData }) => {
 	const [state, dispatch] = useReducer(formSettingsReducer, initializer(data));
@@ -61,7 +60,7 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 		};
 
 		dispatch({ type: "SET_IS_SUBMITTING", payload: true });
-		const result = await onSubmit(newFormData, initialData, state);
+		await onSubmit(newFormData, initialData, state);
 		dispatch({ type: "SET_IS_SUBMITTING", payload: false });
 	};
 

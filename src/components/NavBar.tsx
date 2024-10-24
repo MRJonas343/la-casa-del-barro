@@ -103,13 +103,24 @@ export const NavBar: FC = ({
 							className={`px-1 py-2 flex items-center ${!session ? "flex-row" : "flex-col"}`}
 						>
 							<SwitchTheme size="lg" />
+
 							<div className="pb-2" />
 							<LanguageSwitcher />
 							<Button
-								radius="sm"
-								color="danger"
+								hidden={session?.user.role !== "admin"}
+								as={Link}
+								href="/admin/panel"
+								size="md"
+								className="mt-2 w-full"
 								variant="bordered"
-								className={`text-mediun p-0 font-normal w-full mt-2 ${!session && "hidden"}`}
+								radius="sm"
+							>
+								Admin
+							</Button>
+							<Button
+								radius="sm"
+								variant="bordered"
+								className={`text-mediun p-0 font-normal text-red-700 w-full mt-2 ${!session && "hidden"}`}
 								onClick={() => handleLogOut()}
 							>
 								{t("logOut")}
@@ -141,6 +152,17 @@ export const NavBar: FC = ({
 						color={pathname === "/popular-forms" ? "primary" : "foreground"}
 					>
 						{t("popular")}
+					</Link>
+				</NavbarMenuItem>
+				<NavbarMenuItem
+					isActive={pathname === "/admin/panel"}
+					hidden={session?.user.role !== "admin"}
+				>
+					<Link
+						href="/admin/panel"
+						color={pathname === "/admin/panel" ? "primary" : "foreground"}
+					>
+						Admin Panel
 					</Link>
 				</NavbarMenuItem>
 				<NavbarMenuItem hidden={!session}>

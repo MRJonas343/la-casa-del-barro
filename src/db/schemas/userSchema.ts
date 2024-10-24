@@ -16,7 +16,7 @@ export const users = mysqlTable(
 		email: varchar("email", { length: 50 }).unique().notNull(),
 		password: varchar("password", { length: 255 }),
 		role: mysqlEnum("role", ["admin", "user"]).notNull().default("user"),
-		status: mysqlEnum("status", ["active", "blooked"])
+		status: mysqlEnum("status", ["active", "blocked"])
 			.notNull()
 			.default("active"),
 		emailVerified: timestamp("emailVerified", {
