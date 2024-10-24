@@ -15,15 +15,19 @@ import { type Key, useRef, useState } from "react";
 import type { Users } from "@/interfaces";
 import { FaUnlock, FaLock } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import {
+	handleBlockUser,
+	handleDeleteUser,
+	handleSwitchUserRole,
+	handleUnlockUser,
+} from "../utils";
 
 export const AdminTable = ({ data }: { data: Users[] }) => {
 	const selectedIdsRef = useRef<Set<Key> | "all">(new Set<Key>());
-	const [isLoading, setIsLoading] = useState(true);
 	const [users, setUsers] = useState<Users[]>(data);
 
 	const handleSelectionChange = (keys: "all" | Set<Key>) => {
 		selectedIdsRef.current = keys === "all" || keys.size > 0 ? keys : new Set();
-		console.log(selectedIdsRef.current);
 	};
 
 	return (
@@ -34,7 +38,9 @@ export const AdminTable = ({ data }: { data: Users[] }) => {
 			<div className="w-[95%] flex justify-end gap-2 mt-3 mx-auto max-w-[1280px]">
 				<Button
 					radius="sm"
-					//onClick={}
+					onClick={() =>
+						handleSwitchUserRole(selectedIdsRef.current, data, setUsers)
+					}
 					color="primary"
 					variant="flat"
 					className="font-semibold"
@@ -55,7 +61,9 @@ export const AdminTable = ({ data }: { data: Users[] }) => {
 					color="primary"
 					variant="flat"
 					radius="sm"
-					//onClick={}
+					onClick={() =>
+						handleBlockUser(selectedIdsRef.current, data, setUsers)
+					}
 					isIconOnly
 				>
 					<FaLock size={16} />
@@ -64,7 +72,9 @@ export const AdminTable = ({ data }: { data: Users[] }) => {
 					color="primary"
 					variant="flat"
 					radius="sm"
-					//onClick={}
+					onClick={() =>
+						handleUnlockUser(selectedIdsRef.current, data, setUsers)
+					}
 					isIconOnly
 				>
 					<FaUnlock size={16} />
@@ -72,7 +82,9 @@ export const AdminTable = ({ data }: { data: Users[] }) => {
 
 				<Button
 					radius="sm"
-					//onClick={}
+					onClick={() =>
+						handleDeleteUser(selectedIdsRef.current, data, setUsers)
+					}
 					color="danger"
 					variant="flat"
 					isIconOnly
@@ -94,11 +106,7 @@ export const AdminTable = ({ data }: { data: Users[] }) => {
 							<TableColumn key={column.key}>{column.label}</TableColumn>
 						)}
 					</TableHeader>
-					<TableBody
-						emptyContent="No users to display."
-						isLoading={isLoading}
-						items={users}
-					>
+					<TableBody emptyContent="No users to display." items={users}>
 						{(row) => (
 							<TableRow key={row.id}>
 								{(columnKey) => (

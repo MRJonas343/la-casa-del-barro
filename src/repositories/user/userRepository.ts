@@ -1,7 +1,7 @@
 import type { User } from "@/interfaces";
 import { users } from "@/db/schemas";
 import { db } from "@/db";
-import { like, sql, eq } from "drizzle-orm";
+import { like, eq, inArray } from "drizzle-orm";
 
 const createUser = async (user: User) => {
 	const result = await db.insert(users).values({
@@ -87,6 +87,203 @@ const findAllUsers = async () => {
 	return result;
 };
 
+const switchUserRole = async (usersId: number) => {
+	await db.transaction(async (tx) => {
+		const user = await tx.query.users.findFirst({
+			where: eq(users.id, usersId),
+		});
+
+		if (!user) return;
+
+		if (user.role === "admin") {
+			await tx.update(users).set({ role: "user" }).where(eq(users.id, usersId));
+		} else {
+			await tx
+				.update(users)
+				.set({ role: "admin" })
+				.where(eq(users.id, usersId));
+		}
+	});
+
+	return "SUCCESS";
+};
+
+const switchSomeUsersRole = async (usersIds: number[]) => {
+	await db.transaction(async (tx) => {
+		const usersData = await tx.query.users.findMany({
+			where: inArray(users.id, usersIds),
+		});
+
+		for (const user of usersData) {
+			if (user.role === "admin") {
+				await tx
+					.update(users)
+					.set({ role: "user" })
+					.where(eq(users.id, user.id));
+			} else {
+				await tx
+					.update(users)
+					.set({ role: "admin" })
+					.where(eq(users.id, user.id));
+			}
+		}
+	});
+
+	return "SUCCESS";
+};
+
+const switchAllUsersRole = async () => {
+	await db.transaction(async (tx) => {
+		const usersData = await tx.query.users.findMany();
+
+		for (const user of usersData) {
+			if (user.role === "admin") {
+				await tx
+					.update(users)
+					.set({ role: "user" })
+					.where(eq(users.id, user.id));
+			} else {
+				await tx
+					.update(users)
+					.set({ role: "admin" })
+					.where(eq(users.id, user.id));
+			}
+		}
+	});
+};
+
+const blockUser = async (userId: number) => {
+	await db.transaction(async (tx) => {
+		const user = await tx.query.users.findFirst({
+			where: eq(users.id, userId),
+		});
+
+		if (!user) return;
+
+		await tx
+			.update(users)
+			.set({ status: "blocked" })
+			.where(eq(users.id, userId));
+	});
+
+	return "SUCCESS";
+};
+
+const blockSomeUsers = async (usersIds: number[]) => {
+	await db.transaction(async (tx) => {
+		const usersData = await tx.query.users.findMany({
+			where: inArray(users.id, usersIds),
+		});
+
+		for (const user of usersData) {
+			await tx
+				.update(users)
+				.set({ status: "blocked" })
+				.where(eq(users.id, user.id));
+		}
+	});
+
+	return "SUCCESS";
+};
+
+const blockAllUsers = async () => {
+	await db.transaction(async (tx) => {
+		const usersData = await tx.query.users.findMany();
+
+		for (const user of usersData) {
+			await tx
+				.update(users)
+				.set({ status: "blocked" })
+				.where(eq(users.id, user.id));
+		}
+	});
+};
+
+const unblockUser = async (userId: number) => {
+	await db.transaction(async (tx) => {
+		const user = await tx.query.users.findFirst({
+			where: eq(users.id, userId),
+		});
+
+		if (!user) return;
+
+		await tx
+			.update(users)
+			.set({ status: "active" })
+			.where(eq(users.id, userId));
+	});
+
+	return "SUCCESS";
+};
+
+const unblockSomeUsers = async (usersIds: number[]) => {
+	await db.transaction(async (tx) => {
+		const usersData = await tx.query.users.findMany({
+			where: inArray(users.id, usersIds),
+		});
+
+		for (const user of usersData) {
+			await tx
+				.update(users)
+				.set({ status: "active" })
+				.where(eq(users.id, user.id));
+		}
+	});
+
+	return "SUCCESS";
+};
+
+const unblockAllUsers = async () => {
+	await db.transaction(async (tx) => {
+		const usersData = await tx.query.users.findMany();
+
+		for (const user of usersData) {
+			await tx
+				.update(users)
+				.set({ status: "active" })
+				.where(eq(users.id, user.id));
+		}
+	});
+};
+
+const deleteUser = async (userId: number) => {
+	await db.transaction(async (tx) => {
+		const user = await tx.query.users.findFirst({
+			where: eq(users.id, userId),
+		});
+
+		if (!user) return;
+
+		await tx.delete(users).where(eq(users.id, userId));
+	});
+
+	return "SUCCESS";
+};
+
+const deleteSomeUsers = async (usersIds: number[]) => {
+	await db.transaction(async (tx) => {
+		const usersData = await tx.query.users.findMany({
+			where: inArray(users.id, usersIds),
+		});
+
+		for (const user of usersData) {
+			await tx.delete(users).where(eq(users.id, user.id));
+		}
+	});
+
+	return "SUCCESS";
+};
+
+const deleteAllUsers = async () => {
+	await db.transaction(async (tx) => {
+		const usersData = await tx.query.users.findMany();
+
+		for (const user of usersData) {
+			await tx.delete(users).where(eq(users.id, user.id));
+		}
+	});
+};
+
 export const userRepository = {
 	createUser,
 	findUserByEmail,
@@ -96,4 +293,16 @@ export const userRepository = {
 	findUsersByName,
 	findUsersByEmail,
 	findAllUsers,
+	switchUserRole,
+	switchSomeUsersRole,
+	switchAllUsersRole,
+	blockUser,
+	blockSomeUsers,
+	blockAllUsers,
+	unblockUser,
+	unblockSomeUsers,
+	unblockAllUsers,
+	deleteUser,
+	deleteSomeUsers,
+	deleteAllUsers,
 };
