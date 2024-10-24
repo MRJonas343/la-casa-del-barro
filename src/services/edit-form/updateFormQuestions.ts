@@ -34,5 +34,6 @@ export const updateFormQuestions = async (questions: Changes[]) => {
 			return;
 		}
 	}
+
 	return "SUCCESS";
 };
