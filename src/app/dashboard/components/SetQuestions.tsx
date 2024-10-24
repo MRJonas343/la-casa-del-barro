@@ -30,6 +30,7 @@ import toast from "react-hot-toast";
 
 export const SetQuestions: FC<SetQuestionsProps> = ({ formId }) => {
 	const [questions, setQuestions] = useState<NewQuestion[]>([initialQuestion]);
+
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const t = useTranslations("setQuestions");

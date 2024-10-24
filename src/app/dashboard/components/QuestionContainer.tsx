@@ -21,6 +21,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 	displayInTable,
 	onOptionsChange,
 	options = [],
+	disableType,
 }) => {
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable({ id });
@@ -76,7 +77,9 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 					/>
 					<Select
 						isRequired
+						isDisabled={disableType}
 						radius="sm"
+						defaultSelectedKeys={[questionType]}
 						label={t("questionType")}
 						variant="bordered"
 						selectionMode="single"
@@ -117,6 +120,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 											color="primary"
 											size="sm"
 											isIconOnly
+											isDisabled={disableType}
 											onClick={() => onOptionsChange(id, [...options, ""])}
 										>
 											<IoMdAddCircleOutline size={20} />
@@ -126,6 +130,7 @@ export const QuestionContainer: FC<QuestionElementProps> = ({
 								<div className="grid grid-cols-2 gap-3">
 									{options.map((option, index) => (
 										<Input
+											isDisabled={disableType}
 											key={`option-${id}-${
 												// biome-ignore lint/suspicious/noArrayIndexKey: <Neded for nextui>
 												index

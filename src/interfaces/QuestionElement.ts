@@ -11,4 +11,5 @@ export interface QuestionElementProps {
 	displayInTable: boolean;
 	options?: string[];
 	value?: string;
+	disableType?: boolean;
 }

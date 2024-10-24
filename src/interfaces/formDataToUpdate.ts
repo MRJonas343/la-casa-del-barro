@@ -31,10 +31,11 @@ export interface UsersWithPermission {
 }
 
 export interface Question {
-	id: number;
+	id: string;
 	question: string;
 	description: string | null;
 	displayInTable: boolean;
 	order: number;
 	type: string;
+	options?: string[];
 }
