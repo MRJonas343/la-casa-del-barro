@@ -10,8 +10,6 @@ export const updateForm = async (
 ) => {
 	const questionsToUpdata = [] as Changes[];
 
-	console.log(questionsState);
-
 	for (const question of questionsState) {
 		const questionId = question.id;
 		if (
