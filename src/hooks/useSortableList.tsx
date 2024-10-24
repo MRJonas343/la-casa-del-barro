@@ -11,13 +11,14 @@ interface UseSortableListOptions<T> {
 export const useSortableList = <T extends GenericItem>({
 	items,
 }: UseSortableListOptions<T>) => {
+	const [localItems, setLocalItems] = useState(items);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const list = useAsyncList<T>({
 		async load() {
 			setIsLoading(false);
 			return {
-				items,
+				items: localItems, // Usar los items locales
 			};
 		},
 		async sort({
@@ -43,5 +44,10 @@ export const useSortableList = <T extends GenericItem>({
 		},
 	});
 
-	return { list, isLoading };
+	const setItems = (newItems: T[]) => {
+		setLocalItems(newItems);
+		list.reload();
+	};
+
+	return { list, setItems, isLoading };
 };

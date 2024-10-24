@@ -58,6 +58,7 @@ export const MyFilledForm = ({
 						</TableColumn>
 					</TableHeader>
 					<TableBody
+						emptyContent="No filled forms found"
 						items={list.items}
 						isLoading={isLoading}
 						loadingContent={<Spinner size="lg" label="Loading..." />}

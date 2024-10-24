@@ -217,6 +217,12 @@ const getPopularForms = async () => {
 	return result;
 };
 
+const deleteFormById = async (formId: number) => {
+	const result = await db.delete(forms).where(eq(forms.id, formId));
+
+	return result;
+};
+
 export const formRepository = {
 	getFormById,
 	getLastForms,
@@ -227,4 +233,5 @@ export const formRepository = {
 	insertLike,
 	haveTheUserFilledTheForm,
 	getPopularForms,
+	deleteFormById,
 };

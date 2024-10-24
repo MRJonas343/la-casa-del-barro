@@ -18,11 +18,13 @@ import { useRef, type FC } from "react";
 import { ModalWithFillForms } from "./ModalWithFillForms";
 import { useRouter } from "next/navigation";
 import { useSortableList, type GenericItem } from "@/hooks/useSortableList";
+import toast from "react-hot-toast";
+import { deleteFormAction } from "@/services";
 
 export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-	const { isLoading, list } = useSortableList({
+	const { isLoading, list, setItems } = useSortableList({
 		items: forms as unknown as GenericItem[],
 	});
 
@@ -30,6 +32,14 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 	const router = useRouter();
 
 	const t = useTranslations("myFormsTable");
+
+	const deleteForm = async (formId: number) => {
+		const result = await deleteFormAction(formId);
+
+		//@ts-ignore
+		setItems(forms.filter((form) => form.formId !== formId));
+		if (result === "SUCCESS") toast.success("Form deleted successfully");
+	};
 
 	return (
 		<>
@@ -67,7 +77,13 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 				>
 					<MdEdit size={20} />
 				</Button>
-				<Button variant="bordered" color="danger" radius="sm" isIconOnly>
+				<Button
+					variant="bordered"
+					color="danger"
+					radius="sm"
+					isIconOnly
+					onPress={() => deleteForm(formIdRef.current)}
+				>
 					<MdDelete size={20} />
 				</Button>
 			</div>
@@ -97,6 +113,7 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 						</TableColumn>
 					</TableHeader>
 					<TableBody
+						emptyContent="No forms found"
 						items={list.items}
 						isLoading={isLoading}
 						loadingContent={<Spinner size="lg" label="Loading..." />}

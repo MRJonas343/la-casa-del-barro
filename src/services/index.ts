@@ -14,6 +14,7 @@ export * from "./filledForms/getFilledForms";
 export * from "./filledForms/getFormQuestions";
 export * from "./filledForms/isFormAlreadyFill";
 export * from "./forms/createForm";
+export * from "./forms/deleteForm";
 export * from "./forms/getFilledForms";
 export * from "./forms/getFormById";
 export * from "./forms/getFormsByTag";
