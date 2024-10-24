@@ -6,15 +6,15 @@ import { checkFormOwnership } from "@/services";
 import { getFormQuestions, getFormToEdit } from "@/services";
 
 export default async function page(props: { params: Promise<{ id: string }> }) {
-    const params = await props.params;
-    const session = await auth();
+	const params = await props.params;
+	const session = await auth();
 
-    if (!session) return redirect("/login");
+	if (!session) return redirect("/login");
 
-    //@ts-ignore
-    const role = session.user?.role;
+	//@ts-ignore
+	const role = session.user?.role;
 
-    if (role === "user") {
+	if (role === "user") {
 		const isTheAhtor = await checkFormOwnership(
 			Number.parseInt(params.id),
 			Number.parseInt(session.user?.id ?? ""),
@@ -23,19 +23,24 @@ export default async function page(props: { params: Promise<{ id: string }> }) {
 		if (!isTheAhtor) return redirect("/");
 	}
 
-    const [formGeneralData, questions] = await Promise.all([
+	const [formGeneralData, questions] = await Promise.all([
 		getFormToEdit(Number.parseInt(params.id)),
 		getFormQuestions(Number.parseInt(params.id)),
 	]);
 
-    if (!formGeneralData) return redirect("/dashboard");
+	if (!formGeneralData) return redirect("/dashboard");
 
-    return (
+	const formatedQuestions = questions.map((question) => ({
+		...question,
+		id: String(question.id),
+	}));
+
+	return (
 		<>
 			<NavBar />
 			<EditFormComponent
 				formId={params.id}
-				data={{ formGeneralData, questions }}
+				data={{ formGeneralData, questions: formatedQuestions }}
 			/>
 		</>
 	);
