@@ -1,14 +1,14 @@
-import { isFormAlreadyFill } from "@/services/filledForms/isFormAlreadyFill";
 import {
 	checkPermission,
 	getComments,
 	getFormById,
 	getFormQuestions,
 } from "@/services";
+import { isFormAlreadyFill } from "@/services/filledForms/isFormAlreadyFill";
 import { FormComponent } from "../components/FormComponent";
+import { redirect } from "next/navigation";
 import { NavBar } from "@/components";
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 
 export default async function FormPage(props: {
 	params: Promise<{ id: string }>;
@@ -17,7 +17,7 @@ export default async function FormPage(props: {
 	const formId = Number.parseInt(params.id);
 	const session = await auth();
 
-	let isReadOnly = false;
+	let isReadOnly = true;
 
 	const [questions, formGeneralData, comments] = await Promise.all([
 		getFormQuestions(formId),
@@ -25,29 +25,47 @@ export default async function FormPage(props: {
 		getComments(formId),
 	]);
 
-	if (!formGeneralData) return <div>Form not found</div>;
-
-	if (!session) isReadOnly = true;
-
-	if (String(session?.user?.id) === String(formGeneralData.author_id)) {
-		isReadOnly = true;
+	if (!formGeneralData) {
+		return <div>Form not found</div>;
 	}
 
-	if (session) {
+	if (!session) {
+		// If no session, user is in readonly mode
+		return (
+			<>
+				<NavBar />
+				<FormComponent
+					isReadOnly={true}
+					questions={questions}
+					formGeneralData={formGeneralData}
+					comments={comments}
+				/>
+			</>
+		);
+	}
+
+	// Check if the user is the form author
+	const isAuthor =
+		String(session.user.id) === String(formGeneralData.author_id);
+
+	if (isAuthor) {
+		isReadOnly = true;
+	} else {
+		// Check if the form has already been filled by the user
 		const isFormFilled = await isFormAlreadyFill(
-			Number.parseInt(session?.user?.id ?? ""),
+			Number(session.user.id),
 			formId,
 		);
-		if (isFormFilled) redirect(`/filled-form/${formId}/${session?.user?.id}`);
-	}
+		if (isFormFilled) {
+			return redirect(`/filled-form/${formId}/${session.user.id}`);
+		}
 
-	if (!formGeneralData.isPublic) {
+		// Check if the user has permission to fill the form if it's public
 		const hasPermission = await checkPermission(
 			formId,
-			Number.parseInt(session?.user?.id ?? ""),
+			Number(session.user.id),
 		);
-
-		if (!hasPermission) isReadOnly = true;
+		isReadOnly = !hasPermission;
 	}
 
 	return (

@@ -10,25 +10,27 @@ import {
 	TableHeader,
 	TableRow,
 } from "@nextui-org/react";
-import { columns } from "../constants/TableColumns";
-import { type Key, useRef, useState } from "react";
-import type { Users } from "@/interfaces";
-import { FaUnlock, FaLock } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
 import {
 	handleBlockUser,
 	handleDeleteUser,
 	handleSwitchUserRole,
 	handleUnlockUser,
 } from "../utils";
-import toast from "react-hot-toast";
+import { type Key, useRef, useState } from "react";
+import { FaUnlock, FaLock } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { MdDelete } from "react-icons/md";
+import type { Users } from "@/interfaces";
+import toast from "react-hot-toast";
 
 export const AdminTable = ({ data }: { data: Users[] }) => {
 	const selectedIdsRef = useRef<Set<Key> | "all">(new Set<Key>());
 	const [users, setUsers] = useState<Users[]>(data);
 
 	const router = useRouter();
+
+	const t = useTranslations("adminPanel");
 
 	const handleSelectionChange = (keys: "all" | Set<Key>) => {
 		selectedIdsRef.current = keys === "all" || keys.size > 0 ? keys : new Set();
@@ -43,10 +45,18 @@ export const AdminTable = ({ data }: { data: Users[] }) => {
 		router.push(`/admin/form/${id[0]}`);
 	};
 
+	const columns = [
+		{ key: "id", label: t("id") },
+		{ key: "name", label: t("name") },
+		{ key: "email", label: t("email") },
+		{ key: "role", label: t("role") },
+		{ key: "status", label: t("status") },
+	];
+
 	return (
 		<>
 			<h1 className="text-center mt-6 text-xl sm:text-2xl md:text-3xl font-semibold">
-				Admin Table 🚀
+				{t("adminTable")} 🚀
 			</h1>
 			<div className="w-[95%] flex justify-end gap-2 mt-3 mx-auto max-w-[1280px]">
 				<Button
@@ -58,7 +68,7 @@ export const AdminTable = ({ data }: { data: Users[] }) => {
 					variant="flat"
 					className="font-semibold"
 				>
-					Switch Role
+					{t("switchRole")}
 				</Button>
 				<Button
 					radius="sm"
@@ -67,7 +77,7 @@ export const AdminTable = ({ data }: { data: Users[] }) => {
 					variant="flat"
 					className="font-semibold"
 				>
-					Forms
+					{t("forms")}
 				</Button>
 
 				<Button

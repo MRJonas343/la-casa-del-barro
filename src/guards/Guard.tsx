@@ -1,16 +1,23 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export function Guard({ children }: { children: React.ReactNode }) {
-	const router = useRouter();
 	const { data: session } = useSession();
 
+	const router = useRouter();
+
+	const signout = async () => {
+		await signOut();
+	};
+
 	useEffect(() => {
+		if (!session) return;
+
 		if (session?.user?.status === "blocked") {
-			router.push("/blocked");
+			signout();
 		}
 	}, [session, router]);
 

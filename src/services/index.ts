@@ -29,6 +29,7 @@ export * from "./lang/local";
 export * from "./permissions/checkFormOwnership";
 export * from "./permissions/checkPermission";
 export * from "./users/blockUser";
+export * from "./users/chekUserStatus";
 export * from "./users/deleteUser";
 export * from "./users/getAllUsers";
 export * from "./users/getUserById";

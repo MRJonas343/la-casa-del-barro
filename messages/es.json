@@ -52,7 +52,8 @@
 		"passwordDoesNotMatch": "Contraseña incorrecta",
 		"userNotExists": "El usuario no existe",
 		"userAlreadyExists": "El email ya está en uso",
-		"passwordIsNotTheSame": "Las contraseñas no son iguales"
+		"passwordIsNotTheSame": "Las contraseñas no son iguales",
+		"userBlocked": "Su cuenta de free fire ha sido borrada"
 	},
 	"createForm": {
 		"invalidQuestions": "Las preguntas no son válidas"
@@ -146,5 +147,15 @@
 		"sendCopy": "Enviame una copia de mis respuestas",
 		"likeForm": "Me gusta este formulario",
 		"submitForm": "Enviar Formulario"
+	},
+	"adminPanel": {
+		"adminTable": "Tabla de Administrador",
+		"switchRole": "Cambiar Rol",
+		"forms": "Formularios",
+		"id": "ID",
+		"name": "Nombre",
+		"email": "Email",
+		"role": "Rol",
+		"status": "Estado"
 	}
 }

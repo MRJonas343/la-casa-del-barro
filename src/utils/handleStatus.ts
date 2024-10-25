@@ -9,6 +9,8 @@ export const handleStatus = (
 	t: TFunction,
 	redirectPage: string,
 ) => {
+	if (status === "USER_BLOCKED") toast.error(t("userBlocked"));
+
 	if (status === "INVALID_CREDENTIALS") toast.error(t("invalidEmail"));
 
 	if (status === "USER_EXISTS") toast.error(t("userAlreadyExists"));

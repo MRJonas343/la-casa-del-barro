@@ -51,7 +51,8 @@
 		"passwordDoesNotMatch": "Incorrect password",
 		"userNotExists": "User does not exist",
 		"userAlreadyExists": "Email already in use",
-		"passwordIsNotTheSame": "Passwords do not match"
+		"passwordIsNotTheSame": "Passwords do not match",
+		"userBlocked": "Sorry bro you are blocked"
 	},
 	"createForm": {
 		"invalidQuestions": "Questions are not valid"
@@ -145,5 +146,15 @@
 		"sendCopy": "Send me a copy of my answers",
 		"likeForm": "Did you like this form?",
 		"submitForm": "Submit Form"
+	},
+	"adminPanel": {
+		"adminTable": "Admin Table",
+		"switchRole": "Switch Role",
+		"forms": "Forms",
+		"id": "ID",
+		"name": "Name",
+		"email": "Email",
+		"role": "Role",
+		"status": "Status"
 	}
 }

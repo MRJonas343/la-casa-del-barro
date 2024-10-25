@@ -31,6 +31,17 @@ const findUserById = async (id: number) => {
 	return result;
 };
 
+const checkUserStatus = async (userId: number) => {
+	const result = await db
+		.select({
+			status: users.status,
+		})
+		.from(users)
+		.where(eq(users.id, userId));
+
+	return result;
+};
+
 const findUserByName = async (name: string) => {
 	const result = await db.query.users.findFirst({
 		where: eq(users.name, name),

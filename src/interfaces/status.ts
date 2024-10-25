@@ -9,4 +9,5 @@ export type status =
 	| "SERVERERROR"
 	| "ERROR"
 	| "INVALID_FORM"
-	| "INVALID_QUESTIONS";
+	| "INVALID_QUESTIONS"
+	| "USER_BLOCKED";
