@@ -5,6 +5,7 @@ import { userRepository } from "@/repositories";
 import { validateUser } from "@/validators";
 import { v4 as uuid } from "uuid";
 import NextAuth from "next-auth";
+import GitHub from "next-auth/providers/github";
 import { db } from "@/db";
 
 const adapter = DrizzleAdapter(db);
@@ -16,6 +17,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 	},
 	secret: process.env.AUTH_SECRET ?? "",
 	providers: [
+		GitHub({
+			clientId: process.env.AUTH_GITHUB_ID ?? "",
+			clientSecret: process.env.AUTH_GITHUB_SECRET ?? "",
+		}),
 		Credentials({
 			credentials: {
 				id: {},

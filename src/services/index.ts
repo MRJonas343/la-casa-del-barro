@@ -1,5 +1,6 @@
 export * from "./auth/authorize";
 export * from "./auth/createUser";
+export * from "./auth/signInWithGithub";
 export * from "./comments/createComment";
 export * from "./comments/getComments";
 export * from "./edit-form/addQuestion";

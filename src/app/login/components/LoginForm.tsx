@@ -3,11 +3,13 @@
 import { Button, Input, Link } from "@nextui-org/react";
 import type { UserCredentials } from "@/interfaces";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa6";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { authorize } from "@/services";
+import { authorize, signInWithGithub } from "@/services";
 import { handleStatus } from "@/utils";
 import { useState } from "react";
+import { signIn } from "@/auth";
 
 export const LoginForm = () => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,64 +37,77 @@ export const LoginForm = () => {
 	};
 
 	return (
-		<form
-			onSubmit={handleSubmit(onSubmit)}
-			className="flex flex-col gap-4  max-w-[600px] w-[95%]"
-		>
-			<Input
-				radius="sm"
-				size="lg"
-				variant="bordered"
-				isInvalid={Boolean(errors.email)}
-				errorMessage={t("invalidEmail")}
-				autoFocus
-				placeholder="Email"
-				{...register("email", {
-					required: true,
-					pattern: /^\S+@\S+$/i,
-				})}
-			/>
-			<Input
-				radius="sm"
-				size="lg"
-				variant="bordered"
-				isInvalid={Boolean(errors.password)}
-				errorMessage={t("invalidPassword")}
-				type={isPasswordVisible ? "text" : "password"}
-				endContent={
-					<button
-						className="focus:outline-none"
-						type="button"
-						onClick={togglePasswordVisibility}
-						aria-label="toggle password visibility"
-					>
-						{isPasswordVisible ? (
-							<FaEye className="text-2xl text-default-400 pointer-events-none" />
-						) : (
-							<FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
-						)}
-					</button>
-				}
-				placeholder={t("password")}
-				{...register("password", {
-					required: true,
-					minLength: 8,
-				})}
-			/>
+		<section className="flex flex-col gap-4  max-w-[600px] w-[95%]">
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<Input
+					radius="sm"
+					size="lg"
+					variant="bordered"
+					isInvalid={Boolean(errors.email)}
+					errorMessage={t("invalidEmail")}
+					autoFocus
+					placeholder="Email"
+					{...register("email", {
+						required: true,
+						pattern: /^\S+@\S+$/i,
+					})}
+				/>
+				<Input
+					radius="sm"
+					size="lg"
+					variant="bordered"
+					className="mt-4"
+					isInvalid={Boolean(errors.password)}
+					errorMessage={t("invalidPassword")}
+					type={isPasswordVisible ? "text" : "password"}
+					endContent={
+						<button
+							className="focus:outline-none"
+							type="button"
+							onClick={togglePasswordVisibility}
+							aria-label="toggle password visibility"
+						>
+							{isPasswordVisible ? (
+								<FaEye className="text-2xl text-default-400 pointer-events-none" />
+							) : (
+								<FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+							)}
+						</button>
+					}
+					placeholder={t("password")}
+					{...register("password", {
+						required: true,
+						minLength: 8,
+					})}
+				/>
+				<Button
+					color="primary"
+					variant="shadow"
+					size="lg"
+					radius="sm"
+					isLoading={isSubmitting}
+					type="submit"
+					className="text-xl font-semibold w-full mt-4"
+				>
+					{t("login")}
+				</Button>
+			</form>
+			<div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-gray-700 after:mt-0.5 after:flex-1 after:border-t after:border-gray-700">
+				<p className="mx-4 mb-0 text-center"> {t("orLoginWith")} </p>
+			</div>
+
 			<Button
-				color="primary"
 				variant="shadow"
 				size="lg"
 				radius="sm"
-				isLoading={isSubmitting}
 				type="submit"
-				className="text-xl font-semibold"
+				className="text-xl font-semibold bg-black"
+				onPress={async () => await signInWithGithub()}
 			>
-				{t("login")}
+				<FaGithub size={20} color="white" />
+				<p className="text-white">{t("loginWithGithub")}</p>
 			</Button>
-			{/* <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-gray-700 after:mt-0.5 after:flex-1 after:border-t after:border-gray-700">
-				<p className="mx-4 mb-0 text-center"> Or login with </p>
-			</div> */}
+
 			<p className="text-center pt-2">{t("notAccount")}</p>
 			<Link
 				color="primary"
@@ -102,6 +117,6 @@ export const LoginForm = () => {
 			>
 				{t("getAccount")}
 			</Link>
-		</form>
+		</section>
 	);
 };

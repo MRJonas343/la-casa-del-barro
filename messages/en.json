@@ -52,7 +52,9 @@
 		"userNotExists": "User does not exist",
 		"userAlreadyExists": "Email already in use",
 		"passwordIsNotTheSame": "Passwords do not match",
-		"userBlocked": "Sorry bro you are blocked"
+		"userBlocked": "Sorry bro you are blocked",
+		"loginWithGithub": "GitHub",
+		"orLoginWith": "Or login with"
 	},
 	"createForm": {
 		"invalidQuestions": "Questions are not valid"

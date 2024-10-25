@@ -53,7 +53,9 @@
 		"userNotExists": "El usuario no existe",
 		"userAlreadyExists": "El email ya está en uso",
 		"passwordIsNotTheSame": "Las contraseñas no son iguales",
-		"userBlocked": "Su cuenta de free fire ha sido borrada"
+		"userBlocked": "Su cuenta de free fire ha sido borrada",
+		"loginWithGithub": "GitHub",
+		"orLoginWith": "O inicia sesión con"
 	},
 	"createForm": {
 		"invalidQuestions": "Las preguntas no son válidas"
