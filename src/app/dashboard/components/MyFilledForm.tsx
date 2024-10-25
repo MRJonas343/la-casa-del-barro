@@ -10,11 +10,12 @@ import {
 	TableHeader,
 	TableRow,
 } from "@nextui-org/react";
+import { useSortableList, type GenericItem } from "@/hooks/useSortableList";
 import { FilledFormsColumns } from "@/constants";
 import type { FilledForm } from "@/interfaces";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useSortableList, type GenericItem } from "@/hooks/useSortableList";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export const MyFilledForm = ({
 	filledForms,
@@ -25,12 +26,20 @@ export const MyFilledForm = ({
 
 	const router = useRouter();
 
+	const t = useTranslations("myFilledFormsTable");
+
 	const { data: session } = useSession();
 
 	const gotoForm = (formId: number) => {
 		if (!formId || !session?.user) return;
 		router.push(`/filled-form/${formId}/${session.user.id}`);
 	};
+
+	const tableColumns = [
+		{ key: "formName", label: t("formName") },
+		{ key: "topic", label: t("topic") },
+		{ key: "filledAt", label: t("filledAt") },
+	];
 
 	return (
 		<>
@@ -46,16 +55,12 @@ export const MyFilledForm = ({
 					sortDescriptor={list.sortDescriptor}
 					onSortChange={list.sort}
 				>
-					<TableHeader columns={FilledFormsColumns}>
-						<TableColumn allowsSorting key="formName" className="lg:text-lg">
-							Form Name
-						</TableColumn>
-						<TableColumn allowsSorting key="topic" className="lg:text-lg">
-							Topic
-						</TableColumn>
-						<TableColumn allowsSorting key="filledAt" className="lg:text-lg">
-							Filled At
-						</TableColumn>
+					<TableHeader columns={tableColumns}>
+						{(column) => (
+							<TableColumn className="lg:text-lg" key={column.key}>
+								{t(column.key)}
+							</TableColumn>
+						)}
 					</TableHeader>
 					<TableBody
 						emptyContent="No filled forms found"

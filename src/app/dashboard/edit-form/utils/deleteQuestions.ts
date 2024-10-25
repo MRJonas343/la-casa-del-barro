@@ -1,16 +1,24 @@
-import type { Dispatch, SetStateAction } from "react";
-import type { Question } from "@/interfaces/formDataToUpdate";
+import type {
+	FormQuestionsAction,
+	FormQuestionsState,
+} from "../store/stateEditQuestions";
 import { deleteQuestion } from "@/services";
+import type { Dispatch } from "react";
 
 export const deleteControlledQuestion = async (
 	questonId: number,
 	formId: number,
-	setQuestionsState: Dispatch<SetStateAction<Question[]>>,
-	onOpen: () => void,
+	state: FormQuestionsState,
+	dispatch: Dispatch<FormQuestionsAction>,
 ) => {
 	await deleteQuestion(formId, questonId);
 
-	setQuestionsState((prevState) =>
-		prevState.filter((question) => Number.parseInt(question.id) !== questonId),
+	const updatedQuestions = state.questionsState.filter(
+		(question) => Number.parseInt(question.id) !== questonId,
 	);
+
+	dispatch({
+		type: "SET_QUESTIONS_STATE",
+		payload: updatedQuestions,
+	});
 };

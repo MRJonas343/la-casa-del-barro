@@ -1,13 +1,14 @@
-import type { Dispatch, SetStateAction } from "react";
+import type { Dispatch } from "react";
 import type { QuestionType } from "@/interfaces";
 import { v4 as uuid } from "uuid";
 import type { Question } from "@/interfaces/formDataToUpdate";
 import { addQuestion } from "@/services";
+import type { FormQuestionsAction } from "../store/stateEditQuestions";
 
 export const createControlledInput = async (
 	formId: number,
 	questionsState: Question[],
-	setQuestionsState: Dispatch<SetStateAction<Question[]>>,
+	dispatch: Dispatch<FormQuestionsAction>,
 ) => {
 	let question: Question = {
 		id: uuid(),
@@ -26,5 +27,8 @@ export const createControlledInput = async (
 		id: newQuestion.toString(),
 	};
 
-	setQuestionsState([...questionsState, question]);
+	dispatch({
+		type: "SET_QUESTIONS_STATE",
+		payload: [...questionsState, question],
+	});
 };

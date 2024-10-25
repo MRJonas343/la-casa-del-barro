@@ -1,17 +1,16 @@
-import type { Question } from "@/interfaces/formDataToUpdate";
-import type { Dispatch, SetStateAction } from "react";
+import type { FormQuestionsAction } from "../store/stateEditQuestions";
+import type { Dispatch } from "react";
 
 export const changeControlledInputs = (
 	id: string,
 	key: string,
 	value: string | boolean,
-	setQuestionsState: Dispatch<SetStateAction<Question[]>>,
+	dispatch: Dispatch<FormQuestionsAction>,
 ) => {
 	const adjustedKey = key === "questionName" ? "question" : key;
 
-	setQuestionsState((prevState) =>
-		prevState.map((question) =>
-			question.id === id ? { ...question, [adjustedKey]: value } : question,
-		),
-	);
+	dispatch({
+		type: "UPDATE_QUESTION_INPUT",
+		payload: { id, key: adjustedKey, value },
+	});
 };

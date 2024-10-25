@@ -5,8 +5,6 @@ import {
 	ModalContent,
 	ModalHeader,
 	ModalBody,
-	ModalFooter,
-	Button,
 	Spinner,
 	Table,
 	TableHeader,
@@ -16,31 +14,21 @@ import {
 	TableCell,
 	getKeyValue,
 } from "@nextui-org/react";
+import type { FilledForms, ModalWithFillFormsProps } from "@/interfaces";
 import { useEffect, useState, type FC } from "react";
 import { getFilledForms } from "@/services";
 import { useRouter } from "next/navigation";
-
-interface ModalWithFillFormsProps {
-	formId: number;
-	isOpen: boolean;
-	onOpen: () => void;
-	onOpenChange: (isOpen: boolean) => void;
-}
-
-export interface FilledForms {
-	userId: number;
-	userName: string;
-	filledAt: string;
-}
+import { useTranslations } from "next-intl";
 
 export const ModalWithFillForms: FC<ModalWithFillFormsProps> = ({
 	formId,
 	isOpen,
-	onOpen,
 	onOpenChange,
 }) => {
 	const [isModalLoading, setIsModalLoading] = useState(false);
 	const [formData, setFormData] = useState<FilledForms[]>([]);
+
+	const t = useTranslations("modalFilledForms");
 
 	const router = useRouter();
 
@@ -63,8 +51,8 @@ export const ModalWithFillForms: FC<ModalWithFillFormsProps> = ({
 	}, [isOpen, formId]);
 
 	const TableColumns = [
-		{ key: "userName", label: "User Name" },
-		{ key: "filledAt", label: "Filled At" },
+		{ key: "userName", label: t("userName") },
+		{ key: "filledAt", label: t("filledAt") },
 	];
 
 	const gotoForm = (userId: number) => {
@@ -79,7 +67,7 @@ export const ModalWithFillForms: FC<ModalWithFillFormsProps> = ({
 					<>
 						<ModalHeader className="flex flex-col gap-1">
 							<h3 className="text-lg font-semibold text-center">
-								Filled Forms
+								{t("title")}
 							</h3>
 						</ModalHeader>
 						<ModalBody>

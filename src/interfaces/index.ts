@@ -8,6 +8,7 @@ export * from "./FormSettings";
 export * from "./GeneralSettingsProps";
 export * from "./LocalSwitcherSelectProps";
 export * from "./LogoProps";
+export * from "./ModalWithFillFormsProps";
 export * from "./NewFilledForm";
 export * from "./PopularForms";
 export * from "./QuestionElement";

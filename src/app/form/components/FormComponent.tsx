@@ -15,13 +15,14 @@ import {
 	MarkdownRenderArea,
 	QuestionField,
 } from "@/components";
+import { submitForm, updateValue } from "../utils/formComponentHandlers";
 import { formInitialState, formReducer } from "../store/state";
 import { useEffect, useReducer, type FC } from "react";
 import type { FormProps } from "@/interfaces";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { submitForm, updateValue } from "../utils/formComponentHandlers";
 
 export const FormComponent: FC<FormProps> = ({
 	questions,
@@ -36,6 +37,8 @@ export const FormComponent: FC<FormProps> = ({
 	);
 
 	const { data: session } = useSession();
+
+	const t = useTranslations("formSection");
 
 	const router = useRouter();
 
@@ -92,7 +95,7 @@ export const FormComponent: FC<FormProps> = ({
 							})
 						}
 					>
-						Send me a copy of my answers
+						{t("sendCopy")}
 					</Checkbox>
 
 					<Checkbox
@@ -105,7 +108,7 @@ export const FormComponent: FC<FormProps> = ({
 							dispatch({ type: "SET_IS_FORM_LIKED", payload: value })
 						}
 					>
-						Did you like this form?
+						{t("likeForm")}
 					</Checkbox>
 
 					<Button
@@ -119,18 +122,13 @@ export const FormComponent: FC<FormProps> = ({
 						radius="sm"
 						className="text-lg font-semibold"
 					>
-						Submit
+						{t("submitForm")}
 					</Button>
 				</div>
 
 				<Divider className="mt-4" />
-				<div className="mx-2">
-					<h2 className="text-lg font-semibold text-center mt-4 mb-2">
-						Comments
-					</h2>
 
-					<CommentsSection formId={formGeneralData.id} comments={comments} />
-				</div>
+				<CommentsSection formId={formGeneralData.id} comments={comments} />
 			</section>
 		</>
 	);

@@ -4,11 +4,14 @@ import { Button, Table, TableBody, TableCell } from "@nextui-org/react";
 import { TableHeader, TableColumn, TableRow } from "@nextui-org/react";
 import { PopularFormsColumns } from "@/constants";
 import type { PopularForms } from "@/interfaces";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 
 export const PopularFormsTable: FC<PopularForms> = ({ popularForms }) => {
 	const router = useRouter();
+
+	const t = useTranslations("popularFormsTable");
 
 	return (
 		<div className="w-full flex justify-center">
@@ -42,10 +45,10 @@ export const PopularFormsTable: FC<PopularForms> = ({ popularForms }) => {
 								</p>
 								<div className="pt-1">
 									<span className="pr-3 sm:pr-10 opacity-60 lg:text-lg">
-										{form.answerTimes} answers
+										{form.answerTimes} {t("answers")}
 									</span>
 									<span className="opacity-60  lg:text-lg">
-										By {form.authorName}
+										{t("by")} {form.authorName}
 									</span>
 								</div>
 							</TableCell>
@@ -57,7 +60,7 @@ export const PopularFormsTable: FC<PopularForms> = ({ popularForms }) => {
 									className="sm:mx-auto sm:w-[80%] sm:h-12 sm:flex sm:font-semibold"
 									onClick={() => router.push(`/form/${form.id}`)}
 								>
-									Answer
+									{t("answer")}
 								</Button>
 							</TableCell>
 						</TableRow>

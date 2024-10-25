@@ -57,14 +57,19 @@
 		"invalidQuestions": "Questions are not valid"
 	},
 	"formCard": {
-		"answer": "Answer"
+		"answer": "Answer",
+		"by": "By",
+		"editForm": "Edit Form",
+		"seeAnswers": "See Answers"
 	},
 	"dashboardTabs": {
 		"myForms": "My Forms",
 		"myAnswers": "My Answers"
 	},
 	"myFormsTable": {
-		"name": "Name",
+		"formName": "Form",
+		"topic": "Topic",
+		"questions": "Questions",
 		"likes": "Likes",
 		"totalAnswers": "Total Answers",
 		"newForm": "New Form",
@@ -91,10 +96,15 @@
 		"email": "Email",
 		"addTopic": "Add a topic",
 		"searchUsers": "Search Users",
-		"selectUsers": "Select Users"
+		"selectUsers": "Select Users",
+		"fieldRequired": "This field is required",
+		"searchPlaceholder": "Search Users",
+		"tooltip": "This field supports markdown",
+		"changeImage": "Change Image"
 	},
 	"setQuestions": {
 		"addQuestion": "Add question",
+		"updateQuestions": "Update Questions",
 		"createForm": "Create Form",
 		"questionName": "Question Name",
 		"questionType": "Question Type",
@@ -108,5 +118,32 @@
 		"single": "Single",
 		"multiple": "Multiple",
 		"option": "Option"
+	},
+	"modalFilledForms": {
+		"title": "Filled Forms",
+		"userName": "User Name",
+		"filledAt": "Filled At"
+	},
+	"myFilledFormsTable": {
+		"formName": "Form Name",
+		"topic": "Topic",
+		"filledAt": "Filled At"
+	},
+	"popularFormsTable": {
+		"answers": "Answers",
+		"by": "By",
+		"answer": "Answer"
+	},
+	"updateFormButton": {
+		"updateForm": "Update Form"
+	},
+	"commentsSection": {
+		"comments": "Comments",
+		"addComment": "Add Comment"
+	},
+	"formSection": {
+		"sendCopy": "Send me a copy of my answers",
+		"likeForm": "Did you like this form?",
+		"submitForm": "Submit Form"
 	}
 }

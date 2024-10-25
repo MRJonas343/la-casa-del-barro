@@ -76,7 +76,7 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 					defaultValue={data.form.title}
 					radius="sm"
 					isInvalid={Boolean(errors.title)}
-					errorMessage="This field is required"
+					errorMessage={t("fieldRequired")}
 					variant="bordered"
 					className="w-full"
 					label={t("title")}
@@ -94,7 +94,7 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 					onSelectionChange={(topics) =>
 						dispatch({ type: "SET_TOPICS_STATE", payload: topics })
 					}
-					errorMessage="This field is required"
+					errorMessage={t("fieldRequired")}
 					selectionMode="single"
 					className="w-full mt-3 md:mt-0"
 					{...register("topic", {
@@ -110,6 +110,7 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 						radius="sm"
 						variant="bordered"
 						label={t("addTopic")}
+						errorMessage={t("fieldRequired")}
 						//@ts-ignore
 						className={`w-full mt-3 md:mt-0 ${!state.topicsState.has("Other") && "hidden"}`}
 						//@ts-ignore
@@ -129,11 +130,9 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 				defaultValue={data.form.description}
 				label={t("description")}
 				className="w-full"
-				errorMessage="This field is required"
+				errorMessage={t("fieldRequired")}
 				endContent={
-					<Tooltip
-						content={<p className="p-2">This field supports markdown</p>}
-					>
+					<Tooltip content={<p className="p-2">{t("tooltip")}</p>}>
 						<Button isIconOnly variant="light">
 							<FaRegQuestionCircle size={20} />
 						</Button>
@@ -144,7 +143,7 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 					required: true,
 				})}
 			>
-				Description
+				{t("description")}
 			</Textarea>
 
 			<Select
@@ -174,7 +173,9 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 							height={40}
 						/>
 					)}
-					<label className="text-default-500">Change Image</label>
+					<label className="text-default-500 cursor-pointer">
+						{t("changeImage")}
+					</label>
 				</div>
 				<input type="file" className="w-full" {...getInputProps()} />
 
@@ -226,7 +227,7 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 							size="lg"
 							isClearable
 							startContent={<FaSearch />}
-							placeholder="search"
+							placeholder={t("searchPlaceholder")}
 							className="w-full"
 							variant="bordered"
 							inputValue={state.textSearchValue}

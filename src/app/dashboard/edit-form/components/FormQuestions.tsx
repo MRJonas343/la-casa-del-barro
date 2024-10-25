@@ -1,8 +1,5 @@
 "use client";
 
-import { useDndSensors } from "@/hooks";
-import type { Question } from "@/interfaces/formDataToUpdate";
-import { DndContext } from "@dnd-kit/core";
 import {
 	restrictToParentElement,
 	restrictToVerticalAxis,
@@ -11,42 +8,49 @@ import {
 	SortableContext,
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useRef, useState } from "react";
-import { QuestionContainer } from "../../components";
+import {
+	changeControlledInputs,
+	changeMultipleQuestionInputs,
+	changeQuestionsPositions,
+	createControlledInput,
+	deleteControlledQuestion,
+	updateForm,
+} from "../utils";
+import { formQuestionsReducer, initializer } from "../store/stateEditQuestions";
+import type { Question } from "@/interfaces/formDataToUpdate";
 import { Button, useDisclosure } from "@nextui-org/react";
+import { QuestionContainer } from "../../components";
 import type { QuestionType } from "@/interfaces";
-import { changeQuestionsPositions } from "../utils/changeQuestionsPositions";
-import { changeControlledInputs } from "../utils/changeControlledInputs";
-import { deleteControlledQuestion } from "../utils/deleteQuestions";
-import { changeMultipleQuestionInputs } from "../utils/changeMultipleQuestinInputs";
-import { createControlledInput } from "../utils/createControlledInput";
+import { useTranslations } from "next-intl";
+import { DndContext } from "@dnd-kit/core";
 import ModalConfirm from "./ModalConfirm";
-import { updateForm } from "../utils/updateForm";
+import { useReducer, useRef } from "react";
+import { useDndSensors } from "@/hooks";
 import toast from "react-hot-toast";
 
 const FormQuestions = ({
 	data,
 	formId,
 }: { data: Question[]; formId: number }) => {
-	const [questionToDelete, setQuestionToDelete] = useState<string | null>(null);
-	const [questionsState, setQuestionsState] = useState<Question[]>(data);
-	const [isSubmitting, setIsSubmitting] = useState(false);
-
-	const initialData = useRef(data);
+	const [state, dispatch] = useReducer(formQuestionsReducer, data, initializer);
 
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
+	const initialData = useRef(data);
+
 	const sensors = useDndSensors();
 
+	const t = useTranslations("setQuestions");
+
 	const updateQuestions = async () => {
-		setIsSubmitting(true);
-		const result = await updateForm(questionsState, initialData);
+		dispatch({ type: "SET_IS_SUBMITTING", payload: true });
+		const result = await updateForm(state.questionsState, initialData);
 		if (result === "SUCCESS") toast.success("Questions updated successfully");
-		setIsSubmitting(false);
+		dispatch({ type: "SET_IS_SUBMITTING", payload: false });
 	};
 
 	const onOpenQuestionModal = (id: string) => {
-		setQuestionToDelete(id);
+		dispatch({ type: "SET_QUESTION_TO_DELETE", payload: id });
 		onOpen();
 	};
 
@@ -63,20 +67,15 @@ const FormQuestions = ({
 					<DndContext
 						sensors={sensors}
 						onDragEnd={(e) =>
-							changeQuestionsPositions(
-								formId,
-								questionsState,
-								e,
-								setQuestionsState,
-							)
+							changeQuestionsPositions(state, formId, e, dispatch)
 						}
 						modifiers={[restrictToVerticalAxis, restrictToParentElement]}
 					>
 						<SortableContext
-							items={questionsState}
+							items={state.questionsState}
 							strategy={verticalListSortingStrategy}
 						>
-							{questionsState.map((question) => (
+							{state.questionsState.map((question) => (
 								<QuestionContainer
 									key={question.id}
 									id={String(question.id)}
@@ -84,7 +83,7 @@ const FormQuestions = ({
 									description={question.description ?? ""}
 									questionName={question.question}
 									onQuestionChange={(id, type, value) => {
-										changeControlledInputs(id, type, value, setQuestionsState);
+										changeControlledInputs(id, type, value, dispatch);
 									}}
 									deleteQuestion={(id) => {
 										onOpenQuestionModal(id);
@@ -93,11 +92,7 @@ const FormQuestions = ({
 									displayInTable={question.displayInTable}
 									options={question.options}
 									onOptionsChange={(id, newOptions) => {
-										changeMultipleQuestionInputs(
-											id,
-											newOptions,
-											setQuestionsState,
-										);
+										changeMultipleQuestionInputs(id, newOptions, dispatch);
 									}}
 								/>
 							))}
@@ -112,20 +107,20 @@ const FormQuestions = ({
 					radius="sm"
 					className="font-semibold"
 					onClick={() =>
-						createControlledInput(formId, questionsState, setQuestionsState)
+						createControlledInput(formId, state.questionsState, dispatch)
 					}
 				>
-					Add question
+					{t("addQuestion")}
 				</Button>
 				<Button
-					isLoading={isSubmitting}
+					isLoading={state.isSubmitting}
 					variant="shadow"
 					color="primary"
 					radius="sm"
 					className="font-semibold"
 					onClick={updateQuestions}
 				>
-					Update Questions
+					{t("updateQuestions")}
 				</Button>
 			</div>
 			<ModalConfirm
@@ -133,12 +128,12 @@ const FormQuestions = ({
 				onOpen={onOpen}
 				onOpenChange={onOpenChange}
 				onConfirm={() => {
-					if (questionToDelete) {
+					if (state.questionToDelete) {
 						deleteControlledQuestion(
-							Number.parseInt(questionToDelete),
+							Number.parseInt(state.questionToDelete),
 							formId,
-							setQuestionsState,
-							onOpen,
+							state,
+							dispatch,
 						);
 						onClose();
 					}

@@ -58,14 +58,19 @@
 		"invalidQuestions": "Las preguntas no son válidas"
 	},
 	"formCard": {
-		"answer": "Responder"
+		"answer": "Responder",
+		"by": "Por",
+		"editForm": "Editar Formulario",
+		"seeAnswers": "Ver Respuestas"
 	},
 	"dashboardTabs": {
 		"myForms": "Mis Formularios",
 		"myAnswers": "Mis Respuestas"
 	},
 	"myFormsTable": {
-		"name": "Nombre",
+		"formName": "Nombre",
+		"topic": "Tema",
+		"questions": "Preguntas",
 		"likes": "Likes",
 		"totalAnswers": "Respuestas",
 		"newForm": "Crear nuevo",
@@ -92,10 +97,15 @@
 		"email": "Email",
 		"searchUsers": "Buscar usuarios",
 		"selectUsers": "Selecciona usuarios",
-		"addTopic": "Añadir un tema"
+		"addTopic": "Añadir un tema",
+		"fieldRequired": "Este campo es requerido",
+		"searchPlaceholder": "Buscar usuarios",
+		"tooltip": "Este campo soporta markdown",
+		"changeImage": "Cambiar imagen"
 	},
 	"setQuestions": {
 		"addQuestion": "Añadir pregunta",
+		"updateQuestions": "Actualizar Preguntas",
 		"createForm": "Crear Formulario",
 		"questionName": "Nombre de la pregunta",
 		"questionType": "Tipo de pregunta",
@@ -109,5 +119,32 @@
 		"single": "Individual",
 		"multiple": "Múltiple",
 		"option": "Opción"
+	},
+	"modalFilledForms": {
+		"title": "Respuestas",
+		"userName": "Usuario",
+		"filledAt": "Fecha de respuesta"
+	},
+	"myFilledFormsTable": {
+		"formName": "Nombre",
+		"topic": "Tema",
+		"filledAt": "Fecha"
+	},
+	"popularFormsTable": {
+		"answers": "Respuestas",
+		"by": "Por",
+		"answer": "Responder"
+	},
+	"updateFormButton": {
+		"updateForm": "Actualizar Formulario"
+	},
+	"commentsSection": {
+		"comments": "Comentarios",
+		"addComment": "Añadir Comentario"
+	},
+	"formSection": {
+		"sendCopy": "Enviame una copia de mis respuestas",
+		"likeForm": "Me gusta este formulario",
+		"submitForm": "Enviar Formulario"
 	}
 }

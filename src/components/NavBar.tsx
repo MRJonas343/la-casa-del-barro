@@ -162,7 +162,7 @@ export const NavBar: FC = ({
 						href="/admin/panel"
 						color={pathname === "/admin/panel" ? "primary" : "foreground"}
 					>
-						Admin Panel
+						Admin
 					</Link>
 				</NavbarMenuItem>
 				<NavbarMenuItem hidden={!session}>

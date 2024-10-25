@@ -71,11 +71,10 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 		>
 			<div className="md:flex md:gap-8">
 				<Input
-					isRequired
 					autoFocus
 					radius="sm"
 					isInvalid={Boolean(errors.title)}
-					errorMessage="This field is required"
+					errorMessage={t("fieldRequired")}
 					variant="bordered"
 					className="w-full"
 					label={t("title")}
@@ -84,7 +83,6 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 					})}
 				/>
 				<Select
-					isRequired
 					radius="sm"
 					label={t("topic")}
 					variant="bordered"
@@ -93,7 +91,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 					onSelectionChange={(topics) =>
 						dispatch({ type: "SET_TOPICS", payload: topics })
 					}
-					errorMessage="This field is required"
+					errorMessage={t("fieldRequired")}
 					selectionMode="single"
 					className="w-full mt-3 md:mt-0"
 					{...register("topic", {
@@ -114,6 +112,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 						//@ts-ignore
 						isRequired={state.topicsState.has("Other")}
 						isInvalid={Boolean(errors.otherTopic)}
+						errorMessage={t("fieldRequired")}
 						{...register("otherTopic", {
 							//@ts-ignore
 							required: state.topicsState.has("Other"),
@@ -122,12 +121,11 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 				}
 			</div>
 			<Textarea
-				isRequired
 				radius="sm"
 				variant="bordered"
 				label={t("description")}
 				className="w-full"
-				errorMessage="This field is required"
+				errorMessage={t("fieldRequired")}
 				endContent={
 					<Tooltip
 						content={<p className="p-2">This field supports markdown</p>}
@@ -137,10 +135,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 						</Button>
 					</Tooltip>
 				}
-				isInvalid={Boolean(errors.description)}
-				{...register("description", {
-					required: true,
-				})}
+				{...register("description", { required: true })}
 			>
 				Description
 			</Textarea>
@@ -209,7 +204,7 @@ export const GeneralSettings: FC<GeneralSettingsProps> = ({
 							size="lg"
 							isClearable
 							startContent={<FaSearch />}
-							placeholder="search"
+							placeholder={t("searchPlaceholder")}
 							className="w-full"
 							variant="bordered"
 							inputValue={state.inputValue}

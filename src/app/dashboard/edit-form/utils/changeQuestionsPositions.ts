@@ -3,32 +3,36 @@ import type { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import type { Question } from "@/interfaces/formDataToUpdate";
 import { swapQuestions } from "@/services";
+import type {
+	FormQuestionsAction,
+	FormQuestionsState,
+} from "../store/stateEditQuestions";
 
 export const changeQuestionsPositions = async (
+	state: FormQuestionsState,
 	formId: number,
-	questionsState: Question[],
 	event: DragEndEvent,
-	setQuestions: Dispatch<SetStateAction<Question[]>>,
+	dispatch: (value: FormQuestionsAction) => void,
 ) => {
 	const { active, over } = event;
 
 	if (!active || !over) return;
 
 	if (active.id !== over.id) {
-		setQuestions((prevQuestions) => {
-			const oldIndex = prevQuestions.findIndex((item) => item.id === active.id);
-			const newIndex = prevQuestions.findIndex((item) => item.id === over.id);
+		const oldIndex = state.questionsState.findIndex(
+			(item) => item.id === active.id,
+		);
+		const newIndex = state.questionsState.findIndex(
+			(item) => item.id === over.id,
+		);
 
-			return arrayMove(prevQuestions, oldIndex, newIndex);
-		});
+		if (oldIndex !== -1 && newIndex !== -1) {
+			dispatch({
+				type: "REORDER_QUESTIONS",
+				payload: { oldIndex, newIndex },
+			});
 
-		const questionOrder1 = questionsState.find(
-			(q) => q.id === active.id,
-		)?.order;
-		const questionOrder2 = questionsState.find((q) => q.id === over.id)?.order;
-
-		if (!questionOrder1 || !questionOrder2) return;
-
-		await swapQuestions(formId, active.id as number, over.id as number);
+			await swapQuestions(formId, active.id as number, over.id as number);
+		}
 	}
 };

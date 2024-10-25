@@ -9,16 +9,17 @@ import {
 	Button,
 } from "@nextui-org/react";
 import { MarkdownRenderArea, CommentsSection } from "@/components";
-import type { FilledFormProps, Question } from "@/interfaces";
+import type { FilledFormProps } from "@/interfaces";
 import FilledQuestion from "./FilledQuestion";
-import { useRef, useState } from "react";
 import { useSession } from "next-auth/react";
-import toast from "react-hot-toast";
+import { useTranslations } from "next-intl";
+import { useRef, useState } from "react";
 import { updateForm } from "../utils";
 
 export const FilledForm = ({ data }: { data: FilledFormProps }) => {
 	const [questionsState, setQuestionsState] = useState(data.questions);
 	const initialData = useRef(data.questions);
+	const t = useTranslations("updateFormButton");
 	const { data: session } = useSession();
 
 	const updateValue = (id: number, value: string | boolean | number) => {
@@ -73,7 +74,7 @@ export const FilledForm = ({ data }: { data: FilledFormProps }) => {
 					variant="shadow"
 					onPress={() => updateForm(questionsState, initialData)}
 				>
-					Update Form
+					{t("updateForm")}
 				</Button>
 			</div>
 			<CommentsSection formId={data.form?.id} comments={data.commentsResult} />

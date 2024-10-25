@@ -1,14 +1,13 @@
-import type { Dispatch, SetStateAction } from "react";
-import type { Question } from "@/interfaces/formDataToUpdate";
+import type { Dispatch } from "react";
+import type { FormQuestionsAction } from "../store/stateEditQuestions";
 
 export const changeMultipleQuestionInputs = (
 	id: string,
 	options: string[],
-	setQuestionsState: Dispatch<SetStateAction<Question[]>>,
+	dispatch: Dispatch<FormQuestionsAction>,
 ) => {
-	setQuestionsState((prevState) =>
-		prevState.map((question) =>
-			question.id === id ? { ...question, options } : question,
-		),
-	);
+	dispatch({
+		type: "UPDATE_QUESTION_OPTIONS",
+		payload: { id, options },
+	});
 };
