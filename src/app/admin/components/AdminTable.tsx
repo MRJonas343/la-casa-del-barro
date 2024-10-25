@@ -21,13 +21,26 @@ import {
 	handleSwitchUserRole,
 	handleUnlockUser,
 } from "../utils";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export const AdminTable = ({ data }: { data: Users[] }) => {
 	const selectedIdsRef = useRef<Set<Key> | "all">(new Set<Key>());
 	const [users, setUsers] = useState<Users[]>(data);
 
+	const router = useRouter();
+
 	const handleSelectionChange = (keys: "all" | Set<Key>) => {
 		selectedIdsRef.current = keys === "all" || keys.size > 0 ? keys : new Set();
+	};
+
+	const handleSeeForms = () => {
+		if (selectedIdsRef.current === "all")
+			return toast.error("Just one user at a time");
+		const id = [...selectedIdsRef.current];
+		if (id.length === 0) return toast.error("No users selected");
+		if (id.length > 1) return toast.error("Just one user at a time");
+		router.push(`/admin/form/${id[0]}`);
 	};
 
 	return (
@@ -49,7 +62,7 @@ export const AdminTable = ({ data }: { data: Users[] }) => {
 				</Button>
 				<Button
 					radius="sm"
-					//onClick={}
+					onClick={() => handleSeeForms()}
 					color="primary"
 					variant="flat"
 					className="font-semibold"

@@ -8,7 +8,7 @@ import {
 	questions,
 	users,
 } from "@/db/schemas";
-import { user } from "@nextui-org/react";
+import type { Question } from "@/interfaces";
 import { eq, and, inArray, asc, sql, desc } from "drizzle-orm";
 
 const getFormWithUserAnswers = async (userId: number, formId: number) => {
@@ -31,6 +31,7 @@ const getFormWithUserAnswers = async (userId: number, formId: number) => {
 				id: questions.id,
 				question: questions.question,
 				description: questions.description,
+				filledFormID: answers.id,
 				displayInTable: questions.displayInTable,
 				order: questions.order,
 				type: questions.type,
@@ -120,8 +121,25 @@ const getFilledFormsByUserId = async (userId: number, formId: number) => {
 	return result;
 };
 
+const updateFilledForm = async (answersToUpdate: Question[]) => {
+	for (const answer of answersToUpdate) {
+		if (!answer.filledFormID) continue;
+
+		const result = await db
+			.update(answers)
+			.set({ value: answer.answer })
+			.where(
+				and(
+					eq(answers.id, answer.filledFormID),
+					eq(answers.questionID, answer.id),
+				),
+			);
+	}
+};
+
 export const filledFormsRepository = {
 	getFormWithUserAnswers,
 	getFilledFormsByFormId,
 	getFilledFormsByUserId,
+	updateFilledForm,
 };

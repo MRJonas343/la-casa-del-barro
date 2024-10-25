@@ -35,12 +35,14 @@ export const CommentsSection = ({ comments, formId }: CommentsSectionProps) => {
 					radius="sm"
 					placeholder="Add a comment"
 					value={comment}
+					isDisabled={!session}
 					onValueChange={setComment}
 				/>
 				<Button
 					radius="sm"
 					variant="flat"
 					color="primary"
+					isDisabled={!session}
 					className="ml-2"
 					onClick={uploadComment}
 					isIconOnly

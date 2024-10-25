@@ -67,5 +67,5 @@ export const updateForm = async (
 	if (questionsToUpdata.length === 0) return toast("No changes made");
 
 	const result = await updateFormQuestions(questionsToUpdata);
-	if (result === "SUCCESS") toast.success("Questions updated successfully");
+	return "SUCCESS";
 };

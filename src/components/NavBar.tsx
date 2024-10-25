@@ -111,7 +111,7 @@ export const NavBar: FC = ({
 								as={Link}
 								href="/admin/panel"
 								size="md"
-								className="mt-2 w-full"
+								className={`mt-2 w-full ${session?.user.role !== "admin" && "hidden"}`}
 								variant="bordered"
 								radius="sm"
 							>

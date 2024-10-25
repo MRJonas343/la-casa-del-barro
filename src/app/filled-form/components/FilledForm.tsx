@@ -1,10 +1,34 @@
-import { Card, CardHeader, Image, CardBody, Divider } from "@nextui-org/react";
-import { MarkdownRenderArea, CommentsSection } from "@/components";
-import type { FilledFormProps } from "@/interfaces";
-import FilledQuestion from "./FilledQuestion";
+"use client";
 
-//TODO: IF IT IS ADMIN HE CAN EDIT THE FORM
+import {
+	Card,
+	CardHeader,
+	Image,
+	CardBody,
+	Divider,
+	Button,
+} from "@nextui-org/react";
+import { MarkdownRenderArea, CommentsSection } from "@/components";
+import type { FilledFormProps, Question } from "@/interfaces";
+import FilledQuestion from "./FilledQuestion";
+import { useRef, useState } from "react";
+import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
+import { updateForm } from "../utils";
+
 export const FilledForm = ({ data }: { data: FilledFormProps }) => {
+	const [questionsState, setQuestionsState] = useState(data.questions);
+	const initialData = useRef(data.questions);
+	const { data: session } = useSession();
+
+	const updateValue = (id: number, value: string | boolean | number) => {
+		setQuestionsState((prevState) =>
+			prevState.map((question) =>
+				question.id === id ? { ...question, answer: value } : question,
+			),
+		);
+	};
+
 	return (
 		<section className="flex w-[95%] mx-auto mt-5 flex-col gap-4 mb-10">
 			<Card className="w-full max-w-[800px] mx-auto flex flex-col">
@@ -24,7 +48,7 @@ export const FilledForm = ({ data }: { data: FilledFormProps }) => {
 					<MarkdownRenderArea>{data.form?.description}</MarkdownRenderArea>
 				</CardBody>
 			</Card>
-			{data.questions.map((question) => (
+			{questionsState.map((question) => (
 				<FilledQuestion
 					id={question.id}
 					key={question.id}
@@ -35,8 +59,23 @@ export const FilledForm = ({ data }: { data: FilledFormProps }) => {
 					options={question.options}
 					displayInTable={question.displayInTable}
 					order={question.order}
+					updateValue={(id, value) => updateValue(id, value)}
 				/>
 			))}
+			<div
+				className={`w-full max-w-[830px] mx-auto flex flex-col p-4 ${session?.user.role !== "admin" && "hidden"}`}
+			>
+				<Button
+					hidden={session?.user.role !== "admin"}
+					color="primary"
+					radius="sm"
+					className="sm:text-lg font-semibold"
+					variant="shadow"
+					onPress={() => updateForm(questionsState, initialData)}
+				>
+					Update Form
+				</Button>
+			</div>
 			<CommentsSection formId={data.form?.id} comments={data.commentsResult} />
 		</section>
 	);

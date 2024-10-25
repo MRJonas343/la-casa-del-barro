@@ -32,6 +32,20 @@ export interface Question {
 	type: string;
 	answer: unknown;
 	options?: unknown[];
+	filledFormID: number | null;
+}
+
+export interface FilledQuestionProps {
+	id: number;
+	question: string;
+	description: string | null;
+	displayInTable: boolean;
+	order: number;
+	type: string;
+	answer: unknown;
+	options?: unknown[];
+	value?: string | boolean | number;
+	updateValue: (id: number, value: string | boolean | number) => void;
 }
 
 export interface NewQuestion {

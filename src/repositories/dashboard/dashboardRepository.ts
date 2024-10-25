@@ -1,6 +1,7 @@
-import { filledForms, forms, questions } from "@/db/schemas";
-import { eq, and, desc } from "drizzle-orm";
+import { filledForms, forms, likes, questions, users } from "@/db/schemas";
+import { eq, and, desc, count } from "drizzle-orm";
 import { db } from "@/db";
+import { image } from "@nextui-org/react";
 
 const getUserForms = async (userId: number) => {
 	const formsResult = await db
@@ -47,6 +48,7 @@ const getUserFilledForms = async (userId: number) => {
 			formId: forms.id,
 			formName: forms.title,
 			topic: forms.topic,
+
 			filledAt: filledForms.filled_at,
 		})
 		.from(filledForms)
@@ -57,7 +59,27 @@ const getUserFilledForms = async (userId: number) => {
 	return result;
 };
 
+const getAllUserFormsByUserId = async (userId: number) => {
+	const result = db
+		.select({
+			id: forms.id,
+			authorName: users.name,
+			title: forms.title,
+			imageUrl: forms.imageUrl,
+			likes: count(likes.id),
+		})
+		.from(forms)
+		.innerJoin(users, eq(forms.author_id, users.id))
+		.innerJoin(likes, eq(likes.form_id, forms.id))
+		.where(eq(forms.author_id, userId))
+		.groupBy(forms.id, users.name, forms.title, forms.imageUrl)
+		.orderBy(desc(count(likes.id)));
+
+	return result;
+};
+
 export const dashboardRepository = {
 	getUserForms,
 	getUserFilledForms,
+	getAllUserFormsByUserId,
 };

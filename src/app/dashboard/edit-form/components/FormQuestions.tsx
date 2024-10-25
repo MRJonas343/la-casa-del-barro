@@ -22,6 +22,7 @@ import { changeMultipleQuestionInputs } from "../utils/changeMultipleQuestinInpu
 import { createControlledInput } from "../utils/createControlledInput";
 import ModalConfirm from "./ModalConfirm";
 import { updateForm } from "../utils/updateForm";
+import toast from "react-hot-toast";
 
 const FormQuestions = ({
 	data,
@@ -37,9 +38,10 @@ const FormQuestions = ({
 
 	const sensors = useDndSensors();
 
-	const updateQuestions = () => {
+	const updateQuestions = async () => {
 		setIsSubmitting(true);
-		updateForm(questionsState, initialData);
+		const result = await updateForm(questionsState, initialData);
+		if (result === "SUCCESS") toast.success("Questions updated successfully");
 		setIsSubmitting(false);
 	};
 

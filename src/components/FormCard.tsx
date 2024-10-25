@@ -1,11 +1,23 @@
 "use client";
 
-import { Button, Card, CardBody, CardHeader, Image } from "@nextui-org/react";
+import {
+	Button,
+	Card,
+	CardBody,
+	CardHeader,
+	Image,
+	Link,
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@nextui-org/react";
 import type { FormCardProps } from "@/interfaces";
 import { FcLike } from "react-icons/fc";
 import type { FC } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { IoSettingsSharp } from "react-icons/io5";
 
 export const FormCard: FC<FormCardProps> = ({
 	id,
@@ -13,7 +25,10 @@ export const FormCard: FC<FormCardProps> = ({
 	authorName,
 	likes,
 	imageUrl,
+	openModal,
 }) => {
+	const { data: session } = useSession();
+
 	const t = useTranslations("formCard");
 
 	const router = useRouter();
@@ -25,6 +40,30 @@ export const FormCard: FC<FormCardProps> = ({
 	return (
 		<Card className="w-full bg-transparent dark:bg-transparent sm:bg-default-50 pb-3 shadow-none sm:shadow-neutral-700/40 sm:shadow-sm rounded-none sm:rounded-2xl sm:max-w-[250px] sm:min-h-[320px] sm:mb-8 sm:dark:shadow-md sm:dark:border-[#5A5A89] sm:dark:border-1 sm:dark:border-opacity-30 sm:dark:shadow-[#5A5A89]">
 			<CardHeader className="flex justify-center">
+				<div
+					className={`${session?.user?.role !== "admin" && "hidden"} z-20 absolute top-4 right-4`}
+				>
+					<Popover placement="bottom" showArrow={true}>
+						<PopoverTrigger>
+							<Button isIconOnly color="warning" size="sm">
+								<IoSettingsSharp size={24} />
+							</Button>
+						</PopoverTrigger>
+						<PopoverContent>
+							<div className="px-1 py-2 flex flex-col cursor-pointer gap-1">
+								<Link
+									className="text-foreground"
+									href={`/dashboard/edit-form/${id}`}
+								>
+									Edit Form
+								</Link>
+								<Link className="text-foreground" onPress={() => openModal(id)}>
+									See Answers
+								</Link>
+							</div>
+						</PopoverContent>
+					</Popover>
+				</div>
 				<Image
 					isZoomed
 					className="w-[345px] sm:w-[270px] md:h-[150px]"
