@@ -18,7 +18,7 @@ const page = async (props: {
 		Number.parseInt(params.userId),
 	);
 
-	if (session.user.role !== "admin") {
+	if (session.user.role === "user") {
 		if (form.form?.author_id !== userId) {
 			if (userId !== Number.parseInt(params.userId)) return redirect("/");
 		}

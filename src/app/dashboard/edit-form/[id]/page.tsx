@@ -1,9 +1,12 @@
+import {
+	getFormQuestions,
+	getFormToEdit,
+	checkFormOwnership,
+} from "@/services";
 import EditFormComponent from "../components/EditFormComponent";
 import { NavBar } from "@/components";
-import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { checkFormOwnership } from "@/services";
-import { getFormQuestions, getFormToEdit } from "@/services";
+import { auth } from "@/auth";
 
 export default async function page(props: { params: Promise<{ id: string }> }) {
 	const params = await props.params;
@@ -11,10 +14,7 @@ export default async function page(props: { params: Promise<{ id: string }> }) {
 
 	if (!session) return redirect("/login");
 
-	//@ts-ignore
-	const role = session.user?.role;
-
-	if (role === "user") {
+	if (session.user.role === "user") {
 		const isTheAhtor = await checkFormOwnership(
 			Number.parseInt(params.id),
 			Number.parseInt(session.user?.id ?? ""),

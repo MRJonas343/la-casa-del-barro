@@ -10,43 +10,47 @@ import { NavBar } from "@/components";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-export default async function FormPage(props: { params: Promise<{ id: string }> }) {
-    const params = await props.params;
-    const formId = Number.parseInt(params.id);
-    const session = await auth();
-    let isReadOnly = false;
+export default async function FormPage(props: {
+	params: Promise<{ id: string }>;
+}) {
+	const params = await props.params;
+	const formId = Number.parseInt(params.id);
+	const session = await auth();
 
-    const [questions, formGeneralData, comments] = await Promise.all([
+	let isReadOnly = false;
+
+	const [questions, formGeneralData, comments] = await Promise.all([
 		getFormQuestions(formId),
 		getFormById(formId),
 		getComments(formId),
 	]);
 
-    if (!formGeneralData) return <div>Form not found</div>;
+	if (!formGeneralData) return <div>Form not found</div>;
 
-    if (!session) return redirect("/login");
+	if (!session) isReadOnly = true;
 
-    if (String(session.user?.id) === String(formGeneralData.author_id)) {
+	if (String(session?.user?.id) === String(formGeneralData.author_id)) {
 		isReadOnly = true;
 	}
 
-    const isFormFilled = await isFormAlreadyFill(
-		Number.parseInt(session.user?.id ?? ""),
-		formId,
-	);
+	if (session) {
+		const isFormFilled = await isFormAlreadyFill(
+			Number.parseInt(session?.user?.id ?? ""),
+			formId,
+		);
+		if (isFormFilled) redirect(`/filled-form/${formId}/${session?.user?.id}`);
+	}
 
-    if (isFormFilled) redirect(`/filled-form/${formId}/${session.user?.id}`);
-
-    if (!formGeneralData.isPublic) {
+	if (!formGeneralData.isPublic) {
 		const hasPermission = await checkPermission(
 			formId,
-			Number.parseInt(session.user?.id ?? ""),
+			Number.parseInt(session?.user?.id ?? ""),
 		);
 
 		if (!hasPermission) isReadOnly = true;
 	}
 
-    return (
+	return (
 		<>
 			<NavBar />
 			<FormComponent

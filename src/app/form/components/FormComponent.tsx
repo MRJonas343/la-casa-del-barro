@@ -8,9 +8,9 @@ import {
 	Image,
 	Button,
 	Checkbox,
-	Input,
 } from "@nextui-org/react";
 import {
+	CommentsSection,
 	CustomHeartIcon,
 	MarkdownRenderArea,
 	QuestionField,
@@ -20,13 +20,8 @@ import { useEffect, useReducer, type FC } from "react";
 import type { FormProps } from "@/interfaces";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { IoMdSend } from "react-icons/io";
 import toast from "react-hot-toast";
-import {
-	submitForm,
-	updateValue,
-	uploadComment,
-} from "../utils/formComponentHandlers";
+import { submitForm, updateValue } from "../utils/formComponentHandlers";
 
 export const FormComponent: FC<FormProps> = ({
 	questions,
@@ -134,36 +129,7 @@ export const FormComponent: FC<FormProps> = ({
 						Comments
 					</h2>
 
-					<Card className="w-full max-w-[800px] mx-auto flex flex-col p-4">
-						<div className="w-full flex mb-2">
-							<Input
-								radius="sm"
-								placeholder="Add a comment"
-								value={state.comment}
-								onValueChange={(value) =>
-									dispatch({ type: "SET_COMMENT", payload: value })
-								}
-							/>
-							<Button
-								radius="sm"
-								variant="flat"
-								color="primary"
-								className="ml-2"
-								onClick={() =>
-									uploadComment(formGeneralData, state, dispatch, session)
-								}
-								isIconOnly
-							>
-								<IoMdSend size={20} />
-							</Button>
-						</div>
-						{comments.map((comment) => (
-							<div className="flex flex-col pb-3 px-1" key={comment.id}>
-								<p className="text-sm text-gray-500">{comment.userName}</p>
-								<p className="text-sm">{comment.comment}</p>
-							</div>
-						))}
-					</Card>
+					<CommentsSection formId={formGeneralData.id} comments={comments} />
 				</div>
 			</section>
 		</>
