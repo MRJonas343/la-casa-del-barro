@@ -96,6 +96,22 @@ export const LoginForm = () => {
 			<div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-gray-700 after:mt-0.5 after:flex-1 after:border-t after:border-gray-700">
 				<p className="mx-4 mb-0 text-center"> {t("orLoginWith")} </p>
 			</div>
+			<Button
+				variant="faded"
+				size="lg"
+				radius="sm"
+				type="submit"
+				className="text-xl font-semibold bg-white shadow-md dark:shadow-none shadow-slate-300"
+				onClick={() =>
+					signIn("google", {
+						redirect: true,
+						redirectTo: process.env.NEXT_PUBLIC_BASE_URL,
+					})
+				}
+			>
+				<FcGoogle size={20} />
+				<p className="text-black">Google</p>
+			</Button>
 
 			<Button
 				variant="shadow"
@@ -112,22 +128,6 @@ export const LoginForm = () => {
 			>
 				<FaGithub size={20} color="white" />
 				<p className="text-white">{t("loginWithGithub")}</p>
-			</Button>
-			<Button
-				variant="faded"
-				size="lg"
-				radius="sm"
-				type="submit"
-				className="text-xl font-semibold bg-white shadow-md dark:shadow-none shadow-slate-300"
-				onClick={() =>
-					signIn("google", {
-						redirect: true,
-						redirectTo: process.env.NEXT_PUBLIC_BASE_URL,
-					})
-				}
-			>
-				<FcGoogle size={20} />
-				<p className="text-black">Google</p>
 			</Button>
 
 			<p className="text-center pt-2">{t("notAccount")}</p>
