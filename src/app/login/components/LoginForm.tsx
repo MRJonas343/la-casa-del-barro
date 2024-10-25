@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { authorize } from "@/services";
 import { handleStatus } from "@/utils";
 import { useState } from "react";
-import { signIn } from "@/auth";
+import { signIn } from "next-auth/react";
 
 export const LoginForm = () => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
