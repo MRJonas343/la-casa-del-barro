@@ -6,7 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa6";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { authorize, signInWithGithub } from "@/services";
+import { authorize } from "@/services";
 import { handleStatus } from "@/utils";
 import { useState } from "react";
 import { signIn } from "@/auth";
@@ -102,7 +102,7 @@ export const LoginForm = () => {
 				radius="sm"
 				type="submit"
 				className="text-xl font-semibold bg-black"
-				onPress={async () => await signInWithGithub()}
+				onClick={() => signIn("github")}
 			>
 				<FaGithub size={20} color="white" />
 				<p className="text-white">{t("loginWithGithub")}</p>
