@@ -11,7 +11,6 @@ import {
 	Textarea,
 } from "@nextui-org/react";
 import type { FC } from "react";
-import { useSession } from "next-auth/react";
 
 interface QuestionFieldProps {
 	isDisabled: boolean;
@@ -25,12 +24,12 @@ export const QuestionField: FC<QuestionFieldProps> = ({
 	updateValue,
 }) => {
 	return (
-        (<Card className="w-full max-w-[800px] mx-auto flex flex-col">
-            <CardHeader>
+		<Card className="w-full max-w-[800px] mx-auto flex flex-col">
+			<CardHeader>
 				<p className="text-md font-semibold">{question.question}</p>
 			</CardHeader>
-            <Divider />
-            <CardBody>
+			<Divider />
+			<CardBody>
 				{question.type === "long" && (
 					<Textarea
 						isDisabled={isDisabled}
@@ -106,6 +105,6 @@ export const QuestionField: FC<QuestionFieldProps> = ({
 					</div>
 				)}
 			</CardBody>
-        </Card>)
-    );
+		</Card>
+	);
 };

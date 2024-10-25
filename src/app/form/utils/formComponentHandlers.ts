@@ -4,6 +4,7 @@ import type { FormAction, FormState } from "../store/state";
 import { createComment, fillForm } from "@/services";
 import type { Session } from "next-auth";
 import toast from "react-hot-toast";
+import { i } from "framer-motion/client";
 
 export const updateValue = (
 	id: number,
@@ -28,11 +29,24 @@ export const submitForm = async (
 ) => {
 	dispatch({ type: "SET_IS_SUBMITTING", payload: true });
 
+	const questionsToUpdate = state.questionsState.map((question) => {
+		if (question.type === "long" && typeof question.value === "undefined")
+			question.value = "";
+		if (question.type === "short" && typeof question.value === "undefined")
+			question.value = "";
+		if (question.type === "multiple" && typeof question.value === "undefined")
+			question.value = "";
+		if (question.type === "single" && typeof question.value === "undefined")
+			question.value = false;
+		if (question.type === "numeric" && typeof question.value === "undefined")
+			question.value = 0;
+		return question;
+	});
+
 	const result = await fillForm({
-		form: state.questionsState,
+		form: questionsToUpdate,
 		isFormLiked: state.isFormLiked,
 		shouldSendCopy: state.shouldSendCopy,
-
 		userId: Number.parseInt(session?.user?.id ?? ""),
 		formId: formGeneralData.id,
 		userEmail: session?.user?.email,
@@ -42,7 +56,7 @@ export const submitForm = async (
 
 	if (result === "SUCCESS") toast.success("Form submitted successfully");
 
-	// router.push("/dashboard");
+	router.push("/dashboard");
 
 	dispatch({ type: "SET_IS_SUBMITTING", payload: false });
 };
