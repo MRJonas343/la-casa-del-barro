@@ -11,7 +11,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@nextui-org/react";
-import type { FormCardProps } from "@/interfaces";
+import type { FormCardProps, FormCardPropsWithModal } from "@/interfaces";
 import { FcLike } from "react-icons/fc";
 import type { FC } from "react";
 import { useTranslations } from "next-intl";
@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { IoSettingsSharp } from "react-icons/io5";
 
-export const FormCard: FC<FormCardProps> = ({
+export const FormCard: FC<FormCardPropsWithModal> = ({
 	id,
 	title,
 	authorName,
