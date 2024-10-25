@@ -20,6 +20,7 @@ export * from "./forms/deleteForm";
 export * from "./forms/getAllFormsByUserId";
 export * from "./forms/getFilledForms";
 export * from "./forms/getFormById";
+export * from "./forms/getFormResults";
 export * from "./forms/getFormsByTag";
 export * from "./forms/getFormsWithFullTextSearch";
 export * from "./forms/getLatestForms";

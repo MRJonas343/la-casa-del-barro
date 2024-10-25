@@ -64,7 +64,7 @@
 		"answer": "Responder",
 		"by": "Por",
 		"editForm": "Editar Formulario",
-		"seeAnswers": "Ver Respuestas"
+		"seeAnswers": "Respuestas"
 	},
 	"dashboardTabs": {
 		"myForms": "Mis Formularios",
@@ -76,8 +76,8 @@
 		"questions": "Preguntas",
 		"likes": "Likes",
 		"totalAnswers": "Respuestas",
-		"newForm": "Crear nuevo",
-		"seeAnswers": "Ver respuestas"
+		"newForm": "Nuevo",
+		"seeAnswers": "Respuestas"
 	},
 	"createFormTabs": {
 		"generalSettings": "Configuración",

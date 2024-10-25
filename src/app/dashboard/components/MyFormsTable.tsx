@@ -6,7 +6,6 @@ import {
 	TableRow,
 	Spinner,
 	Button,
-	Link,
 	useDisclosure,
 } from "@nextui-org/react";
 import { Table, TableBody, TableCell, getKeyValue } from "@nextui-org/react";
@@ -20,6 +19,9 @@ import { useRouter } from "next/navigation";
 import { useSortableList, type GenericItem } from "@/hooks/useSortableList";
 import toast from "react-hot-toast";
 import { deleteFormAction } from "@/services";
+import { LuFileSpreadsheet } from "react-icons/lu";
+import { GoGraph } from "react-icons/go";
+import { MdAdd } from "react-icons/md";
 
 export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -43,26 +45,39 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 
 	return (
 		<>
-			<div className="mt-4 sm:mt-0 w-full sm:w-[95%] justify-center flex max-w-[1280px] mx-auto px-5 sm:justify-end gap-2">
+			<div className="mt-4 sm:mt-0 w-full sm:w-[95%] justify-end flex max-w-[1280px] mx-auto px-5 sm:justify-end gap-2">
 				<Button
 					variant="shadow"
 					color="primary"
-					as={Link}
-					href="/dashboard/new-form"
 					radius="sm"
-					className="font-semibold"
+					isIconOnly
+					onPress={() => router.push("/dashboard/new-form")}
 				>
-					{t("newForm")}
+					<MdAdd size={28} />
 				</Button>
 				<Button
 					variant="bordered"
 					radius="sm"
 					color="primary"
-					onClick={() =>
+					isIconOnly
+					onPress={() =>
 						formIdRef.current !== 0 && formIdRef.current && onOpen()
 					}
 				>
-					{t("seeAnswers")}
+					<LuFileSpreadsheet size={20} />
+				</Button>
+				<Button
+					variant="bordered"
+					color="primary"
+					radius="sm"
+					isIconOnly
+					onPress={() =>
+						formIdRef.current !== 0 &&
+						formIdRef.current &&
+						router.push(`/dashboard/results/${formIdRef.current}`)
+					}
+				>
+					<GoGraph size={20} />
 				</Button>
 				<Button
 					variant="bordered"
@@ -72,11 +87,12 @@ export const MyFormsTable: FC<MyFormsTableProps> = ({ forms }) => {
 					onClick={() => {
 						formIdRef.current !== 0 &&
 							formIdRef.current &&
-							router.push(`dashboard/edit-form/${formIdRef.current}`);
+							router.push(`/dashboard/edit-form/${formIdRef.current}`);
 					}}
 				>
 					<MdEdit size={20} />
 				</Button>
+
 				<Button
 					variant="bordered"
 					color="danger"

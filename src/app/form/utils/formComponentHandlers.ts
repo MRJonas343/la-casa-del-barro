@@ -42,7 +42,7 @@ export const submitForm = async (
 
 	if (result === "SUCCESS") toast.success("Form submitted successfully");
 
-	router.push("/dashboard");
+	// router.push("/dashboard");
 
 	dispatch({ type: "SET_IS_SUBMITTING", payload: false });
 };

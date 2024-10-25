@@ -30,7 +30,6 @@ export default async function FormPage(props: {
 	}
 
 	if (!session) {
-		// If no session, user is in readonly mode
 		return (
 			<>
 				<NavBar />
@@ -44,28 +43,28 @@ export default async function FormPage(props: {
 		);
 	}
 
-	// Check if the user is the form author
 	const isAuthor =
 		String(session.user.id) === String(formGeneralData.author_id);
 
 	if (isAuthor) {
 		isReadOnly = true;
 	} else {
-		// Check if the form has already been filled by the user
 		const isFormFilled = await isFormAlreadyFill(
 			Number(session.user.id),
 			formId,
 		);
-		if (isFormFilled) {
+		if (isFormFilled)
 			return redirect(`/filled-form/${formId}/${session.user.id}`);
-		}
 
-		// Check if the user has permission to fill the form if it's public
-		const hasPermission = await checkPermission(
-			formId,
-			Number(session.user.id),
-		);
-		isReadOnly = !hasPermission;
+		if (formGeneralData.isPublic) {
+			isReadOnly = false;
+		} else {
+			const hasPermission = await checkPermission(
+				formId,
+				Number(session.user.id),
+			);
+			if (!hasPermission) isReadOnly = true;
+		}
 	}
 
 	return (

@@ -63,7 +63,7 @@
 		"answer": "Answer",
 		"by": "By",
 		"editForm": "Edit Form",
-		"seeAnswers": "See Answers"
+		"seeAnswers": "Answers"
 	},
 	"dashboardTabs": {
 		"myForms": "My Forms",
@@ -75,7 +75,7 @@
 		"questions": "Questions",
 		"likes": "Likes",
 		"totalAnswers": "Total Answers",
-		"newForm": "New Form",
+		"newForm": "New",
 		"seeAnswers": "Answers"
 	},
 	"createFormTabs": {

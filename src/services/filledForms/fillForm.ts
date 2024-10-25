@@ -8,9 +8,10 @@ import "dotenv/config";
 export const fillForm = async (data: NewFilledForm) => {
 	if (data.userEmail && data.shouldSendCopy) sendCopyOfAnswers(data);
 
-	const result = await formRepository.insertAnswers(data);
+	console.log(data);
+	// const result = await formRepository.insertAnswers(data);
 
-	if (data.isFormLiked) await formRepository.insertLike(data);
+	// if (data.isFormLiked) await formRepository.insertLike(data);
 
 	return "SUCCESS";
 };
