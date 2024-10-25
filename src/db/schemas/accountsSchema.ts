@@ -5,7 +5,7 @@ import { users } from ".";
 export const accounts = mysqlTable(
 	"account",
 	{
-		userId: varchar("userId", { length: 255 })
+		userId: int("userId")
 			.notNull()
 			.references(() => users.id, { onDelete: "cascade" }),
 		type: varchar("type", { length: 255 })
