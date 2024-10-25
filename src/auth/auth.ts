@@ -11,11 +11,11 @@ import { db } from "@/db";
 const adapter = DrizzleAdapter(db);
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+	secret: process.env.AUTH_SECRET ?? "",
 	adapter: adapter,
 	pages: {
 		signIn: "/login",
 	},
-	secret: process.env.AUTH_SECRET ?? "",
 	providers: [
 		GitHub,
 		Credentials({
@@ -46,7 +46,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 				token.credentials = true;
 				token.id = user.id;
 			}
-			//TODO: HANDLE LOGIN WITH OTHER PROVIDERS
 
 			return token;
 		},
