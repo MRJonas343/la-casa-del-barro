@@ -26,6 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 		Discord({
 			clientId: process.env.AUTH_DISCORD_ID ?? "",
 			clientSecret: process.env.AUTH_DISCORD_SECRET ?? "",
+			allowDangerousEmailAccountLinking: true,
 		}),
 		Credentials({
 			credentials: {
