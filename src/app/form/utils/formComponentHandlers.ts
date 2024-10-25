@@ -4,7 +4,6 @@ import type { FormAction, FormState } from "../store/state";
 import { createComment, fillForm } from "@/services";
 import type { Session } from "next-auth";
 import toast from "react-hot-toast";
-import { i } from "framer-motion/client";
 
 export const updateValue = (
 	id: number,
