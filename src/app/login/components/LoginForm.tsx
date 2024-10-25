@@ -102,7 +102,7 @@ export const LoginForm = () => {
 				radius="sm"
 				type="submit"
 				className="text-xl font-semibold bg-black"
-				onClick={() => signIn("github")}
+				onClick={() => signIn("github", { redirect: false })}
 			>
 				<FaGithub size={20} color="white" />
 				<p className="text-white">{t("loginWithGithub")}</p>
