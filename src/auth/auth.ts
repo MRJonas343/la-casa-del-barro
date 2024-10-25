@@ -7,7 +7,7 @@ import { v4 as uuid } from "uuid";
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import { db } from "@/db";
-import Google from "next-auth/providers/google";
+import Discord from "next-auth/providers/discord";
 
 const adapter = DrizzleAdapter(db);
 
@@ -23,10 +23,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 			clientSecret: process.env.AUTH_GITHUB_SECRET ?? "",
 			allowDangerousEmailAccountLinking: true,
 		}),
-		Google({
-			clientId: process.env.AUTH_GOOGLE_ID ?? "",
-			clientSecret: process.env.AUTH_GOOGLE_SECRET ?? "",
-			allowDangerousEmailAccountLinking: true,
+		Discord({
+			clientId: process.env.AUTH_DISCORD_ID ?? "",
+			clientSecret: process.env.AUTH_DISCORD_SECRET ?? "",
 		}),
 		Credentials({
 			credentials: {

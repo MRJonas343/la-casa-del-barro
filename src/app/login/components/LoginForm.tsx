@@ -2,8 +2,8 @@
 
 import { Button, Input, Link } from "@nextui-org/react";
 import type { UserCredentials } from "@/interfaces";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+import { FaEye, FaEyeSlash, FaDiscord } from "react-icons/fa";
+
 import { FaGithub } from "react-icons/fa6";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
@@ -97,20 +97,21 @@ export const LoginForm = () => {
 				<p className="mx-4 mb-0 text-center"> {t("orLoginWith")} </p>
 			</div>
 			<Button
-				variant="faded"
+				variant="shadow"
+				color="primary"
 				size="lg"
 				radius="sm"
 				type="submit"
-				className="text-xl font-semibold bg-white shadow-md dark:shadow-none shadow-slate-300"
+				className="text-xl font-semibold bg-[#5865F2]"
 				onClick={() =>
-					signIn("google", {
+					signIn("discord", {
 						redirect: true,
 						redirectTo: process.env.NEXT_PUBLIC_BASE_URL,
 					})
 				}
 			>
-				<FcGoogle size={20} />
-				<p className="text-black">Google</p>
+				<FaDiscord size={22} color="white" />
+				<p className="text-white">Discord</p>
 			</Button>
 
 			<Button
