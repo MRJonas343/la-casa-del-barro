@@ -3,6 +3,7 @@
 import { Button, Input, Link } from "@nextui-org/react";
 import type { UserCredentials } from "@/interfaces";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa6";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
@@ -111,6 +112,22 @@ export const LoginForm = () => {
 			>
 				<FaGithub size={20} color="white" />
 				<p className="text-white">{t("loginWithGithub")}</p>
+			</Button>
+			<Button
+				variant="faded"
+				size="lg"
+				radius="sm"
+				type="submit"
+				className="text-xl font-semibold bg-white shadow-md dark:shadow-none shadow-slate-300"
+				onClick={() =>
+					signIn("google", {
+						redirect: true,
+						redirectTo: process.env.NEXT_PUBLIC_BASE_URL,
+					})
+				}
+			>
+				<FcGoogle size={20} />
+				<p className="text-black">Google</p>
 			</Button>
 
 			<p className="text-center pt-2">{t("notAccount")}</p>
