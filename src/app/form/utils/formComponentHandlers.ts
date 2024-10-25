@@ -29,18 +29,21 @@ export const submitForm = async (
 	dispatch({ type: "SET_IS_SUBMITTING", payload: true });
 
 	const questionsToUpdate = state.questionsState.map((question) => {
-		if (question.type === "long" && typeof question.value === "undefined")
+		if (question.type === "long" && typeof question.value === "undefined") {
 			question.value = "";
-		if (question.type === "short" && typeof question.value === "undefined")
+		}
+		if (question.type === "short" && typeof question.value === "undefined") {
 			question.value = "";
-		if (question.type === "multiple" && typeof question.value === "undefined")
+		}
+		if (question.type === "multiple" && typeof question.value === "undefined") {
 			question.value = "";
-		if (question.type === "single" && typeof question.value === "undefined")
+		}
+		if (question.type === "single" && typeof question.value === "undefined") {
 			question.value = false;
-		if (question.type === "numeric" && typeof question.value === "undefined") {
-			question.value = 0;
-		} else {
-			question.value = Number.parseInt(question.value as string);
+		}
+		if (question.type === "numeric") {
+			question.value =
+				typeof question.value === "undefined" ? 0 : Number(question.value);
 		}
 		return question;
 	});
