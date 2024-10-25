@@ -37,8 +37,11 @@ export const submitForm = async (
 			question.value = "";
 		if (question.type === "single" && typeof question.value === "undefined")
 			question.value = false;
-		if (question.type === "numeric" && typeof question.value === "undefined")
+		if (question.type === "numeric" && typeof question.value === "undefined") {
 			question.value = 0;
+		} else {
+			question.value = Number.parseInt(question.value as string);
+		}
 		return question;
 	});
 
