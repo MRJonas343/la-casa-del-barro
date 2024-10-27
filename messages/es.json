@@ -104,7 +104,8 @@
 		"fieldRequired": "Este campo es requerido",
 		"searchPlaceholder": "Buscar usuarios",
 		"tooltip": "Este campo soporta markdown",
-		"changeImage": "Cambiar imagen"
+		"changeImage": "Cambiar imagen",
+		"updateForm": "Actualizar Formulario"
 	},
 	"setQuestions": {
 		"addQuestion": "Añadir pregunta",

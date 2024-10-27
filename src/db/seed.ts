@@ -161,7 +161,6 @@ const usersToSeed: UsersSeed[] = [
 const formsToSeed = [
 	{
 		author_id: 1,
-
 		title: "What do you think about Apples?",
 		topic: "Animals",
 		description:
@@ -511,8 +510,342 @@ const questionsToSeed: QuestionsToSeed[] = [
 		description: "e.g., solo, family, adventure, luxury.",
 		displayInTable: true,
 		order: 4,
-		type: "multiple",
+		type: "short",
 	},
+	{
+		formId: 6,
+		question: "What is your favorite healthy recipe?",
+		description:
+			"Share a recipe you love that's both delicious and nutritious.",
+		displayInTable: true,
+		order: 1,
+		type: "long",
+	},
+	{
+		formId: 6,
+		question: "How many servings of fruits and vegetables do you eat per day?",
+		description: "Please provide an approximate number of servings.",
+		displayInTable: true,
+		order: 2,
+		type: "numeric",
+	},
+	{
+		formId: 6,
+		question: "What motivates you to maintain a healthy diet?",
+		description: "Explain the main reasons why you prioritize healthy eating.",
+		displayInTable: false,
+		order: 3,
+		type: "long",
+	},
+	{
+		formId: 7,
+		question:
+			"What recent technological innovation has impressed you the most?",
+		description:
+			"Mention a recent innovation and explain why it caught your attention.",
+		displayInTable: true,
+		order: 1,
+		type: "long",
+	},
+	{
+		formId: 7,
+		question: "How often do you update your tech devices?",
+		description: "Provide an approximate frequency of updates.",
+		displayInTable: true,
+		order: 2,
+		type: "numeric",
+	},
+	{
+		formId: 7,
+		question: "What do you think is the future of AI in everyday life?",
+		description: "Share your thoughts on the role AI will play in the future.",
+		displayInTable: false,
+		order: 3,
+		type: "long",
+	},
+	{
+		formId: 8,
+		question: "What genre of music resonates with you the most?",
+		description: "Select your favorite genre or style of music.",
+		displayInTable: true,
+		order: 1,
+		type: "single",
+	},
+	{
+		formId: 8,
+		question: "How often do you listen to music daily?",
+		description: "Answer in approximate hours or times per day.",
+		displayInTable: true,
+		order: 2,
+		type: "numeric",
+	},
+	{
+		formId: 8,
+		question: "How does music impact your mood?",
+		description: "Explain the emotional effect music has on you.",
+		displayInTable: false,
+		order: 3,
+		type: "long",
+	},
+	{
+		formId: 9,
+		question: "What is your preferred type of workout?",
+		description: "e.g., cardio, strength training, yoga.",
+		displayInTable: true,
+		order: 1,
+		type: "short",
+	},
+	{
+		formId: 9,
+		question: "How many days per week do you exercise?",
+		description: "Provide the number of exercise days per week.",
+		displayInTable: true,
+		order: 2,
+		type: "numeric",
+	},
+	{
+		formId: 9,
+		question: "What keeps you motivated to stay active?",
+		description: "Explain your source of motivation for fitness.",
+		displayInTable: false,
+		order: 3,
+		type: "long",
+	},
+	{
+		formId: 10,
+		question: "How do you feel about remote work?",
+		description:
+			"Share your thoughts on remote work and its impact on productivity.",
+		displayInTable: true,
+		order: 1,
+		type: "long",
+	},
+	{
+		formId: 10,
+		question: "How many hours do you work remotely per week?",
+		description: "Provide an approximate number of hours.",
+		displayInTable: true,
+		order: 2,
+		type: "numeric",
+	},
+	{
+		formId: 10,
+		question:
+			"What skills do you think will be essential in the future workplace?",
+		description:
+			"List the skills that will be important for future work environments.",
+		displayInTable: false,
+		order: 3,
+		type: "long",
+	},
+	{
+		formId: 11,
+		question: "Which languages are you currently learning?",
+		description: "List any languages you are actively learning.",
+		displayInTable: true,
+		order: 1,
+		type: "short",
+	},
+	{
+		formId: 11,
+		question: "How much time do you spend studying languages weekly?",
+		description: "Provide an estimate in hours per week.",
+		displayInTable: true,
+		order: 2,
+		type: "numeric",
+	},
+	{
+		formId: 11,
+		question: "What challenges have you faced while learning a new language?",
+		description:
+			"Describe the main challenges in your language learning journey.",
+		displayInTable: false,
+		order: 3,
+		type: "long",
+	},
+	{
+		formId: 12,
+		question: "What form of art do you enjoy the most?",
+		description: "e.g., painting, music, sculpture, dance.",
+		displayInTable: true,
+		order: 1,
+		type: "single",
+	},
+	{
+		formId: 12,
+		question: "How often do you engage in artistic activities?",
+		description: "Answer in approximate times per month.",
+		displayInTable: true,
+		order: 2,
+		type: "numeric",
+	},
+	{
+		formId: 12,
+		question: "How does art impact your life?",
+		description:
+			"Explain the influence of art on your mood, creativity, or lifestyle.",
+		displayInTable: false,
+		order: 3,
+		type: "long",
+	},
+	{
+		formId: 13,
+		question: "What sustainable practices do you follow regularly?",
+		description: "e.g., recycling, composting, reducing energy consumption.",
+		displayInTable: true,
+		order: 1,
+		type: "short",
+	},
+	{
+		formId: 13,
+		question:
+			"How many hours per week do you dedicate to sustainable activities?",
+		description: "Provide an estimate in hours.",
+		displayInTable: true,
+		order: 2,
+		type: "numeric",
+	},
+	{
+		formId: 13,
+		question: "What motivates you to live sustainably?",
+		description: "Share the reasons behind your commitment to sustainability.",
+		displayInTable: false,
+		order: 3,
+		type: "long",
+	},
+	{
+		formId: 14,
+		question: "What games do you play the most?",
+		description: "List your favorite games or the ones you play frequently.",
+		displayInTable: true,
+		order: 1,
+		type: "short",
+	},
+	{
+		formId: 14,
+		question: "How has gaming impacted your social life?",
+		description:
+			"Share how gaming has influenced your interactions and friendships.",
+		displayInTable: false,
+		order: 2,
+		type: "long",
+	},
+	{
+		formId: 15,
+		question: "What are your top gardening tips?",
+		description: "Provide advice for new and experienced gardeners alike.",
+		displayInTable: true,
+		order: 1,
+		type: "short",
+	},
+	{
+		formId: 15,
+		question: "How much time do you spend gardening weekly?",
+		description: "Estimate the number of hours spent gardening per week.",
+		displayInTable: true,
+		order: 2,
+		type: "numeric",
+	},
+	{
+		formId: 16,
+		question: "What is your favorite type of cuisine to cook?",
+		description: "e.g., Italian, Japanese, Mexican.",
+		displayInTable: true,
+		order: 1,
+		type: "short",
+	},
+	{
+		formId: 16,
+		question: "How often do you try new recipes?",
+		description: "Answer with an approximate number of times per month.",
+		displayInTable: true,
+		order: 2,
+		type: "numeric",
+	},
+	{
+		formId: 17,
+		question: "What activities do you find helpful for mental well-being?",
+		description:
+			"List activities that contribute positively to your mental health.",
+		displayInTable: true,
+		order: 1,
+		type: "short",
+	},
+	{
+		formId: 17,
+		question: "How do you manage stress on a daily basis?",
+		description: "Describe your methods for coping with stress.",
+		displayInTable: false,
+		order: 2,
+		type: "long",
+	},
+	{
+		formId: 18,
+		question: "What current fashion trends do you follow?",
+		description:
+			"List any fashion trends you enjoy or incorporate into your style.",
+		displayInTable: true,
+		order: 1,
+		type: "short",
+	},
+	{
+		formId: 18,
+		question: "Who are your favorite fashion designers?",
+		description: "Share some designers whose work you admire.",
+		displayInTable: false,
+		order: 2,
+		type: "short",
+	},
+	{
+		formId: 19,
+		question: "What type of photography do you enjoy the most?",
+		description: "e.g., landscape, portrait, street photography.",
+		displayInTable: true,
+		order: 1,
+		type: "single",
+	},
+	{
+		formId: 19,
+		question: "What camera equipment do you use?",
+		description: "List any cameras or lenses you frequently use.",
+		displayInTable: false,
+		order: 2,
+		type: "short",
+	},
+
+	{
+		formId: 20,
+		question: "What is your primary method for managing a budget?",
+		description:
+			"e.g., using an app, spreadsheet, or manually tracking expenses.",
+		displayInTable: true,
+		order: 1,
+		type: "short",
+	},
+	{
+		formId: 20,
+		question: "What are your top three tips for saving money?",
+		description: "Provide advice on how to effectively save money.",
+		displayInTable: false,
+		order: 2,
+		type: "long",
+	},
+];
+
+const optionsToSeed = [
+	{ questionId: 1, optionText: "Green" },
+	{ questionId: 1, optionText: "Red" },
+	{ questionId: 1, optionText: "Golden" },
+	{ questionId: 1, optionText: "All of them are good" },
+	//Do you believe climate change is real?
+	{ questionId: 10, optionText: "Yes" },
+	{ questionId: 10, optionText: "No" },
+	{ questionId: 10, optionText: "I don't know" },
+	//Which genre do you enjoy the most? books id 17
+	{ questionId: 17, optionText: "Fiction" },
+	{ questionId: 17, optionText: "Non-fiction" },
+	{ questionId: 17, optionText: "Comedy" },
+	{ questionId: 17, optionText: "Drama" },
 ];
 
 const tagsToSeed = [
@@ -734,13 +1067,6 @@ const filledFormsToSeed = [
 	},
 ];
 
-const optionsToSeed = [
-	{ questionId: 1, optionText: "Green" },
-	{ questionId: 1, optionText: "Red" },
-	{ questionId: 1, optionText: "Golden" },
-	{ questionId: 1, optionText: "All of them are good" },
-];
-
 const answersToSeed = [
 	{ questionID: 1, filledFormID: 1, value: "Green" },
 	{
@@ -799,7 +1125,7 @@ const seed = async () => {
 	return "SUCCESS";
 };
 
-//*NOT WORKING, TO BE FIXED
+//*NOT WORKING, PLEASE DO IT MANUALLY BEFORE EXECUTING THE SEED
 // const modifyColumnsToAddFullTextSearch = () => {
 // 	sql`
 //   ALTER TABLE forms ADD FULLTEXT(description, topic, title);

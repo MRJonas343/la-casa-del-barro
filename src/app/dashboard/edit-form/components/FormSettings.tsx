@@ -277,7 +277,7 @@ const FormSettings = ({ data }: { data: FormGeneralData }) => {
 				radius="sm"
 				variant="shadow"
 			>
-				Update Form
+				{t("updateForm")}
 			</Button>
 		</form>
 	);

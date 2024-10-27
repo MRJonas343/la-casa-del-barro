@@ -103,7 +103,8 @@
 		"fieldRequired": "This field is required",
 		"searchPlaceholder": "Search Users",
 		"tooltip": "This field supports markdown",
-		"changeImage": "Change Image"
+		"changeImage": "Change Image",
+		"updateForm": "Update Form"
 	},
 	"setQuestions": {
 		"addQuestion": "Add question",
