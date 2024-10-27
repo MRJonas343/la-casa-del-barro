@@ -1,4 +1,5 @@
 export * from "./Changes";
+export * from "./FormResults";
 export * from "./Comment";
 export * from "./FilledFormProps";
 export * from "./FilledForms";

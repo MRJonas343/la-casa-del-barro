@@ -1,6 +1,7 @@
 export * from "./CreateFormTabs";
 export * from "./Dashboard";
 export * from "./DashboardTabs";
+export * from "../utils/formatDataForNumericBarChart";
 export * from "./FormResultsPage";
 export * from "./GeneralSettings";
 export * from "./ModalWithFillForms";

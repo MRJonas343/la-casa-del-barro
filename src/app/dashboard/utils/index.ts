@@ -3,3 +3,8 @@ export * from "./changeMultipleQuestionInputs";
 export * from "./changeQuestionsPositions";
 export * from "./createControlledInput";
 export * from "./deleteControlledQuestion";
+export * from "./FormatDataForBarChart";
+export * from "./formatDataForNumericBarChart";
+export * from "./formatDataForPieChart";
+export * from "./handleUsersInSelectState";
+export * from "./submitGeneralSettings";
