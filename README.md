@@ -92,4 +92,5 @@ The app is fully responsive, adapting to various screen resolutions and mobile d
 ---
 
 **Get started with this powerful tool for all your customizable form needs!** 📝🌐
-** Developed by [Jonas](https://github.com/MRJonas343)
+
+**Developed by [Jonas](https://github.com/MRJonas343)
