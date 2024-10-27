@@ -13,7 +13,7 @@ import { Accordion, AccordionItem } from "@nextui-org/accordion";
 
 export const FormResultsPage = ({ data }: { data: FormeResults[] }) => {
 	return (
-		<div className="flex flex-col w-[95%] mx-auto">
+		<div className="flex flex-col w-[95%] mx-auto mb-10">
 			{data.map((questionData) => (
 				<div key={questionData.questionId} className="mt-4 mb-4">
 					<h3 className="text-lg lg:text-2xl font-semibold mb-4 text-center">
