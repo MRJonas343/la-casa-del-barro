@@ -2,12 +2,13 @@
 
 import type { User } from "@/interfaces/UserCredentials";
 import { Button, Input, Link } from "@nextui-org/react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaDiscord, FaEye, FaEyeSlash, FaGithub } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { createUser } from "@/services";
 import { handleStatus } from "@/utils";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 export const RegisterForm = () => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,81 +36,116 @@ export const RegisterForm = () => {
 	};
 
 	return (
-        (<form
-			onSubmit={handleSubmit(onSubmit)}
-			className="flex flex-col gap-4  max-w-[600px] w-[95%]"
-		>
-            <Input
-				radius="sm"
-				size="lg"
-				variant="bordered"
-				isInvalid={Boolean(errors.name)}
-				errorMessage={t("invalidName")}
-				autoFocus
-				placeholder={t("name")}
-				{...register("name", {
-					required: true,
-					minLength: 1,
-					maxLength: 50,
-				})}
-			/>
-            <Input
-				radius="sm"
-				size="lg"
-				variant="bordered"
-				isInvalid={Boolean(errors.email)}
-				errorMessage={t("invalidEmail")}
-				placeholder={t("email")}
-				{...register("email", {
-					required: true,
-					maxLength: 40,
-					pattern: /^\S+@\S+$/i,
-				})}
-			/>
-            <Input
-				radius="sm"
-				size="lg"
-				variant="bordered"
-				isInvalid={Boolean(errors.password)}
-				errorMessage={t("invalidPassword")}
-				type={isPasswordVisible ? "text" : "password"}
-				endContent={
-					<button
-						className="focus:outline-none"
-						type="button"
-						onClick={togglePasswordVisibility}
-						aria-label="toggle password visibility"
-					>
-						{isPasswordVisible ? (
-							<FaEye className="text-2xl text-default-400 pointer-events-none" />
-						) : (
-							<FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
-						)}
-					</button>
-				}
-				placeholder={t("password")}
-				{...register("password", {
-					required: true,
-					minLength: 8,
-					maxLength: 40,
-				})}
-			/>
-            <Button
+		<section className="flex flex-col max-w-[600px] w-[95%] ga">
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<Input
+					radius="sm"
+					size="lg"
+					variant="bordered"
+					isInvalid={Boolean(errors.name)}
+					errorMessage={t("invalidName")}
+					autoFocus
+					className="mb-4"
+					placeholder={t("name")}
+					{...register("name", {
+						required: true,
+						minLength: 1,
+						maxLength: 50,
+					})}
+				/>
+				<Input
+					radius="sm"
+					size="lg"
+					className="mb-4"
+					variant="bordered"
+					isInvalid={Boolean(errors.email)}
+					errorMessage={t("invalidEmail")}
+					placeholder={t("email")}
+					{...register("email", {
+						required: true,
+						maxLength: 40,
+						pattern: /^\S+@\S+$/i,
+					})}
+				/>
+				<Input
+					radius="sm"
+					size="lg"
+					className="mb-4"
+					variant="bordered"
+					isInvalid={Boolean(errors.password)}
+					errorMessage={t("invalidPassword")}
+					type={isPasswordVisible ? "text" : "password"}
+					endContent={
+						<button
+							className="focus:outline-none"
+							type="button"
+							onClick={togglePasswordVisibility}
+							aria-label="toggle password visibility"
+						>
+							{isPasswordVisible ? (
+								<FaEye className="text-2xl text-default-400 pointer-events-none" />
+							) : (
+								<FaEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+							)}
+						</button>
+					}
+					placeholder={t("password")}
+					{...register("password", {
+						required: true,
+						minLength: 8,
+						maxLength: 40,
+					})}
+				/>
+				<Button
+					color="primary"
+					variant="shadow"
+					size="lg"
+					radius="sm"
+					isLoading={isSubmitting}
+					type="submit"
+					className="text-xl font-semibold mb-4 w-full"
+				>
+					{t("register")}
+				</Button>
+			</form>
+			<div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-gray-700 after:mt-0.5 after:flex-1 after:border-t after:border-gray-700">
+				<p className="mx-4 mb-0 text-center"> {t("orLoginWith")} </p>
+			</div>
+			<Button
+				variant="shadow"
 				color="primary"
+				size="lg"
+				radius="sm"
+				type="submit"
+				className="text-xl font-semibold bg-[#5865F2] mb-4"
+				onClick={() =>
+					signIn("discord", {
+						redirect: true,
+						redirectTo: process.env.NEXT_PUBLIC_BASE_URL,
+					})
+				}
+			>
+				<FaDiscord size={22} color="white" />
+				<p className="text-white">Discord</p>
+			</Button>
+			<Button
 				variant="shadow"
 				size="lg"
 				radius="sm"
-				isLoading={isSubmitting}
 				type="submit"
-				className="text-xl font-semibold"
+				className="text-xl font-semibold bg-black"
+				onClick={() =>
+					signIn("github", {
+						redirect: true,
+						redirectTo: process.env.NEXT_PUBLIC_BASE_URL,
+					})
+				}
 			>
-				{t("register")}
+				<FaGithub size={20} color="white" />
+				<p className="text-white">{t("loginWithGithub")}</p>
 			</Button>
-            {/* <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-gray-700 after:mt-0.5 after:flex-1 after:border-t after:border-gray-700">
-				<p className="mx-4 mb-0 text-center"> Or login with </p>
-			</div> */}
-            <p className="text-center pt-2">{t("haveAccount")}</p>
-            <Link
+			<p className="text-center mt-4 mb-2">{t("haveAccount")}</p>
+			<Link
 				color="primary"
 				size="lg"
 				className="text-xl font-semibold flex justify-center cursor-pointer"
@@ -117,6 +153,6 @@ export const RegisterForm = () => {
 			>
 				{t("loginHere")}
 			</Link>
-        </form>)
-    );
+		</section>
+	);
 };

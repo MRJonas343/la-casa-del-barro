@@ -3,7 +3,6 @@
 import { Button, Input, Link } from "@nextui-org/react";
 import type { UserCredentials } from "@/interfaces";
 import { FaEye, FaEyeSlash, FaDiscord } from "react-icons/fa";
-
 import { FaGithub } from "react-icons/fa6";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
