@@ -12,7 +12,30 @@
 }
 .line-clamp-3 {
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Número de líneas que deseas mostrar */
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.maskedImage{
+  mask-image: linear-gradient(
+    black 70%,
+    transparent
+  );
+  filter: saturate(1.4);
+}
+.cardShadow{
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.25);
+}
+
+.containerScroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.containerScroll::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 4px; }
+
+  .containerScroll::-webkit-scrollbar-track {
+    background: transparent;
+  }

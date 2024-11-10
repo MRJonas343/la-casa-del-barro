@@ -1,182 +1,98 @@
-"use client";
+import {
+	Navbar,
+	NavbarBrand,
+	NavbarContent,
+	NavbarItem,
+	NavbarMenu,
+	NavbarMenuItem,
+} from "@nextui-org/navbar";
+import { Link } from "@nextui-org/link";
+import { Button } from "@nextui-org/button";
+import { Image } from "@nextui-org/image";
+import { FaArrowRight } from "react-icons/fa";
 
-import { Button, Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
-import { SwitchTheme, LanguageSwitcher, FormMasterLogo } from "@/components";
-import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
-import { NavbarMenuToggle, Link, NavbarItem } from "@nextui-org/react";
-import { NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
-import { signOut, useSession } from "next-auth/react";
-import { IoSettingsOutline } from "react-icons/io5";
-import { usePathname } from "next/navigation";
-import { useTranslations } from "next-intl";
-import { useState, type FC } from "react";
-
-export const NavBar: FC = ({
-	position,
-}: { position?: "static" | "sticky" }) => {
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const pathname = usePathname();
-	const t = useTranslations("NavBar");
-	const { data: session } = useSession();
-
-	const handleLogOut = async () => {
-		await signOut();
-		if (typeof window !== "undefined") window.location.href = "/";
-	};
+export const NavBar = () => {
+	const menuItems = ["Materiales", "Artesanias", "Galeria", "Contactanos"];
 
 	return (
 		<Navbar
-			position={position ?? "sticky"}
-			isBordered
-			onMenuOpenChange={setIsMenuOpen}
-			maxWidth="xl"
+			maxWidth="full"
+			className="bg-[#CFEEFB] font-bold"
+			position="static"
 		>
 			<NavbarContent>
-				<NavbarMenuToggle
-					aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-					className="sm:hidden"
-				/>
-				<NavbarBrand>
-					<FormMasterLogo className="hidden md:block" />
-					<Link href="/" className="font-bold text-inherit pl-3 cursor-pointer">
-						Form Master
+				<NavbarBrand className="-translate-x-4  sm:-translate-x-0">
+					<Image
+						className="w-10 p-1 lg:w-14 lg:mt-4"
+						src="/images/logo.png"
+						alt="La Casa Del Barro Logo"
+					/>
+					<Link
+						href="/"
+						className="font-bold text-[#545CA4] cursor-pointer text-xs lg:text-lg lg:mt-7"
+					>
+						La casa del
+						<br />
+						barro
 					</Link>
 				</NavbarBrand>
 			</NavbarContent>
 
 			<NavbarContent className="hidden sm:flex gap-4" justify="center">
-				<NavbarItem isActive={pathname === "/"}>
-					<Link
-						color={pathname === "/" ? "primary" : "foreground"}
-						href="/"
-						aria-current="page"
-					>
-						{t("latest")}
+				<NavbarItem>
+					<Link color="foreground" href="#">
+						Materiales
 					</Link>
 				</NavbarItem>
-				<NavbarItem isActive={pathname === "/popular-forms"}>
-					<Link
-						color={pathname === "/popular-forms" ? "primary" : "foreground"}
-						href="/popular-forms"
-						aria-current="page"
-					>
-						{t("popular")}
+				<NavbarItem isActive>
+					<Link href="#" aria-current="page">
+						Artesanias
+					</Link>
+				</NavbarItem>
+				<NavbarItem>
+					<Link color="foreground" href="#">
+						Galleria
 					</Link>
 				</NavbarItem>
 			</NavbarContent>
-
 			<NavbarContent justify="end">
-				<NavbarItem
-					className="hidden lg:flex font-semibold"
-					isActive={pathname === "/login"}
-				>
-					{!session && (
-						<Link
-							href="/login"
-							color={pathname === "/login" ? "primary" : "foreground"}
-						>
-							{t("login")}
-						</Link>
-					)}
-					{session && `${t("welcome")} ${session.user?.name}`}
-				</NavbarItem>
 				<NavbarItem>
 					<Button
 						as={Link}
-						color="primary"
-						href={session ? "/dashboard" : "/register"}
-						className={`font-semibold ${pathname === "/my-forms" && "hidden"}`}
-						variant="shadow"
 						radius="sm"
+						href="#"
+						variant="flat"
+						className="bg-[#545CA4] text-white font-bold text-xs sm:text-sm translate-x-3 sm:translate-x-0"
+						endContent={<FaArrowRight className="text-sm sm:text-lg" />}
 					>
-						{session ? t("myForms") : t("join")}
+						Contactanos
 					</Button>
 				</NavbarItem>
-				<Popover placement="bottom">
-					<PopoverTrigger className="hidden sm:flex">
-						<Button isIconOnly className="bg-transparent">
-							<IoSettingsOutline size={30} />
-						</Button>
-					</PopoverTrigger>
-					<PopoverContent>
-						<div
-							className={`px-1 py-2 flex items-center ${!session ? "flex-row" : "flex-col"}`}
-						>
-							<SwitchTheme size="lg" />
-
-							<div className="pb-2" />
-							<LanguageSwitcher />
-							<Button
-								hidden={session?.user.role !== "admin"}
-								as={Link}
-								href="/admin/panel"
-								size="md"
-								className={`mt-2 w-full ${session?.user.role !== "admin" && "hidden"}`}
-								variant="bordered"
-								radius="sm"
-							>
-								Admin
-							</Button>
-							<Button
-								radius="sm"
-								variant="bordered"
-								className={`text-mediun p-0 font-normal text-red-700 w-full mt-2 ${!session && "hidden"}`}
-								onClick={() => handleLogOut()}
-							>
-								{t("logOut")}
-							</Button>
-						</div>
-					</PopoverContent>
-				</Popover>
 			</NavbarContent>
 			<NavbarMenu>
-				<NavbarMenuItem
-					isActive={pathname === "/login"}
-					hidden={Boolean(session)}
-				>
-					<Link
-						href="/login"
-						color={pathname === "/login" ? "primary" : "foreground"}
+				{menuItems.map((item, index) => (
+					<NavbarMenuItem
+						key={`${item}-${
+							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+							index
+						}`}
 					>
-						{t("login")}
-					</Link>
-				</NavbarMenuItem>
-				<NavbarMenuItem isActive={pathname === "/"}>
-					<Link href="/" color={pathname === "/" ? "primary" : "foreground"}>
-						{t("latest")}
-					</Link>
-				</NavbarMenuItem>
-				<NavbarMenuItem isActive={pathname === "/popular-forms"}>
-					<Link
-						href="/popular-forms"
-						color={pathname === "/popular-forms" ? "primary" : "foreground"}
-					>
-						{t("popular")}
-					</Link>
-				</NavbarMenuItem>
-				<NavbarMenuItem
-					isActive={pathname === "/admin/panel"}
-					hidden={session?.user.role !== "admin"}
-				>
-					<Link
-						href="/admin/panel"
-						color={pathname === "/admin/panel" ? "primary" : "foreground"}
-					>
-						Admin
-					</Link>
-				</NavbarMenuItem>
-				<NavbarMenuItem hidden={!session}>
-					<Button
-						className="pb-2 mx-0 bg-transparent pl-0 text-red-700 font-normal text-medium "
-						onClick={() => handleLogOut()}
-					>
-						{t("logOut")}
-					</Button>
-				</NavbarMenuItem>
-				<NavbarMenuItem>
-					<LanguageSwitcher />
-				</NavbarMenuItem>
-				<SwitchTheme size="lg" />
+						<Link
+							color={
+								index === 2
+									? "primary"
+									: index === menuItems.length - 1
+										? "danger"
+										: "foreground"
+							}
+							className="w-full"
+							href="#"
+							size="lg"
+						>
+							{item}
+						</Link>
+					</NavbarMenuItem>
+				))}
 			</NavbarMenu>
 		</Navbar>
 	);
