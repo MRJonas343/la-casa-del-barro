@@ -11,7 +11,7 @@ export default async function page({
 	return (
 		<>
 			<NavBar />
-			<Divider className="bg-[#545CA4] mt-5 h-1 opacity-60" />
+			<Divider className="bg-[#D98E73] mt-2 h-1 opacity-60" />
 			<ProductPage products={products} />
 		</>
 	);
