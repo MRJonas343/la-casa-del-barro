@@ -1,6 +1,7 @@
 import { Image } from "@nextui-org/image";
 import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { Link } from "@nextui-org/react";
 
 interface CategoryCardProps {
 	image: string;
@@ -16,7 +17,7 @@ const CategoryCard = ({
 	path,
 }: CategoryCardProps) => {
 	return (
-		<Card className="rounded-xl cardShadow max-w-[370px] h-[390px]">
+		<Card className="rounded-xl cardShadow max-w-[370px] h-[390px] bg-[#FAF3E0]">
 			<CardHeader className="pb-0 pt-2 px-2 w-full flex justify-center">
 				<Image
 					alt={title}
@@ -32,7 +33,12 @@ const CategoryCard = ({
 				<p className="font-semibold opacity-80 mt-2 mb-4 h-24 overflow-y-auto containerScrol">
 					{description}
 				</p>
-				<Button radius="sm" className="bg-[#545CA4] text-white font-bold">
+				<Button
+					radius="sm"
+					className="bg-[#545CA4] text-white font-bold"
+					as={Link}
+					href={`/${title}`}
+				>
 					Ver Catálogo
 				</Button>
 			</CardBody>

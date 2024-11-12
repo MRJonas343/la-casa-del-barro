@@ -8,9 +8,11 @@ import { getContactSectionContent } from "@/services/getContactSectionContent";
 import { getCategories } from "@/services/getCategories";
 
 const page = async () => {
-	const content = await getHeroSectionContent();
-	const contactContent = await getContactSectionContent();
-	const categories = await getCategories();
+	const [content, contactContent, categories] = await Promise.all([
+		getHeroSectionContent(),
+		getContactSectionContent(),
+		getCategories(),
+	]);
 
 	const words = content.title.split(" ");
 	const firstThreeWords = words.slice(0, 3).join(" ");
@@ -40,7 +42,7 @@ const page = async () => {
 
 			{/* un tooltipo para decirle que haga scroll */}
 			<Image
-				src="/images/panoramica2.png"
+				src="/images/panoramica3.webp"
 				alt="panorámica"
 				className="w-dvw opacity-80 maskedImage max-h-[500px] object-cover object-top aspect-video"
 			/>
@@ -77,7 +79,7 @@ const page = async () => {
 				</div>
 				<div className="w-full flex justify-center my-4 md:w-0 md:hidden">
 					<Image
-						className="w-32 md:hidden "
+						className="w-32 md:hidden"
 						src="/images/estrella-removebg-preview.png"
 						alt="estrella"
 					/>

@@ -17,7 +17,7 @@ export const NavBar = () => {
 	return (
 		<Navbar
 			maxWidth="full"
-			className="bg-[#CFEEFB] font-bold"
+			className="bg-[#FFF8E1] font-bold"
 			position="static"
 		>
 			<NavbarContent>
@@ -45,7 +45,7 @@ export const NavBar = () => {
 					</Link>
 				</NavbarItem>
 				<NavbarItem isActive>
-					<Link href="#" aria-current="page">
+					<Link href="#" aria-current="page" className="text-[#D98E73]">
 						Artesanias
 					</Link>
 				</NavbarItem>
@@ -62,7 +62,7 @@ export const NavBar = () => {
 						radius="sm"
 						href="#"
 						variant="flat"
-						className="bg-[#545CA4] text-white font-bold text-xs sm:text-sm translate-x-3 sm:translate-x-0"
+						className="bg-[#D98E73] text-white font-bold text-xs sm:text-sm translate-x-3 sm:translate-x-0"
 						endContent={<FaArrowRight className="text-sm sm:text-lg" />}
 					>
 						Contactanos

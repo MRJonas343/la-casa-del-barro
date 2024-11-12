@@ -15,7 +15,7 @@ export const ContactCard = ({
 	email,
 }: ContactCardsProps) => {
 	return (
-		<Card className="rounded-xl cardShadow max-w-[370px] h-[390px]">
+		<Card className="rounded-xl cardShadow max-w-[370px] h-[390px] bg-[#FAF3E0]">
 			<CardHeader className="pb-0 pt-2 w-full flex justify-center">
 				<Image
 					alt="Contactanos"

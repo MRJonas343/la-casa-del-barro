@@ -10,7 +10,7 @@ export default async function RootLayout({
 	return (
 		<html lang="es">
 			<body
-				className={`antialiased overflow-x-hidden bg-[#CFEEFB] min-h-screen ${poppinsFont.className} pb-10`}
+				className={`antialiased overflow-x-hidden bg-[#FFF8E1] min-h-screen ${poppinsFont.className} pb-10`}
 			>
 				<Providers>{children}</Providers>
 			</body>

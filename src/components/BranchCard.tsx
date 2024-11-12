@@ -10,7 +10,7 @@ interface ContactCardsProps {
 
 export const BranchCard = ({ address, image, branch }: ContactCardsProps) => {
 	return (
-		<Card className="rounded-xl cardShadow max-w-[370px] h-[390px]">
+		<Card className="rounded-xl cardShadow max-w-[370px] h-[390px] bg-[#FAF3E0]">
 			<CardHeader className="pb-0 pt-2 px-2 w-full flex justify-center">
 				<Image
 					alt={branch}
