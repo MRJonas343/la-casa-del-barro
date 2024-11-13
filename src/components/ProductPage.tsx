@@ -22,7 +22,7 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 	return (
 		<>
 			<div className="w-52 bg-[#D98E73] mx-auto mt-4 rounded-xl p-2 text-white shadow-md shadow-gray-900">
-				<h1 className="text-center text-2xl md:text-3xl font-bold shadow-sm hover:bg-[#BFBFBF] hover:text-white">
+				<h1 className="text-center text-2xl md:text-3xl font-bold hover:bg-[#BFBFBF] hover:text-white">
 					{title}
 				</h1>
 			</div>
@@ -44,8 +44,8 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 				))}
 			</div>
 
-			<div className="flex flex-col w-[90%] mx-auto rounded-xl mt-2">
-				<Card className="rounded-xl shadow-md shadow-gray-600 max-w-[370px] h-[390px] bg-[#FAF3E0]">
+			<div className="flex flex-col w-[90%] mx-auto rounded-xl mt-2 sm:hidden">
+				<Card className="rounded-xl mx-auto shadow-md shadow-gray-600 max-w-[370px] h-[390px] bg-[#FAF3E0]">
 					<CardHeader className="pb-0 pt-2 w-full flex justify-center">
 						<Image
 							alt="Contactanos"
@@ -70,6 +70,30 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 					</CardBody>
 				</Card>
 			</div>
+
+			<section className="hidden w-[90%] mx-auto sm:flex mt-20">
+				<div className="w-[40%] flex justify-center items-center p-2">
+					<Image
+						src={activeProduct.image.url}
+						alt="Product"
+						className="w-[250px] h-[250px] shadow-md shadow-gray-900  hover:scale-110 hover:rotate-12 transition-transform duration-500 ease-in-out"
+					/>
+				</div>
+				<div className="w-[60%] p-2">
+					<h2 className="font-bold text-2xl">{activeProduct.name}</h2>
+					<div className="my-2 font-semibold	opacity-80">
+						<BlocksRenderer content={activeProduct.description} />
+					</div>
+					<Button
+						radius="sm"
+						className="bg-[#545CA4] text-white font-bold mt-6"
+						endContent={<FaHeart />}
+						size="lg"
+					>
+						Lo quiero
+					</Button>
+				</div>
+			</section>
 		</>
 	);
 };
