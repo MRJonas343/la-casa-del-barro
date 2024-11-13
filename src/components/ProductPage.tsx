@@ -21,21 +21,23 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 
 	return (
 		<>
-			<div className="w-52 bg-[#D98E73] mx-auto mt-4 rounded-xl p-2 text-white">
-				<h1 className="text-center text-2xl md:text-3xl font-bold ">{title}</h1>
+			<div className="w-52 bg-[#D98E73] mx-auto mt-4 rounded-xl p-2 text-white shadow-md shadow-gray-900">
+				<h1 className="text-center text-2xl md:text-3xl font-bold shadow-sm hover:bg-[#BFBFBF] hover:text-white">
+					{title}
+				</h1>
 			</div>
 
 			<div className="w-[95%] mx-auto justify-start max-w-[1250px] flex px-3 gap-3 py-4 overflow-x-auto whitespace-nowrap snap-x">
 				{products.map((product) => (
 					<Card
 						key={product.id}
-						className="p-2 bg-[#F2E0D0] shadowItem hover:bg-[#BFBFBF] min-w-16 min-h-16 snap-start flex justify-center items-center"
+						className="p-2 bg-[#F2E0D0] shadow-sm shadow-gray-900 hover:bg-[#BFBFBF] min-w-16 min-h-16 snap-start flex justify-center items-center"
 						isPressable
 						onPress={() => changeProduct(product)}
 					>
 						<Image
 							alt={product.name}
-							className="w-14 h-14 object-fill"
+							className="w-14 h-14 object-fill shadow-sm"
 							src={product.image.url}
 						/>
 					</Card>
@@ -43,11 +45,11 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 			</div>
 
 			<div className="flex flex-col w-[90%] mx-auto rounded-xl mt-2">
-				<Card className="rounded-xl shadowProduct max-w-[370px] h-[390px] bg-[#FAF3E0]">
+				<Card className="rounded-xl shadow-md shadow-gray-600 max-w-[370px] h-[390px] bg-[#FAF3E0]">
 					<CardHeader className="pb-0 pt-2 w-full flex justify-center">
 						<Image
 							alt="Contactanos"
-							className="rounded-xl h-40 mt-4 translate-x-3 w-48"
+							className="rounded-xl h-40 mt-4 translate-x-3 w-48 shadowItem"
 							width={140}
 							height={140}
 							src={activeProduct.image.url}
