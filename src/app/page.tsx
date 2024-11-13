@@ -85,7 +85,10 @@ const page = async () => {
 					/>
 				</div>
 			</div>
-			<div className="w-full justify-center flex md:mt-4 lg:mt-14">
+			<div
+				className="w-full justify-center flex md:mt-4 lg:mt-14"
+				id="categorias"
+			>
 				<section className="grid mb-4 grid-cols-1 gap-4 mx-4 sm:grid-cols-2 md:grid-cols-3 lg:gap-6 max-w-[1100px]">
 					{categories.map((category) => (
 						<CategoryCard
@@ -105,7 +108,10 @@ const page = async () => {
 			<p className="font-semibold opacity-80 text-center my-5">
 				{contactContent.subtext}
 			</p>
-			<div className="w-full justify-center flex md:mt-4 lg:mt-10">
+			<div
+				id="contacto"
+				className="w-full justify-center flex md:mt-4 lg:mt-10"
+			>
 				<section className="grid mb-4 grid-cols-1 gap-4 mx-4 sm:grid-cols-2 md:grid-cols-3 lg:gap-6 max-w-[1100px]">
 					{contactCards.map((card) => (
 						<BranchCard key={card.branch} {...card} />

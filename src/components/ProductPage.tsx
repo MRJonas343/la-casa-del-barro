@@ -6,7 +6,7 @@ import { Image } from "@nextui-org/image";
 import { useState } from "react";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import { Button, ScrollShadow } from "@nextui-org/react";
-
+import { usePathname } from "next/navigation";
 import { FaHeart } from "react-icons/fa";
 
 export const ProductPage = ({ products }: { products: Product[] }) => {
@@ -15,13 +15,21 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 		setActiveProduct(product);
 	};
 
+	const pathname = usePathname();
+	const decodedPathname = decodeURIComponent(pathname);
+	const title = decodedPathname.split("/")[1];
+
 	return (
 		<>
-			<div className="w-[95%] mx-auto justify-start max-w-[1250px] flex px-3 gap-3 py-2 overflow-x-auto whitespace-nowrap snap-x">
+			<div className="w-52 bg-[#D98E73] mx-auto mt-4 rounded-xl p-2 text-white">
+				<h1 className="text-center text-2xl md:text-3xl font-bold ">{title}</h1>
+			</div>
+
+			<div className="w-[95%] mx-auto justify-start max-w-[1250px] flex px-3 gap-3 py-4 overflow-x-auto whitespace-nowrap snap-x">
 				{products.map((product) => (
 					<Card
 						key={product.id}
-						className="p-2 bg-[#F2E0D0] cardShadow hover:bg-[#BFBFBF] min-w-16 min-h-16 snap-start flex justify-center items-center"
+						className="p-2 bg-[#F2E0D0] shadowItem hover:bg-[#BFBFBF] min-w-16 min-h-16 snap-start flex justify-center items-center"
 						isPressable
 						onPress={() => changeProduct(product)}
 					>
@@ -34,8 +42,8 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 				))}
 			</div>
 
-			<div className="flex flex-col w-[90%] mx-auto rounded-xl mt-8 ">
-				<Card className="rounded-xl cardShadow max-w-[370px] h-[390px] bg-[#FAF3E0]">
+			<div className="flex flex-col w-[90%] mx-auto rounded-xl mt-2">
+				<Card className="rounded-xl shadowProduct max-w-[370px] h-[390px] bg-[#FAF3E0]">
 					<CardHeader className="pb-0 pt-2 w-full flex justify-center">
 						<Image
 							alt="Contactanos"

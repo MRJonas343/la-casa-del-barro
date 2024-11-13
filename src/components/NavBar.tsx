@@ -23,13 +23,13 @@ export const NavBar = () => {
 			<NavbarContent>
 				<NavbarBrand className="-translate-x-4  sm:-translate-x-0">
 					<Image
-						className="w-10 p-1 lg:w-14 lg:mt-4"
+						className="w-10 p-1 lg:w-12 lg:mt-4"
 						src="/images/logo.png"
 						alt="La Casa Del Barro Logo"
 					/>
 					<Link
 						href="/"
-						className="font-bold text-[#545CA4] cursor-pointer text-xs lg:text-lg lg:mt-7"
+						className="font-bold text-[#545CA4] cursor-pointer text-xs lg:text-lg lg:mt-5"
 					>
 						La casa del
 						<br />
@@ -40,12 +40,12 @@ export const NavBar = () => {
 
 			<NavbarContent className="hidden sm:flex gap-4" justify="center">
 				<NavbarItem>
-					<Link color="foreground" href="#">
+					<Link color="foreground" href="/#categorias">
 						Materiales
 					</Link>
 				</NavbarItem>
-				<NavbarItem isActive>
-					<Link href="#" aria-current="page" className="text-[#D98E73]">
+				<NavbarItem>
+					<Link aria-current="page" color="foreground" href="/Artesanías">
 						Artesanias
 					</Link>
 				</NavbarItem>
@@ -60,9 +60,9 @@ export const NavBar = () => {
 					<Button
 						as={Link}
 						radius="sm"
-						href="#"
+						href="/#contacto"
 						variant="flat"
-						className="bg-[#D98E73] text-white font-bold text-xs sm:text-sm translate-x-3 sm:translate-x-0"
+						className="bg-[#545CA4] text-white font-bold text-xs sm:text-sm translate-x-3 sm:translate-x-0"
 						endContent={<FaArrowRight className="text-sm sm:text-lg" />}
 					>
 						Contactanos
