@@ -29,12 +29,15 @@ export const ContactCard = ({
 				<h3 className="text-xl font-bold">Contactanos</h3>
 				<div className="flex items-center font-semibold opacity-80 mt-2 h-8 overflow-y-auto containerScrol">
 					<FaPhoneVolume size={20} />
-
-					<p className="pl-2"> {phoneNumber}</p>
+					<a className="pl-2" href={`tel:${phoneNumber}`}>
+						{phoneNumber}
+					</a>
 				</div>
 				<div className="flex items-center font-semibold opacity-80 mb-4 h-16  overflow-y-auto containerScrol">
 					<FaWhatsapp size={25} />
-					<p className="pl-2"> {phoneNumberWhatsApp}</p>
+					<a className="pl-2" href={`https://wa.me/${phoneNumberWhatsApp}`}>
+						{phoneNumberWhatsApp}
+					</a>
 				</div>
 				<Button radius="sm" className="bg-[#545CA4] text-white font-bold">
 					{email}
