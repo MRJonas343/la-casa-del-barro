@@ -28,17 +28,17 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 				</h1>
 			</div>
 
-			<div className="w-[95%] mx-auto justify-start max-w-[1250px] flex px-3 gap-3 py-4 overflow-x-auto whitespace-nowrap snap-x">
+			<div className="w-[90%] mx-auto justify-start max-w-[1200px] flex px-3 gap-3 py-4 my-3 overflow-x-auto whitespace-nowrap snap-x">
 				{products.map((product) => (
 					<Card
 						key={product.id}
-						className="p-2 bg-[#F2E0D0] shadow-sm shadow-gray-900 hover:bg-[#BFBFBF] min-w-16 min-h-16 snap-start flex justify-center items-center"
+						className="p-2 bg-[#F2E0D0] shadow-sm shadow-gray-900 hover:bg-[#BFBFBF] min-w-20 min-h-20 snap-start flex justify-center items-center"
 						isPressable
 						onPress={() => changeProduct(product)}
 					>
 						<Image
 							alt={product.name}
-							className="w-14 h-14 object-fill shadow-sm"
+							className="w-16 h-16 object-fill shadow-sm"
 							src={product.image.url}
 						/>
 					</Card>
@@ -47,25 +47,13 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 
 			<article className="flex flex-col w-[90%] mx-auto rounded-xl mt-2 sm:hidden mb-8">
 				<Card className="rounded-xl mx-auto shadow-md shadow-gray-600 max-w-[370px] bg-[#FAF3E0] pb-2">
-					<CardHeader className="pb-0 pt-2 w-full flex justify-center">
-						<div
-							className="p-4 mt-2 rounded-xl outerShadow hover:scale-105 ease-in duration-300"
-							style={{
-								backgroundImage: 'url("/images/wood.webp")',
-								backgroundSize: "cover",
-								backgroundPosition: "center",
-								cursor: "pointer",
-							}}
-						>
-							<Image
-								alt="Contactanos"
-								className="rounded-xl h-40 w-48 shadowSelectedProduct"
-								width={140}
-								height={140}
-								src={activeProduct.image.url}
-								onClick={() => setIsLightboxOpen(true)}
-							/>
-						</div>
+					<CardHeader className="w-full flex justify-center h-48">
+						<Image
+							alt="Contactanos"
+							className="rounded-xl outerShadow w-44 max-h-40 object-fill"
+							src={activeProduct.image.url}
+							onClick={() => setIsLightboxOpen(true)}
+						/>
 					</CardHeader>
 					<CardBody className=" px-4">
 						<h3 className="text-xl font-bold">{activeProduct.name}</h3>
