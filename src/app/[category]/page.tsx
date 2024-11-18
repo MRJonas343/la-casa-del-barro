@@ -7,10 +7,5 @@ export default async function page({
 }: { params: { category: string } }) {
 	const products = await getProducts(params.category);
 
-	return (
-		<>
-			<NavBar />
-			<ProductPage products={products} />
-		</>
-	);
+	return <ProductPage products={products} />;
 }

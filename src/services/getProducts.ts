@@ -13,7 +13,6 @@ export const getProducts = async (category: string): Promise<Product[]> => {
 		},
 	);
 	const data = await result.json();
-	console.log(data);
 
 	return data.data;
 };

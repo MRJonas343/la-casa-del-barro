@@ -3,8 +3,6 @@ import {
 	NavbarBrand,
 	NavbarContent,
 	NavbarItem,
-	NavbarMenu,
-	NavbarMenuItem,
 } from "@nextui-org/navbar";
 import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/button";
@@ -12,8 +10,6 @@ import { Image } from "@nextui-org/image";
 import { FaArrowRight } from "react-icons/fa";
 
 export const NavBar = () => {
-	const menuItems = ["Materiales", "Artesanias", "Galeria", "Contactanos"];
-
 	return (
 		<Navbar
 			maxWidth="full"
@@ -62,38 +58,13 @@ export const NavBar = () => {
 						radius="sm"
 						href="/#contacto"
 						variant="flat"
-						className="bg-[#545CA4] text-white font-bold text-xs sm:text-sm translate-x-3 sm:translate-x-0"
-						endContent={<FaArrowRight className="text-sm sm:text-lg" />}
+						className="bg-[#545CA4] text-white font-bold text-xs sm:text-sm translate-x-3 sm:translate-x-0 shadowButton"
+						endContent={<FaArrowRight className="text-sm sm:text-lg " />}
 					>
 						Contactanos
 					</Button>
 				</NavbarItem>
 			</NavbarContent>
-			<NavbarMenu>
-				{menuItems.map((item, index) => (
-					<NavbarMenuItem
-						key={`${item}-${
-							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-							index
-						}`}
-					>
-						<Link
-							color={
-								index === 2
-									? "primary"
-									: index === menuItems.length - 1
-										? "danger"
-										: "foreground"
-							}
-							className="w-full"
-							href="#"
-							size="lg"
-						>
-							{item}
-						</Link>
-					</NavbarMenuItem>
-				))}
-			</NavbarMenu>
 		</Navbar>
 	);
 };

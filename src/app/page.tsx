@@ -33,8 +33,6 @@ const page = async () => {
 
 	return (
 		<>
-			<NavBar />
-
 			<div className="text-start font-bold text-2xl mx-2 sm:text-3xl md:text-5xl lg:text-7xl sm:mx-4 mb-3 py-1 sm:py-3 md:py-5 lg:py-7 xl:py-10">
 				<p>{firstThreeWords}</p>
 				<p>{remainingWords}</p>
@@ -112,7 +110,7 @@ const page = async () => {
 				id="contacto"
 				className="w-full justify-center flex md:mt-4 lg:mt-10"
 			>
-				<section className="grid mb-4 grid-cols-1 gap-4 mx-4 sm:grid-cols-2 md:grid-cols-3 lg:gap-6 max-w-[1100px]">
+				<section className="grid mb-10 grid-cols-1 gap-4 mx-4 sm:grid-cols-2 md:grid-cols-3 lg:gap-6 max-w-[1100px]">
 					{contactCards.map((card) => (
 						<BranchCard key={card.branch} {...card} />
 					))}
