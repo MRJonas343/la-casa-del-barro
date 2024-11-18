@@ -21,7 +21,7 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 	const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
 	return (
-		<main className="min-h-[85dvh]">
+		<main className="min-h-[90dvh]">
 			<div className="w-52 bg-[#D98E73] mx-auto mt-4 rounded-lg p-2 text-white shadow-md shadow-gray-900 lg:w-[650px] lg:mb-10 lg:py-4">
 				<h1 className="text-center text-2xl md:text-3xl font-bold hover:bg-[#BFBFBF] hover:text-white lg:text-6xl">
 					{title}
@@ -32,7 +32,7 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 				{products.map((product) => (
 					<Card
 						key={product.id}
-						className="p-2 bg-[#F2E0D0] shadow-sm shadow-gray-900 hover:bg-[#BFBFBF] min-w-20 min-h-20 snap-start flex justify-center items-center"
+						className="p-2 bg-[#F2E0D0] shadow-sm shadow-gray-900 hover:bg-[#BFBFBF] min-w-16 min-h-16 sm:min-w-20 sm:min-h-20 snap-start flex justify-center items-center"
 						isPressable
 						onPress={() => changeProduct(product)}
 					>
@@ -45,17 +45,17 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 				))}
 			</div>
 
-			<article className="flex flex-col w-[90%] mx-auto rounded-xl mt-2 sm:hidden mb-8">
-				<Card className="rounded-xl mx-auto shadow-md shadow-gray-600 max-w-[370px] bg-[#FAF3E0] pb-2">
-					<CardHeader className="w-full flex justify-center h-48">
+			<article className="flex flex-col mx-auto rounded-xl mt-2 sm:hidden mb-8">
+				<Card className="rounded-xl mx-auto shadow-md shadow-gray-600 w-[95%] bg-[#FAF3E0] pb-2">
+					<CardHeader className="w-full flex justify-center h-44">
 						<Image
 							alt="Contactanos"
-							className="rounded-xl outerShadow w-44 max-h-40 object-fill"
+							className="rounded-xl outerShadow w-40 max-h-40 min-h-24 object-fill"
 							src={activeProduct.image.url}
 							onClick={() => setIsLightboxOpen(true)}
 						/>
 					</CardHeader>
-					<CardBody className=" px-4">
+					<CardBody className="px-4">
 						<h3 className="text-xl font-bold">{activeProduct.name}</h3>
 						<ScrollShadow className="h-44 font-semibold opacity-80 mt-2 mb-4">
 							<BlocksRenderer content={activeProduct.description} />
