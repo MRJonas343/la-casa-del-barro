@@ -114,7 +114,7 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 
 					<Button
 						radius="sm"
-						className="bg-[#545CA4] text-white font-bold mt-6 shadowButton w-72"
+						className="bg-[#545CA4] text-white font-bold mt-6 shadowButton w-72 text-lg lg:text-xl"
 						variant="shadow"
 						endContent={<FaHeart />}
 						size="lg"
