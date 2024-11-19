@@ -11,14 +11,16 @@ import { FaHeart } from "react-icons/fa";
 
 export const ProductPage = ({ products }: { products: Product[] }) => {
 	const [activeProduct, setActiveProduct] = useState(products[0]);
+	const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+	const pathname = usePathname();
+	const decodedPathname = decodeURIComponent(pathname);
+	const title = decodedPathname.split("/")[1];
+
 	const changeProduct = (product: Product) => {
 		setActiveProduct(product);
 	};
 
-	const pathname = usePathname();
-	const decodedPathname = decodeURIComponent(pathname);
-	const title = decodedPathname.split("/")[1];
-	const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+	console.log(products);
 
 	return (
 		<main className="min-h-[90dvh]">

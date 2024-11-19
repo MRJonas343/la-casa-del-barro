@@ -1,4 +1,5 @@
 "use server";
+
 import type { Product } from "@/interfaces/Product";
 
 export const getProducts = async (category: string): Promise<Product[]> => {
