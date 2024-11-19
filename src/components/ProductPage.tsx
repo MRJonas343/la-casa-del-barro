@@ -20,6 +20,18 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 	const changeProduct = (product: Product) => {
 		setActiveProduct(product);
 	};
+	const customBlocks = {
+		ul: (props: React.HTMLProps<HTMLUListElement>) => (
+			<ul className="list-disc pl-5" {...props} />
+		),
+		li: (props: React.HTMLProps<HTMLLIElement>) => (
+			<li className="mb-1" {...props} />
+		),
+		p: (props: React.HTMLProps<HTMLParagraphElement>) => (
+			<p className="text-base text-gray-700" {...props} />
+		),
+		// Añade más componentes personalizados según sea necesario
+	};
 
 	return (
 		<main className="min-h-[90dvh]">
@@ -98,7 +110,35 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 					</h2>
 
 					<ScrollShadow className="h-44 max-w-[650px] font-semibold opacity-80 my-2 text-lg">
-						<BlocksRenderer content={activeProduct.description} />
+						<BlocksRenderer
+							content={activeProduct.description}
+							blocks={{
+								list: ({ children }) => (
+									<ul className="list-disc pl-5">{children}</ul>
+								),
+								"list-item": ({ children }) => (
+									<li className="mb-1">{children}</li>
+								),
+								heading: ({ children, level }) => {
+									switch (level) {
+										case 1:
+											return <h1 className="text-2xl font-bold">{children}</h1>;
+										case 2:
+											return <h2 className="text-xl font-bold">{children}</h2>;
+										case 3:
+											return <h3 className="text-lg font-bold">{children}</h3>;
+										case 4:
+											return (
+												<h4 className="text-base font-bold">{children}</h4>
+											);
+										case 5:
+											return <h5 className="text-sm font-bold">{children}</h5>;
+										default:
+											return <h6 className="text-xs font-bold">{children}</h6>;
+									}
+								},
+							}}
+						/>
 					</ScrollShadow>
 
 					<Button
