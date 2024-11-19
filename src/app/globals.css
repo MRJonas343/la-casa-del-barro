@@ -66,3 +66,40 @@ html {
 .innerShadow {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
+
+/* Scrollbar para navegadores basados en WebKit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 2px; /* Ancho fijo de la scrollbar */
+  height: 2px; /* Altura para scroll horizontal */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #545CA4; /* Azul elegante */
+  border-radius: 4px; /* Bordes redondeados */
+  border: 2px solid transparent; /* Espacio entre el track y el thumb */
+  background-clip: padding-box; /* Evitar que el borde opaque el color */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #3e468c; /* Azul más oscuro al pasar el mouse */
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: #2d346f; /* Azul más profundo cuando está activo */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #eaeaf5; /* Fondo claro de la pista */
+  border-radius: 4px;
+}
+
+/* Eliminar las flechas predeterminadas de Chrome */
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Scrollbar para Firefox */
+* {
+  scrollbar-width: thin; /* Scrollbar delgada */
+  scrollbar-color: #545CA4 #eaeaf5; /* Color del scrollbar y la pista */
+}

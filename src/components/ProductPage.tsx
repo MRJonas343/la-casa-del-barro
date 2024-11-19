@@ -21,8 +21,6 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 		setActiveProduct(product);
 	};
 
-	console.log(products);
-
 	return (
 		<main className="min-h-[90dvh]">
 			<div className="w-52 bg-[#D98E73] mx-auto mt-4 rounded-lg p-2 text-white shadow-md shadow-gray-900 lg:w-[650px] lg:mb-10 lg:py-4">
@@ -31,7 +29,7 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 				</h1>
 			</div>
 
-			<div className="w-[90%] mx-auto justify-start max-w-[1200px] flex px-3 gap-3 py-4 my-3 overflow-x-auto whitespace-nowrap snap-x">
+			<div className="w-[90%] mx-auto justify-start max-w-[1200px] flex px-3 gap-3 py-4 my-3 overflow-x-auto whitespace-nowrap snap-x scrollbar">
 				{products.map((product) => (
 					<Card
 						key={product.id}
