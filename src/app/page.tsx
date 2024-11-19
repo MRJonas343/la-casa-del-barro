@@ -1,4 +1,3 @@
-import { NavBar } from "@/components";
 import { Image } from "@nextui-org/image";
 import CategoryCard from "@/components/CategoryCard";
 import { BranchCard } from "@/components";

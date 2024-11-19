@@ -1,32 +1,36 @@
 {
-	"name": "form-master",
-	"version": "0.1.0",
-	"private": true,
-	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "next lint",
-		"push-schemas": "npx drizzle-kit push",
-		"seed": "ts-node --transpile-only ./src/db/seed.ts"
-	},
-	"dependencies": {
-		"@nextui-org/react": "^2.4.8",
-		"@strapi/blocks-react-renderer": "^1.0.1",
-		"framer-motion": "^11.11.9",
-		"next": "14.2.15",
-		"next-themes": "^0.3.0",
-		"react": "^18.3.1",
-		"react-dom": "^18.3.1",
-		"react-icons": "^5.3.0",
-		"strapi-provider-cloudflare-r2": "^0.3.0"
-	},
-	"devDependencies": {
-		"@types/node": "^22.7.6",
-		"@types/react": "^18.3.11",
-		"@types/react-dom": "^18.3.1",
-		"postcss": "^8.4.47",
-		"tailwindcss": "^3.4.14",
-		"typescript": "^5.6.3"
-	}
+  "name": "form-master",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "push-schemas": "npx drizzle-kit push",
+    "seed": "ts-node --transpile-only ./src/db/seed.ts"
+  },
+  "dependencies": {
+    "@nextui-org/react": "^2.4.8",
+    "@strapi/blocks-react-renderer": "^1.0.1",
+    "framer-motion": "^11.11.9",
+    "next": "15.0.3",
+    "next-themes": "^0.3.0",
+    "react": "19.0.0-rc-66855b96-20241106",
+    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "react-icons": "^5.3.0",
+    "strapi-provider-cloudflare-r2": "^0.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.6",
+    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3"
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+  }
 }

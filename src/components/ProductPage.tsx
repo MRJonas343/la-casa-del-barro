@@ -5,7 +5,8 @@ import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { useState } from "react";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
-import { Button, ScrollShadow } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
+import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import { usePathname } from "next/navigation";
 import { FaHeart } from "react-icons/fa";
 

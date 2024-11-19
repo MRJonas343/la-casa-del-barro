@@ -1,7 +1,7 @@
 import { Image } from "@nextui-org/image";
 import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
-import { Link } from "@nextui-org/react";
+import { Link } from "@nextui-org/link";
 
 interface CategoryCardProps {
 	image: string;
