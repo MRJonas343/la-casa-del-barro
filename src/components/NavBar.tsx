@@ -47,7 +47,7 @@ export const NavBar = () => {
 				</NavbarItem>
 				<NavbarItem>
 					<Link color="foreground" href="/gallery">
-						Galleria
+						Galería
 					</Link>
 				</NavbarItem>
 			</NavbarContent>
