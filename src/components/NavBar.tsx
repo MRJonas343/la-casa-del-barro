@@ -8,8 +8,13 @@ import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/button";
 import { Image } from "@nextui-org/image";
 import { FaArrowRight } from "react-icons/fa";
+import type { ContactContent } from "@/interfaces/ContactContent";
 
-export const NavBar = () => {
+interface NavBarProps {
+	data: ContactContent;
+}
+
+export const NavBar = ({ data }: NavBarProps) => {
 	return (
 		<Navbar
 			maxWidth="full"
@@ -56,7 +61,7 @@ export const NavBar = () => {
 					<Button
 						as={Link}
 						radius="sm"
-						href="/#contacto"
+						href={`https://wa.me/${data.phoneNumberWhatsApp}`}
 						variant="flat"
 						className="bg-[#545CA4] text-white font-bold text-xs sm:text-sm translate-x-3 sm:translate-x-0 shadowButton"
 						endContent={<FaArrowRight className="text-sm sm:text-lg " />}

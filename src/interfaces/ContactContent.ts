@@ -13,4 +13,6 @@ export interface ContactContent {
 	updatedAt: string;
 	publishedAt: string;
 	contactEmail: string;
+	facebookLink: string;
+	instagramLink: string;
 }

@@ -9,8 +9,13 @@ import { Button } from "@nextui-org/button";
 import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import { usePathname } from "next/navigation";
 import { FaHeart } from "react-icons/fa";
+import type { ContactContent } from "@/interfaces/ContactContent";
+import { Link } from "@nextui-org/link";
 
-export const ProductPage = ({ products }: { products: Product[] }) => {
+export const ProductPage = ({
+	products,
+	data,
+}: { products: Product[]; data: ContactContent }) => {
 	const [activeProduct, setActiveProduct] = useState(products[0]);
 	const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 	const pathname = usePathname();
@@ -20,23 +25,11 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 	const changeProduct = (product: Product) => {
 		setActiveProduct(product);
 	};
-	const customBlocks = {
-		ul: (props: React.HTMLProps<HTMLUListElement>) => (
-			<ul className="list-disc pl-5" {...props} />
-		),
-		li: (props: React.HTMLProps<HTMLLIElement>) => (
-			<li className="mb-1" {...props} />
-		),
-		p: (props: React.HTMLProps<HTMLParagraphElement>) => (
-			<p className="text-base text-gray-700" {...props} />
-		),
-		// Añade más componentes personalizados según sea necesario
-	};
 
 	return (
 		<main className="min-h-[90dvh]">
 			<div className="w-52 bg-[#D98E73] mx-auto mt-4 rounded-lg p-2 text-white shadow-md shadow-gray-900 lg:w-[650px] lg:mb-10 lg:py-4">
-				<h1 className="text-center text-2xl md:text-3xl font-bold hover:bg-[#BFBFBF] hover:text-white lg:text-6xl">
+				<h1 className="text-center text-2xl md:text-3xl font-bold hover:bg-[#BFBFBF] hover:text-white lg:text-5xl">
 					{title}
 				</h1>
 			</div>
@@ -78,6 +71,8 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 							size="lg"
 							className="bg-[#545CA4] text-white font-bold"
 							endContent={<FaHeart />}
+							as={Link}
+							href={`https://wa.me/${data.phoneNumberWhatsApp}`}
 						>
 							Lo quiero
 						</Button>
@@ -147,6 +142,8 @@ export const ProductPage = ({ products }: { products: Product[] }) => {
 						variant="shadow"
 						endContent={<FaHeart />}
 						size="lg"
+						as={Link}
+						href={`https://wa.me/${data.phoneNumberWhatsApp}`}
 					>
 						Lo quiero
 					</Button>
