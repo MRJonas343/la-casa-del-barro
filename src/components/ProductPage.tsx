@@ -27,7 +27,7 @@ export const ProductPage = ({
 	};
 
 	return (
-		<main className="min-h-[90dvh]">
+		<main className="min-h-[90dvh] mb-5 sm:mb-0">
 			<div className="w-52 bg-[#D98E73] mx-auto mt-4 rounded-lg p-2 text-white shadow-md shadow-gray-900 lg:w-[650px] lg:mb-10 lg:py-4">
 				<h1 className="text-center text-2xl md:text-3xl font-bold hover:bg-[#BFBFBF] hover:text-white lg:text-5xl">
 					{title}

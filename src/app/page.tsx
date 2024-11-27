@@ -5,6 +5,7 @@ import { ContactCard } from "@/components/ContactCard";
 import { getHeroSectionContent } from "@/services/getHeroSectionContent";
 import { getContactSectionContent } from "@/services/getContactSectionContent";
 import { getCategories } from "@/services/getCategories";
+import { Link } from "@nextui-org/link";
 
 const page = async () => {
 	const [content, contactContent, categories] = await Promise.all([
@@ -59,6 +60,13 @@ const page = async () => {
 						{content.FirstPartDescription}
 						<span className="hidden lg:block lg:mt-4">
 							{content.SecondPartDescription}
+						</span>
+						<br className="my-1" />
+						<span>
+							Quires conocer nuestros mejores productos? Visita nuestra{" "}
+							<Link href="/gallery" className="text-blue-700">
+								Galería
+							</Link>
 						</span>
 					</p>
 				</div>
